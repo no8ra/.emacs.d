@@ -1,0 +1,94 @@
+ls
+cd Documents/
+ls
+ls
+ls
+s
+ls
+cd ../
+cd
+cd
+cd .emacs.d/
+ls
+ls
+which emacs
+cd Documents/
+ls
+mkdir LANGUAGE
+ls
+cd LANGUAGE/
+ls
+mkdir CCI-C
+cd CCI-C/
+ls
+ls
+ls
+cd Documents/LANGUAGE/
+cd CCI-C/
+ls
+ls
+ls
+cd .emacs.d/
+ls
+cd
+ls
+ls
+ls
+cd Documents/LANGUAGE/
+ls
+cd CCI-C/
+ls
+ls
+c
+cd
+ls
+ls
+ls
+cd Documents/
+ls
+cd LANGUAGE/
+ls
+cd ..
+rm a.out  hoge.c\~ hoge.c 
+ls
+cd LANGUAGE/
+ls
+cd ../
+ls
+ls
+cd ../
+ls
+ls
+cd Documents/
+ls
+mkdir Ruby
+ls
+cd Ruby/
+ls
+ls
+cd Documents/Ruby/
+ls
+cd Documents/Ruby/
+ls
+cd Documents/Ruby/
+ls
+cd Documents/Ruby/
+ls
+cd Documents/Ruby/
+ls
+cd Documents/Ruby/
+ls
+ls
+cd Documents/Ruby/
+ls
+ls
+cd Documents/Ruby/
+ls
+cd Documents/Ruby/
+ls
+cd Documents/Ruby/
+ls
+cd Documents/Ruby/
+ls
+cd Documents/Ruby/
+ls

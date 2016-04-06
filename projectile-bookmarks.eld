@@ -1,0 +1,1 @@
+("~/.emacs.d/" "~/Documents/Ruby/Rails/hello_app/")
