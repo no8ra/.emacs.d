@@ -1,1 +1,1 @@
-("~/.emacs.d/" "~/Documents/Ruby/Rails/hello_app/")
+("~/Documents/Ruby/Rails/hello_app/" "~/.emacs.d/" "~/Documents/Ruby/Rails/toy_app/")

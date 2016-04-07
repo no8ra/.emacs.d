@@ -357,17 +357,13 @@
 (package-install 'robe )
 (package-install 'ruby-end)
 (package-install 'ruby-block)
-(package-install 'ruby-electric)
-(require 'rcodetools)
-(defun ruby-mode-hook-rcodetools ()
-  (define-key ruby-mode-map (kbd "<C-tab>") 'rct-complete-symbol)
-  (define-key ruby-mode-map (kbd "<C-return>") 'xmp))
-
+; (package-install 'rhtml-mode)
 (require 'ruby-end)
 (require 'ruby-block)
 (require 'ac-robe)
 (require 'flymake-ruby)
 (require 'robe)
+; (require 'rhtml-mode)
 
 (add-hook 'ruby-mode-hook
 	  (lambda ()
@@ -375,8 +371,10 @@
 	    (robe-mode)
 	    (flymake-ruby-load)
 	    (ruby-block-mode t)
-	    (ruby-mode-hook-rcodetools)
-	    ;(eldoc-mode t)
+	    (when (require 'rcodetools)
+	      (define-key ruby-mode-map (kbd "<C-tab>") 'rct-complete-symbol)
+	      (define-key ruby-mode-map (kbd "<C-return>") 'xmp))
+					;(eldoc-mode t)
 	    ))
 (add-hook 'inf-ruby-mode-hook
 	  (lambda ()
@@ -388,6 +386,8 @@
 	  (lambda ()
 	    (ac-robe-setup)
 	    ))
+
+
 
 ;;; rails
 (package-install 'rinari)
@@ -416,6 +416,50 @@
     (unless result
       (direx:jump-to-directory-other-window))))
 (global-set-key (kbd "C-x C-j") 'direx:jump-to-project-directory)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; web-mode emmet-mode 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'web-mode)
+(package-install 'emmet-mode)
+(require 'web-mode)
+(require 'emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook 'emmet-mode)
+(add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
+(add-hook 'web-mode-hook
+	  (lambda ()
+	    (emmet-mode)
+	    (sgml-electric-tag-pair-mode t)
+	    (setq web-mode-markup-indent-offset 2)
+	    (setq web-mode-css-indent-offset 2)
+	    (setq web-mode-code-indent-offset 2)
+	    ))
+
+(sp-with-modes '(web-mode)
+  (sp-local-pair "<" ">")
+  (sp-local-pair "<%" "%>"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; HTML
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'html-mode-hook
+	  (lambda ()
+	    (sgml-electric-tag-pair-mode t)
+	    (set (make-local-variable 'sgml-basic-offset) 2)
+	    (auto-complete-mode t)
+	    ))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; PHP
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'php-mode)
+(require 'php-mode)
+(add-hook 'php-mode-hook
+	  (lambda ()
+	    (php-eldoc-enable)
+	    ;; (c-set-offset 'case-label' 4)
+	    ;; (c-set-offset 'arglist-intro' 4)
+	    ;; (c-set-offset 'arglist-cont-nonempty' 4)
+	    ;; (c-set-offset 'arglist-close' 0)
+	    ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GOOGLE
@@ -435,7 +479,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; COLOR THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(poackage-install 'zenburn-theme)
+(package-install 'zenburn-theme)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

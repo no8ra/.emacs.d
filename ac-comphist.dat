@@ -1,110 +1,110 @@
-((("eldoc-mode" .
-   [0 0 0 0 0 0 0 0 0 2])
-  ("auto-complete-mode" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-  ("auto-complete" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 1])
-  ("inf-ruby-mode-hook" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0])
-  ("ac-robe" .
-   [1 0 0 0 0 1 0])
-  ("printf" .
-   [0 0 0 0 0 1])
-  ("class" .
-   [0 0 0 1 0])
-  ("Array" .
-   [0 0 1 0 0])
-  ("times" .
-   [0 0 0 1 0])
-  ("robe" .
-   [2 0 0 0])
-  ("package-install" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-  ("run-scheme" .
-   [1 0 0 0 0 0 0 0 0 0])
-  ("scheme-mode" .
-   [1 0 0 0 0 0 0 0 0 0 0])
-  ("autoloadp" .
-   [0 0 0 0 0 0 0 0 1])
-  ("setup-chicken-scheme" .
-   [0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1])
-  ("slime-mode" .
-   [0 0 0 0 0 0 0 0 0 1])
-  ("lambda" .
-   [0 0 0 0 2 0])
-  ("scheme-mode-hook" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0])
-  ("autoload" .
-   [0 0 0 0 0 0 0 2])
-  ("load-path" .
-   [0 0 0 0 0 0 0 0 1])
-  ("add-to-list" .
-   [0 0 0 0 0 0 0 0 0 0 1])
-  ("turn-off-smartparens-mode" .
-   [0 0 0 0 0 0 0 0 0 0 0 1 0 2 0 0 0 0 0 0 0 0 0 0 0])
-  ("emacs-lisp-mode-hook" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-  ("add-hook" .
-   [0 0 0 0 0 0 0 7])
-  ("ac-slime" .
-   [0 0 0 0 0 0 1 0])
-  ("Zenburn" .
-   [0 0 0 0 0 0 1])
-  ("in" .
-   [1 0])
-  ("nil" .
-   [3 0 0])
-  ("set-scroll-bar-mode" .
-   [0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0])
-  ("tool-bar-mode" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 1])
-  ("menu-bar-mode" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 1])
-  ("global-auto-revert-mode" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0])
-  ("scroll-conservatively" .
-   [0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0])
-  ("scroll-step" .
-   [0 0 0 0 0 0 0 0 0 0 1])
-  ("defun" .
-   [0 0 0 2 1])
-  ("paredit-backward-delete-char" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0])
-  ("paredit-next-sexp" .
-   [0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0])
-  ("require" .
-   [0 0 0 0 0 0 6])
-  ("helm-descbinds" .
-   [0 0 0 0 0 0 0 0 0 1 0 0 0 0])
-  ("setq" .
-   [5 0 0 0])
-  ("indent-line-function" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-  ("indent-relative-maybe" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0])
-  ("slime-mode-hook" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 2])
-  ("set-up-slime-ac" .
-   [0 0 0 0 0 0 0 0 0 0 2 0 0 0 0])
-  ("slime-repl-mode-hook" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2])
-  ("turn-off-flyspell" .
-   [0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0])
-  ("func" .
-   [1 0 0 0])
-  ("define" .
-   [0 0 0 2 0 0])
-  (":ok" .
-   [1 0 0])
-  ("swank:init-presentations" .
-   [0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0])
-  ("swank-repl:create-repl" .
-   [0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0])
-  ("ac-helm" .
+((("ac-robe-setup" .
+   [0 0 0 0 0 0 0 0 1 0 0 0 0])
+  ("robe-ac" .
    [1 0 0 0 0 0 0])
   ("robe-mode" .
    [0 0 0 0 0 0 0 2 0])
-  ("robe-ac" .
+  ("ac-helm" .
    [1 0 0 0 0 0 0])
-  ("ac-robe-setup" .
-   [0 0 0 0 0 0 0 0 1 0 0 0 0])))
+  ("swank-repl:create-repl" .
+   [0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0])
+  ("swank:init-presentations" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0])
+  (":ok" .
+   [1 0 0])
+  ("define" .
+   [0 0 0 2 0 0])
+  ("func" .
+   [1 0 0 0])
+  ("turn-off-flyspell" .
+   [0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0])
+  ("slime-repl-mode-hook" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2])
+  ("set-up-slime-ac" .
+   [0 0 0 0 0 0 0 0 0 0 2 0 0 0 0])
+  ("slime-mode-hook" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 2])
+  ("indent-relative-maybe" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0])
+  ("indent-line-function" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+  ("setq" .
+   [5 0 0 0])
+  ("helm-descbinds" .
+   [0 0 0 0 0 0 0 0 0 1 0 0 0 0])
+  ("require" .
+   [0 0 0 0 0 0 6])
+  ("paredit-next-sexp" .
+   [0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0])
+  ("paredit-backward-delete-char" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0])
+  ("defun" .
+   [0 0 0 2 1])
+  ("scroll-step" .
+   [0 0 0 0 0 0 0 0 0 0 1])
+  ("scroll-conservatively" .
+   [0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0])
+  ("global-auto-revert-mode" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0])
+  ("menu-bar-mode" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 1])
+  ("tool-bar-mode" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 1])
+  ("set-scroll-bar-mode" .
+   [0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0])
+  ("nil" .
+   [3 0 0])
+  ("in" .
+   [1 0])
+  ("Zenburn" .
+   [0 0 0 0 0 0 1])
+  ("ac-slime" .
+   [0 0 0 0 0 0 1 0])
+  ("add-hook" .
+   [0 0 0 0 0 0 0 7])
+  ("emacs-lisp-mode-hook" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+  ("turn-off-smartparens-mode" .
+   [0 0 0 0 0 0 0 0 0 0 0 1 0 2 0 0 0 0 0 0 0 0 0 0 0])
+  ("add-to-list" .
+   [0 0 0 0 0 0 0 0 0 0 1])
+  ("load-path" .
+   [0 0 0 0 0 0 0 0 1])
+  ("autoload" .
+   [0 0 0 0 0 0 0 2])
+  ("scheme-mode-hook" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0])
+  ("lambda" .
+   [0 0 0 0 2 0])
+  ("slime-mode" .
+   [0 0 0 0 0 0 0 0 0 1])
+  ("setup-chicken-scheme" .
+   [0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1])
+  ("autoloadp" .
+   [0 0 0 0 0 0 0 0 1])
+  ("scheme-mode" .
+   [1 0 0 0 0 0 0 0 0 0 0])
+  ("run-scheme" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("package-install" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+  ("robe" .
+   [2 0 0 0])
+  ("times" .
+   [0 0 0 1 0])
+  ("Array" .
+   [0 0 1 0 0])
+  ("class" .
+   [0 0 0 1 0])
+  ("printf" .
+   [0 0 0 0 0 1])
+  ("ac-robe" .
+   [1 0 0 0 0 1 0])
+  ("inf-ruby-mode-hook" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0])
+  ("auto-complete" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 1])
+  ("auto-complete-mode" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+  ("eldoc-mode" .
+   [0 0 0 0 0 0 0 0 0 2])))
