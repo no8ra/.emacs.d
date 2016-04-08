@@ -197,15 +197,54 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Projectile
+;;; ESHELL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (package-install 'projectile)
-;; 					; (package-install 'helm-projectile)
-;; 					; (require 'helm-projectile)
-;; (require 'projectile)
-;; (projectile-global-mode)
-;; (package-install 'projectile-rails)
-;; (add-hook 'projectile-mode-hook 'projectile-rails-on)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+ '(cua-mode t nil (cua-base))
+ '(custom-enabled-themes (quote (zenburn)))
+ '(custom-safe-themes
+   (quote
+    ("f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
+ '(eshell-prompt-function
+   (lambda nil
+     (concat "[ "
+	     (format-time-string "%Y/%m/%d %H:%M")
+	     " | "
+	     (user-login-name)
+	     "@"
+	     (system-name)
+	     " ]
+" "["
+	     (abbreviate-file-name
+	      (eshell/pwd))
+	     "]
+"
+	     (if
+		 (=
+		  (user-uid)
+		  0)
+		 "#" "$")
+	     " ")))
+ '(eshell-prompt-regexp "^\\(\\[[^]
+]+\\]\\|[$#] \\)"))
+;; 追加設定
+(defcustom eshell-prompt-regexp-lastline "^[#$] "
+  "複数行プロンプトの最終行にマッチする正規表現を指定する"
+  :type 'regexp
+  :group 'eshell-prompt)
+
+;; 複数行プロンプトでもスキップが正常に動作するようにする
+(defadvice eshell-skip-prompt (around eshell-skip-prompt-ext activate)
+  (if (looking-at eshell-prompt-regexp)
+      (re-search-forward eshell-prompt-regexp-lastline nil t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; OTHER WINDOW 
@@ -423,6 +462,7 @@
 (package-install 'emmet-mode)
 (require 'web-mode)
 (require 'emmet-mode)
+(add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook 'emmet-mode)
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
@@ -439,7 +479,7 @@
   (sp-local-pair "<" ">")
   (sp-local-pair "<%" "%>"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; HTML
+;;; HTML, CSS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'html-mode-hook
 	  (lambda ()
@@ -447,6 +487,19 @@
 	    (set (make-local-variable 'sgml-basic-offset) 2)
 	    (auto-complete-mode t)
 	    ))
+(defun my-css-comment ()
+  (interactive)
+  (let* ((str (read-string "comment-tag> "))
+	 (bar (concat " " (make-string (- 50 (length str)) ?\-) " ")))
+    (insert (concat "/* " str bar "*/\n\n"))
+    (insert (concat "/*" bar str " */\n"))
+    (previous-line 2)))
+(add-hook 'css-mode-hook
+	  (lambda ()
+	    (define-key css-mode-map "\C-c\C-c" 'my-css-comment)
+	    (set (make-local-variable 'css-indent-offset) 2)
+	    ))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; PHP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -460,6 +513,22 @@
 	    ;; (c-set-offset 'arglist-cont-nonempty' 4)
 	    ;; (c-set-offset 'arglist-close' 0)
 	    ))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Perl
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'auto-mode-alist '("\.\([pP][Llm]\|al\|t\|cgi\)\'" . cperl-mode))
+(add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
+(add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
+(add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
+(add-hook 'cperl-mode-hook
+	  (lambda ()
+	    (define-key cperl-mode-map "{" 'nil)))
+;;; cperl-mode is preferred to perl-mode
+
+;;; "Brevity is the soul of wit"
+
+(defalias 'perl-mode 'cperl-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GOOGLE
@@ -480,15 +549,7 @@
 ;;; COLOR THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'zenburn-theme)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (zenburn)))
- '(custom-safe-themes
-   (quote
-    ("f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
