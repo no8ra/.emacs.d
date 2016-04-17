@@ -1,56 +1,4 @@
 ls
-cd Documents/
-ls
-ls
-ls
-s
-ls
-cd ../
-cd
-cd
-cd .emacs.d/
-ls
-ls
-which emacs
-cd Documents/
-ls
-mkdir LANGUAGE
-ls
-cd LANGUAGE/
-ls
-mkdir CCI-C
-cd CCI-C/
-ls
-ls
-ls
-cd Documents/LANGUAGE/
-cd CCI-C/
-ls
-ls
-ls
-cd .emacs.d/
-ls
-cd
-ls
-ls
-ls
-cd Documents/LANGUAGE/
-ls
-cd CCI-C/
-ls
-ls
-c
-cd
-ls
-ls
-ls
-cd Documents/
-ls
-cd LANGUAGE/
-ls
-cd ..
-rm a.out  hoge.c\~ hoge.c 
-ls
 cd LANGUAGE/
 ls
 cd ../
@@ -91,4 +39,90 @@ ls
 cd Documents/Ruby/
 ls
 cd Documents/Ruby/
+ls
+cd Documents/Ruby/Rails/
+ls
+cd sample_app/
+ls
+bundle exec rake db:migrate
+ps
+ls
+rails generate migration add_index_to_users_email
+ls
+rails generate migration add_password_digest_to_users password_digest:string
+bundle install
+bundle show
+ps
+ps
+ps
+heroku run rake db:migrate
+heroku run console --sandbox
+heroku open
+ls
+git branch
+cd
+cd Documents/
+ls
+cd LANGUAGE/
+ls
+mkdir FORTH
+cd FORTH/
+ls
+cd ../
+git clone git@github.com:h8gi/forth.git
+ls
+cd FORTH/
+ls
+git branch
+chicken-install -s numbers
+ls
+chicken-install -s vector-lib
+chicken-install -s matchable
+chicken-install -s F-operator
+Password:yagi0245
+chicken-install -s coops
+git branch
+ls
+rm blocks.fb 
+ls
+ls
+cd ../
+ls
+mv FORTH scheme-forth
+ls
+mkdir FORTH
+mv scheme-forth/ FORTH/
+ls
+cd FORTH/
+ls
+ls
+cd Documents/LANGUAGE/
+ls
+cd FORTH/
+ls
+cd  ../
+ls
+cd CCI-C/
+ls
+ls
+rm  first.lisp\~ first.lisp 
+ls
+cd ../
+ls
+cd FORTH/
+ls
+cd scheme-forth/
+ls
+cd ..
+ls
+cd ..
+ls
+cd CCI-C/
+ls
+ls
+git init
+ls
+ls
+ls
+rm README.md 
 ls

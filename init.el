@@ -11,6 +11,7 @@
 (set-scroll-bar-mode nil)
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 (fset 'yes-or-no-p 'y-or-n-p)
+(setq default-tab-width 2)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; serverstart for emacs-client
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -21,11 +22,14 @@
 ;; PACKAGE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'package)
-; Add package-archives
+;;; Add melpa
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")) ; ついでにmarmaladeも追加
-; Initialize
+;;; Add marmalade
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+					; Initialize
+
 (package-initialize)
+;; (package-refresh-contents)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; copy and paste
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -76,7 +80,7 @@
  ("M-k" . sp-forward-slurp-sexp)
 
  ("M-u" . sp-splice-sexp-killing-backward)
- ("M-i" . sp-splice-sexp-killing-forward)
+; ("M-i" . sp-splice-sexp-killing-forward)
  
  ("C-M-<backspace>"   . sp-backward-kill-sexp)
  ("C-M-a" . sp-beginning-of-sexp)
@@ -86,6 +90,7 @@
  ("C-M-n" . sp-next-sexp)
  ("C-M-p" . sp-previous-sexp)   
  )
+
 (smartparens-global-mode)
 (add-hook 'lisp-mode-hook  'turn-off-smartparens-mode)
 (add-hook 'scheme-mode-hook 'turn-off-smartparens-mode)
@@ -347,7 +352,34 @@
 ;;; SCHEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'chicken-scheme)
+(package-install 'pretty-lambdada)
 (require 'chicken-scheme)
+(setq scheme-program-name "csi -qw")
+(defvar my-paredit-paren-prefix-pat-chicken
+  (mapconcat
+   #'identity
+   '(
+     "#"
+     "#[suf]\\(8\\|16\\|32\\|64\\)"     ; SRFI-4
+     "#[0-9]+="                         ; SRFI-38
+     "#u8"				; R6RS bytevector
+     )
+   "\\|"))
+(defvar my-paredit-dquote-prefix-pat-chicken
+  (mapconcat
+   #'identity
+   '(
+     "#"
+     )
+   "\\|"))
+(defun paredit-space-for-delimiter-p-chicken (endp delimiter)
+  (or endp
+      (cond ((= (char-syntax delimiter) ?\()
+	     (not (looking-back my-paredit-paren-prefix-pat-chicken)))
+	    ((= (char-syntax delimiter) ?\")
+	     (not (looking-back my-paredit-dquote-prefix-pat-chicken))))))
+
+
 (autoload 'scheme-mode "cmuscheme" "Marjor mode for Scheme." t)
 (autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
 (require 'cmuscheme)
@@ -379,15 +411,88 @@
       (switch-to-scheme t)
       (message "\"%s\" compiled and loaded." file-name) ) ) )
 (setq default-scheme-implementation 'csi)
+
+(defun my-scheme-hook ()
+  (set (make-variable-buffer-local
+	'paredit-space-for-delimiter-predicates)
+       (list #'paredit-space-for-delimiter-p-chicken))
+  (setup-chicken-scheme)
+  (enable-paredit-mode)
+  (auto-complete-mode t)
+  (bind-key "C-?" 'chicken-show-help scheme-mode-map)
+  (pretty-lambda-mode t))
 (add-hook 'scheme-mode-hook
 	  (lambda ()
-	    (setup-chicken-scheme)))
+	    (my-scheme-hook)))
 (add-hook 'inferior-scheme-mode-hook
 	  (lambda ()
-	    (setup-chicken-scheme)))
+	    (my-scheme-hook)))
 (setq auto-insert-alist 
       '(("\\.scm" . 
          (insert "#!/bin/sh\n#| -*- scheme -*-\nexec csi -s $0 \"$@\"\n|#\n"))))
+;; from shiro  gauche info 
+;; 
+(put 'and-let* 'scheme-indent-function 1)
+(put 'begin0 'scheme-indent-function 0)
+(put 'call-with-client-socket 'scheme-indent-function 1)
+(put 'call-with-input-conversion 'scheme-indent-function 1)
+(put 'call-with-input-file 'scheme-indent-function 1)
+(put 'call-with-input-process 'scheme-indent-function 1)
+(put 'call-with-input-string 'scheme-indent-function 1)
+(put 'call-with-iterator 'scheme-indent-function 1)
+(put 'call-with-output-conversion 'scheme-indent-function 1)
+(put 'call-with-output-file 'scheme-indent-function 1)
+(put 'call-with-output-string 'scheme-indent-function 0)
+(put 'call-with-temporary-file 'scheme-indent-function 1)
+(put 'call-with-values 'scheme-indent-function 1)
+(put 'dolist 'scheme-indent-function 1)
+(put 'dotimes 'scheme-indent-function 1)
+(put 'if-match 'scheme-indent-function 2)
+(put 'let*-values 'scheme-indent-function 1)
+(put 'let-args 'scheme-indent-function 2)
+(put 'let-keywords* 'scheme-indent-function 2)
+(put 'let-match 'scheme-indent-function 2)
+(put 'let-optionals* 'scheme-indent-function 2)
+(put 'let-syntax 'scheme-indent-function 1)
+(put 'let-values 'scheme-indent-function 1)
+(put 'let/cc 'scheme-indent-function 1)
+(put 'let1 'scheme-indent-function 2)
+(put 'letrec-syntax 'scheme-indent-function 1)
+(put 'make 'scheme-indent-function 1)
+(put 'multiple-value-bind 'scheme-indent-function 2)
+(put 'match 'scheme-indent-function 1)
+(put 'parameterize 'scheme-indent-function 1)
+(put 'parse-options 'scheme-indent-function 1)
+(put 'receive 'scheme-indent-function 2)
+(put 'rxmatch-case 'scheme-indent-function 1)
+(put 'rxmatch-cond 'scheme-indent-function 0)
+(put 'rxmatch-if  'scheme-indent-function 2)
+(put 'rxmatch-let 'scheme-indent-function 2)
+(put 'syntax-rules 'scheme-indent-function 1)
+(put 'unless 'scheme-indent-function 1)
+(put 'until 'scheme-indent-function 1)
+(put 'when 'scheme-indent-function 1)
+(put 'while 'scheme-indent-function 1)
+(put 'with-builder 'scheme-indent-function 1)
+(put 'with-error-handler 'scheme-indent-function 0)
+(put 'with-error-to-port 'scheme-indent-function 1)
+(put 'with-input-conversion 'scheme-indent-function 1)
+(put 'with-input-from-port 'scheme-indent-function 1)
+(put 'with-input-from-process 'scheme-indent-function 1)
+(put 'with-input-from-string 'scheme-indent-function 1)
+(put 'with-iterator 'scheme-indent-function 1)
+(put 'with-module 'scheme-indent-function 1)
+(put 'with-output-conversion 'scheme-indent-function 1)
+(put 'with-output-to-port 'scheme-indent-function 1)
+(put 'with-output-to-process 'scheme-indent-function 1)
+(put 'with-output-to-string 'scheme-indent-function 1)
+(put 'with-port-locking 'scheme-indent-function 1)
+(put 'with-string-io 'scheme-indent-function 1)
+(put 'with-time-counter 'scheme-indent-function 1)
+(put 'with-signal-handlers 'scheme-indent-function 1)
+(put 'with-locking-mutex 'scheme-indent-function 1)
+(put 'guard 'scheme-indent-function 1)
+(put 'handle-exceptions 'scheme-indent-function 2)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; RUBY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -426,12 +531,39 @@
 	    (ac-robe-setup)
 	    ))
 
-
-
 ;;; rails
 (package-install 'rinari)
 (require 'rinari)
 (global-rinari-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; GFORTH
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(autoload 'forth-mode "gforth.el")
+(setq auto-mode-alist (cons '("\\.fs\\'" . forth-mode)
+			    auto-mode-alist))
+(autoload 'forth-block-mode "gforth.el")
+(setq auto-mode-alist (cons '("\\.fb\\'" . forth-block-mode)
+			    auto-mode-alist))
+
+(add-hook 'forth-mode-hook
+	  (lambda ()
+	    (setq forth-indent-level 4)
+	    (setq forth-minor-indent-level 2)
+	    (setq forth-hilight-level 3)
+	    (bind-key "C-<return>" 'forth-send-paragraph forth-mode-map)
+	    (bind-key "C-c C-b" 'forth-send-buffer forth-mode-map)
+	    (auto-complete-mode t)
+	    (unbind-key "C-h" forth-mode-map)
+					;(run-forth)
+	    (cua-mode -1)
+	    ))
+
+(add-hook 'inferior-forth-mode-hook
+	  (lambda ()
+	    (unbind-key "C-c C-z" inferior-forth-mode-map)
+	    (bind-key "C-c C-z" 'forth-switch-to-interactive inferior-forth-mode-map)
+	    (auto-complete-mode t)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GIT
@@ -460,12 +592,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'web-mode)
 (package-install 'emmet-mode)
+(package-install 'ac-html)
 (require 'web-mode)
 (require 'emmet-mode)
+(require 'ac-html)
 (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook 'emmet-mode)
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
+
 (add-hook 'web-mode-hook
 	  (lambda ()
 	    (emmet-mode)
@@ -479,8 +614,26 @@
   (sp-local-pair "<" ">")
   (sp-local-pair "<%" "%>"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; HTML, CSS
+;;; HTML, CSS, SCSS, HAML, yaml
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'scss-mode)
+(package-install 'haml-mode)
+(package-install 'yaml-mode)
+(require 'yaml-mode)
+(require 'haml-mode)
+(require 'scss-mode)
+(defun setup-ac-for-haml ()
+  ;; haml auto completion
+  (require 'ac-haml)
+  ;; ?
+  (require 'ac-html-default-data-provider)
+  (ac-html-enable-data-provider 'ac-html-default-data-provider)
+  (ac-haml-setup)
+  (setq ac-sources '(ac-source-haml-tag
+		     ac-source-haml-attr
+		     ac-source-haml-attrv))
+  (auto-complete-mode t))
+(add-hook 'haml-mode-hook 'setup-ac-for-haml)
 (add-hook 'html-mode-hook
 	  (lambda ()
 	    (sgml-electric-tag-pair-mode t)
@@ -499,7 +652,13 @@
 	    (define-key css-mode-map "\C-c\C-c" 'my-css-comment)
 	    (set (make-local-variable 'css-indent-offset) 2)
 	    ))
-
+(add-hook 'scss-mode-hook
+	  '(lambda ()
+	     (set (make-local-variable 'css-indent-offset) 2)
+	     (set (make-local-variable 'scss-compile-at-save) nil)))
+;; (add-hook 'yaml-mode-hook
+;; 	  (lambda ()
+;; 	    (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; PHP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -515,6 +674,22 @@
 	    ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; ORG-MODE
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'org)
+(require 'org)
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+(setq org-catch-invisible-edits t)
+(defun org-html-open ()
+  (interactive)
+  (let ((filename (org-html-export-to-html)))
+    (browse-url-of-file filename)))
+(bind-key "C-c C-v" 'org-html-open org-mode-map)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Perl
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'auto-mode-alist '("\.\([pP][Llm]\|al\|t\|cgi\)\'" . cperl-mode))
@@ -525,14 +700,12 @@
 	  (lambda ()
 	    (define-key cperl-mode-map "{" 'nil)))
 ;;; cperl-mode is preferred to perl-mode
-
 ;;; "Brevity is the soul of wit"
-
 (defalias 'perl-mode 'cperl-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GOOGLE
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun google ()
   "search on google"
   (interactive)
