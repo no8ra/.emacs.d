@@ -1,32 +1,3 @@
-ls
-cd LANGUAGE/
-ls
-cd ../
-ls
-ls
-cd ../
-ls
-ls
-cd Documents/
-ls
-mkdir Ruby
-ls
-cd Ruby/
-ls
-ls
-cd Documents/Ruby/
-ls
-cd Documents/Ruby/
-ls
-cd Documents/Ruby/
-ls
-cd Documents/Ruby/
-ls
-cd Documents/Ruby/
-ls
-cd Documents/Ruby/
-ls
-ls
 cd Documents/Ruby/
 ls
 ls
@@ -125,4 +96,33 @@ ls
 ls
 ls
 rm README.md 
+ls
+cd Documents/LANGUAGE/CCI-C/
+ls
+rm test.org\~ test.org 
+ls
+ls
+cat token.scm 
+cat token.scm  | sh
+chmod u+x test.png 
+rm test.png 
+chmod u+x token.scm 
+./token.scm 
+./token.scm 
+cd
+cd Documents/
+ls
+mkdir Jugyou
+cd Jugyou/
+mkdir 2016
+cd 2016/
+ls
+mkdir ComputerArchitecture
+cd ComputerArchitecture/
+ls
+ls
+ls
+cd Documents/Jugyou/2016/
+ls
+cd ComputerArchitecture/
 ls

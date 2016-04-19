@@ -210,36 +210,39 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
+	 [default default default italic underline success warning error])
  '(ansi-color-names-vector
-   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+	 ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
-   (quote
-    ("f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
+	 (quote
+		("f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
  '(eshell-prompt-function
-   (lambda nil
-     (concat "[ "
-	     (format-time-string "%Y/%m/%d %H:%M")
-	     " | "
-	     (user-login-name)
-	     "@"
-	     (system-name)
-	     " ]
+	 (lambda nil
+		 (concat "[ "
+						 (format-time-string "%Y/%m/%d %H:%M")
+						 " | "
+						 (user-login-name)
+						 "@"
+						 (system-name)
+						 " ]
 " "["
-	     (abbreviate-file-name
-	      (eshell/pwd))
-	     "]
+						 (abbreviate-file-name
+							(eshell/pwd))
+						 "]
 "
-	     (if
-		 (=
-		  (user-uid)
-		  0)
-		 "#" "$")
-	     " ")))
+						 (if
+								 (=
+									(user-uid)
+									0)
+								 "#" "$")
+						 " ")))
  '(eshell-prompt-regexp "^\\(\\[[^]
-]+\\]\\|[$#] \\)"))
+]+\\]\\|[$#] \\)")
+ '(org-agenda-files
+	 (quote
+		("~/Documents/Jugyou/2016/ComputerArchitecture/ca.org"))))
 ;; 追加設定
 (defcustom eshell-prompt-regexp-lastline "^[#$] "
   "複数行プロンプトの最終行にマッチする正規表現を指定する"
@@ -678,16 +681,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'org)
 (require 'org)
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-iswitchb)
+;; (global-set-key "\C-cl" 'org-store-link)
+;; (global-set-key "\C-ca" 'org-agenda)
+;; (global-set-key "\C-cc" 'org-capture)
+;; (global-set-key "\C-cb" 'org-iswitchb)
 (setq org-catch-invisible-edits t)
 (defun org-html-open ()
   (interactive)
   (let ((filename (org-html-export-to-html)))
     (browse-url-of-file filename)))
 (bind-key "C-c C-v" 'org-html-open org-mode-map)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((dot . t)))
+(require 'ox-latex)
+(setq org-latex-pdf-process
+			'("platex %f"
+				"platex %f"
+				"bibtex %b"
+				"platex %f"
+				"platex %f"
+				"dvipdfmx %b.dvi"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Graphviz
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'graphviz-dot-mode)
+(require 'graphviz-dot-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Perl
