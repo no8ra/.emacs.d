@@ -1,17 +1,3 @@
-cd Documents/Ruby/
-ls
-ls
-cd Documents/Ruby/
-ls
-cd Documents/Ruby/
-ls
-cd Documents/Ruby/
-ls
-cd Documents/Ruby/
-ls
-cd Documents/Ruby/
-ls
-cd Documents/Ruby/Rails/
 ls
 cd sample_app/
 ls
@@ -125,4 +111,18 @@ ls
 cd Documents/Jugyou/2016/
 ls
 cd ComputerArchitecture/
+ls
+ls
+cd Documents/Jugyou/
+ls
+cd 2016/
+ls
+cd ComputerArchitecture/
+ls
+ls
+cd ../
+ls
+mkdir PhilosOfLang
+cd PhilosOfLang/
+ls
 ls

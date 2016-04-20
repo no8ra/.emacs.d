@@ -518,6 +518,7 @@
 	    (robe-mode)
 	    (flymake-ruby-load)
 	    (ruby-block-mode t)
+			(define-key ruby-mode-map "\C-c\C-c" 'ruby-send-buffer)
 	    (when (require 'rcodetools)
 	      (define-key ruby-mode-map (kbd "<C-tab>") 'rct-complete-symbol)
 	      (define-key ruby-mode-map (kbd "<C-return>") 'xmp))
@@ -590,6 +591,11 @@
     (unless result
       (direx:jump-to-directory-other-window))))
 (global-set-key (kbd "C-x C-j") 'direx:jump-to-project-directory)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; nginx
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'nginx-mode)
+(require 'nginx-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; web-mode emmet-mode 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
