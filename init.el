@@ -1,3 +1,13 @@
+;; Ricty フォントの利用
+;;(create-fontset-from-ascii-font "Ricty-14:weight=normal:slant=normal" nil "ricty")
+;; (set-fontset-font "fontset-ricty"
+;;                   'unicode
+;;                   (font-spec :family "Ricty" :size 14)
+;;                   nil
+;;                   'append)
+;; (add-to-list 'default-frame-alist '(font . "fontset-ricty"))
+
+(add-to-list 'default-frame-alist '(font . "ricty-14"))
 (prefer-coding-system 'utf-8)
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key [(super f)] 'toggle-frame-fullscreen)
@@ -11,7 +21,7 @@
 (set-scroll-bar-mode nil)
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 (fset 'yes-or-no-p 'y-or-n-p)
-(setq default-tab-width 2)
+; (setq default-tab-width 2)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; serverstart for emacs-client
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -26,8 +36,6 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 ;;; Add marmalade
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-					; Initialize
-
 (package-initialize)
 ;; (package-refresh-contents)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -111,7 +119,7 @@
    ("M-k" . paredit-forward-slurp-sexp)
 
    ("M-u" . paredit-splice-sexp-killing-backward)
-   ("M-i" . paredit-splice-sexp-killing-forward)
+;   ("M-i" . paredit-splice-sexp-killing-forward)
    
    ("C-h" . paredit-backward-delete)
    ("C-M-f" . paredit-forward)
@@ -199,8 +207,11 @@
 (defadvice helm-ff-sort-candidates (around no-sort activate)
   "Don't sort candidates in a confusing order!"
   (setq ad-return-value (ad-get-arg 0)))
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; YASNIPPET
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'yasnippet)
+(yas-global-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ESHELL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -210,39 +221,40 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
-	 [default default default italic underline success warning error])
+   [default default default italic underline success warning error])
  '(ansi-color-names-vector
-	 ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
-	 (quote
-		("f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
+   (quote
+    ("158ca85e9f3eacdcbfc43163200b62c900ae5f64ba64819dbe4b27655351c051" "f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
  '(eshell-prompt-function
-	 (lambda nil
-		 (concat "[ "
-						 (format-time-string "%Y/%m/%d %H:%M")
-						 " | "
-						 (user-login-name)
-						 "@"
-						 (system-name)
-						 " ]
+   (lambda nil
+     (concat "[ "
+	     (format-time-string "%Y/%m/%d %H:%M")
+	     " | "
+	     (user-login-name)
+	     "@"
+	     (system-name)
+	     " ]
 " "["
-						 (abbreviate-file-name
-							(eshell/pwd))
-						 "]
+	     (abbreviate-file-name
+	      (eshell/pwd))
+	     "]
 "
-						 (if
-								 (=
-									(user-uid)
-									0)
-								 "#" "$")
-						 " ")))
+	     (if
+		 (=
+		  (user-uid)
+		  0)
+		 "#" "$")
+	     " ")))
  '(eshell-prompt-regexp "^\\(\\[[^]
 ]+\\]\\|[$#] \\)")
  '(org-agenda-files
-	 (quote
-		("~/Documents/Jugyou/2016/ComputerArchitecture/ca.org"))))
+   (quote
+    ("~/Documents/Jugyou/2016/ComputerArchitecture/ca.org")))
+ '(quack-default-program "csi"))
 ;; 追加設定
 (defcustom eshell-prompt-regexp-lastline "^[#$] "
   "複数行プロンプトの最終行にマッチする正規表現を指定する"
@@ -303,6 +315,12 @@
                (throw 'end-flag t)))))))
 (bind-key "\C-q" 'window-resizer)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; FLYCHECK
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'flycheck)
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; CLANG
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -414,7 +432,16 @@
       (switch-to-scheme t)
       (message "\"%s\" compiled and loaded." file-name) ) ) )
 (setq default-scheme-implementation 'csi)
-
+(defun scheme-other-window ()
+  "Run scheme on other window"
+  (interactive)
+  (split-window-vertically (/ (frame-height) 2))
+  (let ((buf-name (buffer-name (current-buffer))))
+    (switch-to-buffer-other-window
+     (get-buffer-create "*scheme*"))
+    (run-scheme scheme-program-name)
+    (switch-to-buffer-other-window     (get-buffer-create buf-name))))
+(define-key global-map "\C-cs" 'scheme-other-window)
 (defun my-scheme-hook ()
   (set (make-variable-buffer-local
 	'paredit-space-for-delimiter-predicates)
@@ -464,6 +491,9 @@
 (put 'make 'scheme-indent-function 1)
 (put 'multiple-value-bind 'scheme-indent-function 2)
 (put 'match 'scheme-indent-function 1)
+(put 'match-let 'scheme-indent-function 1)
+(put 'match-let* 'scheme-indent-function 1)
+(put 'match-letrec 'scheme-indent-function 1)
 (put 'parameterize 'scheme-indent-function 1)
 (put 'parse-options 'scheme-indent-function 1)
 (put 'receive 'scheme-indent-function 2)
@@ -494,6 +524,8 @@
 (put 'with-time-counter 'scheme-indent-function 1)
 (put 'with-signal-handlers 'scheme-indent-function 1)
 (put 'with-locking-mutex 'scheme-indent-function 1)
+(put 'with-dot-lock* 'scheme-indent-function 1)
+(put 'with-dot-lock 'scheme-indent-function 1)
 (put 'guard 'scheme-indent-function 1)
 (put 'handle-exceptions 'scheme-indent-function 2)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -668,10 +700,14 @@
 ;; (add-hook 'yaml-mode-hook
 ;; 	  (lambda ()
 ;; 	    (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; PHP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'php-mode)
+(package-install 'php-eldoc)
+(package-install 'inf-php)
+(require 'inf-php)
 (require 'php-mode)
 (add-hook 'php-mode-hook
 	  (lambda ()
@@ -681,6 +717,15 @@
 	    ;; (c-set-offset 'arglist-cont-nonempty' 4)
 	    ;; (c-set-offset 'arglist-close' 0)
 	    ))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; JavaScript
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'js2-mode)
+(require 'js2-mode)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-hook 'js2-mode-hook
+	  (lambda ()
+	    (setq js2-basic-offset 2)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ORG-MODE
@@ -708,6 +753,7 @@
 				"platex %f"
 				"platex %f"
 				"dvipdfmx %b.dvi"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Graphviz
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -727,6 +773,17 @@
 ;;; cperl-mode is preferred to perl-mode
 ;;; "Brevity is the soul of wit"
 (defalias 'perl-mode 'cperl-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; DATABASE
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'sql-indent)
+(require 'sql-indent)
+(sql-set-product "postgres")
+(add-hook 'sql-mode
+	  (lambda ()
+	    (sql-set-product "postgres")
+	    (auto-complete-mode +1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GOOGLE

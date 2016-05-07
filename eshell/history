@@ -1,128 +1,128 @@
+cd LANGUAGE/
 ls
-cd sample_app/
+cd CCI-C/
+cd ..
+type
+test
+test 1=2
+test 1=2
++ 2 3
+(+ 2 3 4 )
+cd ..
+cd 
+cd Sites/
 ls
-bundle exec rake db:migrate
-ps
+cd blog.h8gi.com/
 ls
-rails generate migration add_index_to_users_email
+cd wp-content/
 ls
-rails generate migration add_password_digest_to_users password_digest:string
-bundle install
-bundle show
-ps
-ps
-ps
-heroku run rake db:migrate
-heroku run console --sandbox
-heroku open
+cd thme
+cd themes/
 ls
-git branch
+cd simple/
+ls
+ls
 cd
 cd Documents/
 ls
 cd LANGUAGE/
 ls
-mkdir FORTH
-cd FORTH/
-ls
-cd ../
-git clone git@github.com:h8gi/forth.git
-ls
-cd FORTH/
-ls
-git branch
-chicken-install -s numbers
-ls
-chicken-install -s vector-lib
-chicken-install -s matchable
-chicken-install -s F-operator
-Password:yagi0245
-chicken-install -s coops
-git branch
-ls
-rm blocks.fb 
-ls
-ls
-cd ../
-ls
-mv FORTH scheme-forth
-ls
-mkdir FORTH
-mv scheme-forth/ FORTH/
-ls
-cd FORTH/
-ls
-ls
-cd Documents/LANGUAGE/
-ls
-cd FORTH/
-ls
-cd  ../
-ls
 cd CCI-C/
 ls
 ls
-rm  first.lisp\~ first.lisp 
+cd ...
+cd
+cd Sites/
 ls
-cd ../
+cd blog.h8gi.com/
 ls
-cd FORTH/
+cd wp-content/
 ls
-cd scheme-forth/
+cd themes/
 ls
-cd ..
+cd simple/
 ls
-cd ..
-ls
-cd CCI-C/
-ls
-ls
-git init
-ls
-ls
-ls
-rm README.md 
-ls
-cd Documents/LANGUAGE/CCI-C/
-ls
-rm test.org\~ test.org 
-ls
-ls
-cat token.scm 
-cat token.scm  | sh
-chmod u+x test.png 
-rm test.png 
-chmod u+x token.scm 
-./token.scm 
-./token.scm 
 cd
 cd Documents/
+cd Scheme/
 ls
-mkdir Jugyou
-cd Jugyou/
-mkdir 2016
-cd 2016/
+cd 
+cd Sites/
 ls
-mkdir ComputerArchitecture
-cd ComputerArchitecture/
-ls
+mkdir DB
+cd DB/
 ls
 ls
-cd Documents/Jugyou/2016/
-ls
-cd ComputerArchitecture/
 ls
 ls
-cd Documents/Jugyou/
+ls -lh
 ls
-cd 2016/
+ls -lh
+head -n 20 xvideos.old.csv > head.csv
 ls
-cd ComputerArchitecture/
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+cd Sites/DB/
+ls
+cd Sites/DB/
+ls
+cd
+ls
+cd Downloads/
+ls
+ls
+cd
+cd Sites/DB/
+ls
+cd ..
+ls
+cd DB/
+ls
+cd Sites/
+ls
+cd DB/
+ls
+ls
+cd ../cgi/
+ls
+cd Sites/cgi/
+ls
+cd Sites/
+ls
+cd cgi/
 ls
 ls
 cd ../
 ls
-mkdir PhilosOfLang
-cd PhilosOfLang/
+cd 
+cd Documents/
 ls
+cd HomePageSrc/
+ls
+cat deploy.sh
+cd
+cd Sites/
+ls
+cd cgi/
+ls
+ls
+cd Sites/
+ls
+cd cgi/
+ls
+Welcome to the Emacs shell
+cd ~/Sites/
+ls
+cd cgi/
+ls
+ls
+cd Sites/
+ls
+cd cgi/
 ls
