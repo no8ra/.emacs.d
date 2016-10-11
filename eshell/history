@@ -1,128 +1,128 @@
-cd LANGUAGE/
 ls
-cd CCI-C/
-cd ..
-type
-test
-test 1=2
-test 1=2
-+ 2 3
-(+ 2 3 4 )
-cd ..
-cd 
+cd js/
+ls
+cd ../
+ls
+cd ../../
+ls
+cd
 cd Sites/
 ls
-cd blog.h8gi.com/
+mv ~/Documents/VR/A-Frame/ ./
 ls
-cd wp-content/
+cd A-Frame/
 ls
-cd thme
-cd themes/
+mv index.html  video.html
 ls
-cd simple/
+cp video.html index.html
+cd js/
+ls
+cp video.js  avideo.js
 ls
 ls
+cd ..
+ls
+ls
+ls
+open movie.mov 
+cat movie.mov 
+21
+cd
+cd Desktop/
+ls
+ls
+sls
+slsl
+lsls
+ls
+sl
+cd 
+cd Documents/Scheme/http-read/
+ls
+git pull
+git status
+git branch
 cd
 cd Documents/
 ls
-cd LANGUAGE/
+cd papers/
 ls
-cd CCI-C/
+cd AsymmetricPostmatingIsolation/
 ls
+cd ../
+git status 
+git remote show origin
+cd ..//
+rm -rf papers/
+git clone bit:yagihiroki/papers.git
+cd papers/
 ls
-cd ...
-cd
-cd Sites/
+cd AsymmetricPostmatingIsolation/
 ls
-cd blog.h8gi.com/
-ls
-cd wp-content/
-ls
-cd themes/
-ls
-cd simple/
-ls
-cd
+cdcd
+cd  
 cd Documents/
-cd Scheme/
 ls
-cd 
-cd Sites/
-ls
-mkdir DB
-cd DB/
-ls
-ls
-ls
-ls
-ls -lh
-ls
-ls -lh
-head -n 20 xvideos.old.csv > head.csv
-ls
-ls
-ls
-ls
-ls
-ls
-ls
-ls
-ls
-cd Sites/DB/
-ls
-cd Sites/DB/
-ls
-cd
-ls
-cd Downloads/
-ls
-ls
-cd
-cd Sites/DB/
-ls
-cd ..
-ls
-cd DB/
-ls
-cd Sites/
-ls
-cd DB/
-ls
-ls
-cd ../cgi/
-ls
-cd Sites/cgi/
-ls
-cd Sites/
-ls
-cd cgi/
+cd SiroToKuroNoTobira
+mkdir SiroToKuroNoTobira
+cd SiroToKuroNoTobira/
 ls
 ls
 cd ../
 ls
-cd 
+mv SiroToKuroNoTobira/ Automata
+cd Automata/
+ls
+cd ../
+ls
+cd
+cd Documents/Automata/
+ls
+cd ../
+ls
+cd COMPILER/
+ls
+cd
 cd Documents/
 ls
-cd HomePageSrc/
+mkdir Clojure
+cd Clojure/
 ls
-cat deploy.sh
+lein -v
+cd Documents/Clojure/
+ls
+lein new app my-stuff
+ls
+cd my-stuff/
+ls
+cd ../
+ls
+lein new my-proj
+cd my-stuff/
+cd ..
+ls
+cd my-proj/
+ls
+tree
+cd Documents/Clojure/
+ls
+cd my-proj/
+ls
 cd
-cd Sites/
+cd Documents/
 ls
-cd cgi/
+mkdir Rust
+cd Rust/
 ls
+cd 
+cd /usr/local/
 ls
-cd Sites/
+cd bin/
 ls
-cd cgi/
+cd
 ls
-Welcome to the Emacs shell
-cd ~/Sites/
+cargo
+cd Documents/
+cd Rust/
 ls
-cd cgi/
-ls
-ls
-cd Sites/
-ls
-cd cgi/
-ls
+cargo install racer

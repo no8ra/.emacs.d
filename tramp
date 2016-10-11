@@ -1,0 +1,30 @@
+;; -*- emacs-lisp -*- <16/09/28 17:27:14 /Users/yagi/.emacs.d/tramp>
+;; Tramp connection history.  Don't change this file.
+;; You can delete it, forcing Tramp to reapply the checks.
+
+((["ssh" nil "h8gi" nil nil]
+  ("locale" "LC_ALL=en_US.utf8")
+  ("uname" "Linux 2.6.32-573.22.1.el6.x86_64")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("remote-shell" "/bin/sh")
+  ("stat" "\\stat")
+  ("file-exists" "test -e")
+  ("id" "/usr/bin/id")
+  ("gid-integer" 500)
+  ("gid-string" "yagi")
+  ("readlink" "\\readlink")
+  ("~" "/home/yagi")
+  ("perl-file-spec" t)
+  ("perl-cwd-realpath" t)
+  ("perl" "\\perl")
+  ("git" "\\git")
+  ("gvfs-monitor-dir" nil)
+  ("inotifywait" nil)
+  ("uid-integer" 500)
+  ("tmpdir" "/tmp")
+  ("touch-t" t)
+  ("touch" "\\touch")
+  ("ls" "/bin/ls --color=never")
+  ("ls-dired" t)))

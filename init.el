@@ -35,7 +35,7 @@
 ;;; Add melpa
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 ;;; Add marmalade
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 (package-initialize)
 ;; (package-refresh-contents)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -104,6 +104,8 @@
 (add-hook 'scheme-mode-hook 'turn-off-smartparens-mode)
 (add-hook 'inferior-scheme-mode-hook 'turn-off-smartparens-mode)
 (add-hook 'emacs-lisp-mode-hook 'turn-off-smartparens-mode)
+(add-hook 'clojure-mode-hook 'turn-off-smartparens-mode)
+(add-hook 'cider-repl-mode-hook 'turn-off-smartparens-mode)
 (add-hook 'slime-mode-hook 'turn-off-smartparens-mode)
 (add-hook 'slime-repl-mode-hook 'turn-off-smartparens-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -132,7 +134,8 @@
 (add-hook 'slime-mode-hook 'enable-paredit-mode)
 (add-hook 'slime-repl-mode-hook 'enable-paredit-mode)
 (add-hook 'inferior-scheme-mode-hook 'enable-paredit-mode)
-  
+(add-hook 'clojure-mode-hook 'enable-paredit-mode)
+(add-hook 'cider-repl-mode-hook 'enable-paredit-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; helm
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -228,7 +231,7 @@
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-    ("158ca85e9f3eacdcbfc43163200b62c900ae5f64ba64819dbe4b27655351c051" "f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
+    ("cdbd0a803de328a4986659d799659939d13ec01da1f482d838b68038c1bb35e8" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" "158ca85e9f3eacdcbfc43163200b62c900ae5f64ba64819dbe4b27655351c051" "f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
  '(eshell-prompt-function
    (lambda nil
      (concat "[ "
@@ -254,6 +257,9 @@
  '(org-agenda-files
    (quote
     ("~/Documents/Jugyou/2016/ComputerArchitecture/ca.org")))
+ '(package-selected-packages
+   (quote
+    (ac-racer racer quickrun flycheck-rust rust-mode ac-cider cider clojure-mode php-mode inf-ruby slime helm auto-complete zenburn-theme yasnippet yaml-mode web-mode sql-indent smartparens scss-mode scheme-complete ruby-end ruby-block robe rinari quack projectile-rails pretty-lambdada popwin php-eldoc paredit org o-blog nyan-mode nginx-mode magit js2-mode inf-php helm-projectile haml-mode graphviz-dot-mode google-translate flymake-ruby flymake flycheck epc emms emmet-mode direx color-theme-zenburn chicken-scheme bind-key auto-complete-clang anzu ac-slime ac-inf-ruby ac-html ac-helm)))
  '(quack-default-program "csi"))
 ;; 追加設定
 (defcustom eshell-prompt-regexp-lastline "^[#$] "
@@ -314,13 +320,17 @@
                (message "Quit")
                (throw 'end-flag t)))))))
 (bind-key "\C-q" 'window-resizer)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; QuickRun
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'quickrun)
+(require 'quickrun)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; FLYCHECK
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'flycheck)
 (require 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; CLANG
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -485,6 +495,7 @@
 (put 'let-optionals* 'scheme-indent-function 2)
 (put 'let-syntax 'scheme-indent-function 1)
 (put 'let-values 'scheme-indent-function 1)
+(put 'let-location 'scheme-indent-function 1)
 (put 'let/cc 'scheme-indent-function 1)
 (put 'let1 'scheme-indent-function 2)
 (put 'letrec-syntax 'scheme-indent-function 1)
@@ -528,6 +539,25 @@
 (put 'with-dot-lock 'scheme-indent-function 1)
 (put 'guard 'scheme-indent-function 1)
 (put 'handle-exceptions 'scheme-indent-function 2)
+(put 'condition-case 'scheme-indent-function 1)
+(put 'cases 'scheme-indent-function 2)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; CLOJURE
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'clojure-mode)
+(package-install 'cider)
+(package-install 'ac-cider)
+(require 'clojure-mode)
+(require 'cider)
+(require 'ac-cider)
+(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
+(add-hook 'cider-mode-hook 'ac-cider-setup)
+(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+(eval-after-load "auto-complete"
+  '(progn
+     (add-to-list 'ac-modes 'cider-mode)
+     (add-to-list 'ac-modes 'cider-repl-mode)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; RUBY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -728,6 +758,28 @@
 	    (setq js2-basic-offset 2)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Rust
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'rust-mode)
+(package-install 'flycheck-rust)
+(package-install 'racer)
+(package-install 'ac-racer)
+(require 'rust-mode)
+(require 'flycheck-rust)
+(require 'racer)
+(require 'ac-racer)
+(setq racer-rust-src-path "/Users/yagi/src/rustc-1.12.0/src")
+(add-hook 'racer-mode-hook
+	  (lambda ()
+	    (ac-racer-setup)))
+(add-hook 'rust-mode-hook
+	  (lambda ()
+	    (flycheck-mode t)
+	    (define-key rust-mode-map "\C-c\C-c" 'quickrun)
+	    (racer-mode t)
+	    (eldoc-mode t)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ORG-MODE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'org)
@@ -825,6 +877,17 @@
      string)))
 
 (global-set-key (kbd "s-g") 'google-translate-enja-or-jaen)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; EMMS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'emms)
+(require 'emms-setup)
+(require 'emms-i18n)
+(emms-standard)
+(emms-default-players)
+(setq emms-repeat-playlist t)
+(setq emms-player-list '(emms-player-mplayer))
+(setq emms-source-file-default-directory "~/Music/")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; COLOR THEME
