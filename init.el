@@ -259,7 +259,7 @@
     ("~/Documents/Jugyou/2016/ComputerArchitecture/ca.org")))
  '(package-selected-packages
    (quote
-    (ac-racer racer quickrun flycheck-rust rust-mode ac-cider cider clojure-mode php-mode inf-ruby slime helm auto-complete zenburn-theme yasnippet yaml-mode web-mode sql-indent smartparens scss-mode scheme-complete ruby-end ruby-block robe rinari quack projectile-rails pretty-lambdada popwin php-eldoc paredit org o-blog nyan-mode nginx-mode magit js2-mode inf-php helm-projectile haml-mode graphviz-dot-mode google-translate flymake-ruby flymake flycheck epc emms emmet-mode direx color-theme-zenburn chicken-scheme bind-key auto-complete-clang anzu ac-slime ac-inf-ruby ac-html ac-helm)))
+    (toml-mode ac-racer racer quickrun flycheck-rust rust-mode ac-cider cider clojure-mode php-mode inf-ruby slime helm auto-complete zenburn-theme yasnippet yaml-mode web-mode sql-indent smartparens scss-mode scheme-complete ruby-end ruby-block robe rinari quack projectile-rails pretty-lambdada popwin php-eldoc paredit org o-blog nyan-mode nginx-mode magit js2-mode inf-php helm-projectile haml-mode graphviz-dot-mode google-translate flymake-ruby flymake flycheck epc emms emmet-mode direx color-theme-zenburn chicken-scheme bind-key auto-complete-clang anzu ac-slime ac-inf-ruby ac-html ac-helm)))
  '(quack-default-program "csi"))
 ;; 追加設定
 (defcustom eshell-prompt-regexp-lastline "^[#$] "
@@ -761,11 +761,9 @@
 ;;; Rust
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'rust-mode)
-(package-install 'flycheck-rust)
 (package-install 'racer)
 (package-install 'ac-racer)
 (require 'rust-mode)
-(require 'flycheck-rust)
 (require 'racer)
 (require 'ac-racer)
 (setq racer-rust-src-path "/Users/yagi/src/rustc-1.12.0/src")
@@ -774,10 +772,14 @@
 	    (ac-racer-setup)))
 (add-hook 'rust-mode-hook
 	  (lambda ()
-	    (flycheck-mode t)
 	    (define-key rust-mode-map "\C-c\C-c" 'quickrun)
 	    (racer-mode t)
 	    (eldoc-mode t)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; TOML
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'toml-mode)
+(require 'toml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ORG-MODE

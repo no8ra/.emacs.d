@@ -1,128 +1,128 @@
 ls
-cd js/
+mv README.org projects/
+ls
+cd projects/
+ls
+cd hello_world/
+ls
+ls
+rustc main.rs 
+ls
+./main 
+./main 
 ls
 cd ../
 ls
-cd ../../
-ls
-cd
-cd Sites/
-ls
-mv ~/Documents/VR/A-Frame/ ./
-ls
-cd A-Frame/
-ls
-mv index.html  video.html
-ls
-cp video.html index.html
-cd js/
-ls
-cp video.js  avideo.js
+cat README.org 
 ls
 ls
-cd ..
+rm ../README.org 
 ls
 ls
+scp hello_world/main h8gi:~/
+cargo --version
 ls
-open movie.mov 
-cat movie.mov 
-21
-cd
-cd Desktop/
+cd hello_world/
 ls
+mkdir src
+mv main.rs src/
+rm main\~
 ls
-sls
-slsl
-lsls
+rm main.rs\~
+rm main 
+cargo build
 ls
-sl
-cd 
-cd Documents/Scheme/http-read/
+cat Cargo.toml
+cat Cargo.lock 
+cd target/
 ls
-git pull
-git status
-git branch
-cd
-cd Documents/
+cd debug/
 ls
-cd papers/
-ls
-cd AsymmetricPostmatingIsolation/
-ls
+./hello_world.dSYM/
 cd ../
-git status 
-git remote show origin
-cd ..//
-rm -rf papers/
-git clone bit:yagihiroki/papers.git
-cd papers/
-ls
-cd AsymmetricPostmatingIsolation/
-ls
-cdcd
-cd  
-cd Documents/
-ls
-cd SiroToKuroNoTobira
-mkdir SiroToKuroNoTobira
-cd SiroToKuroNoTobira/
-ls
-ls
-cd ../
-ls
-mv SiroToKuroNoTobira/ Automata
-cd Automata/
-ls
-cd ../
-ls
-cd
-cd Documents/Automata/
-ls
-cd ../
-ls
-cd COMPILER/
-ls
-cd
-cd Documents/
-ls
-mkdir Clojure
-cd Clojure/
-ls
-lein -v
-cd Documents/Clojure/
-ls
-lein new app my-stuff
-ls
-cd my-stuff/
-ls
-cd ../
-ls
-lein new my-proj
-cd my-stuff/
-cd ..
-ls
-cd my-proj/
 ls
 tree
-cd Documents/Clojure/
+./hello_world
+cd ../../
 ls
-cd my-proj/
 ls
-cd
-cd Documents/
+cargo run
+cargo run
+cargo run
+cat Cargo.lock
+cd ../
 ls
-mkdir Rust
-cd Rust/
+cd hello_world/
+cd ../
 ls
-cd 
-cd /usr/local/
+cargo new hoge
+cd hoge/
 ls
-cd bin/
+tree
+cd ../
 ls
-cd
+rm -rf hoge/
+cargo new hello_world2 --bin
 ls
-cargo
-cd Documents/
-cd Rust/
+cd hello_world2/
 ls
-cargo install racer
+cargo run
+cargo run
+cd ../
+ls
+cargo new guessing_game --bin
+cd guessing_game/
+ls
+cargo build
+ls
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo build
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+1
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cargo run
+cd ../
+cargo new syntax01 --bin
+cd syntax01/
+ls
+cargo run
+cargo run
+cargo run
+cargo build
+cargo build
+cargo build
