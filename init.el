@@ -6,8 +6,8 @@
 ;;                   nil
 ;;                   'append)
 ;; (add-to-list 'default-frame-alist '(font . "fontset-ricty"))
-
 (add-to-list 'default-frame-alist '(font . "ricty-14"))
+(set-locale-environment nil)
 (prefer-coding-system 'utf-8)
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key [(super f)] 'toggle-frame-fullscreen)
@@ -21,7 +21,8 @@
 (set-scroll-bar-mode nil)
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 (fset 'yes-or-no-p 'y-or-n-p)
-; (setq default-tab-width 2)
+;; (setq default-tab-width 2)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; serverstart for emacs-client
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -108,6 +109,8 @@
 (add-hook 'cider-repl-mode-hook 'turn-off-smartparens-mode)
 (add-hook 'slime-mode-hook 'turn-off-smartparens-mode)
 (add-hook 'slime-repl-mode-hook 'turn-off-smartparens-mode)
+(add-hook 'j-mode-hook 'turn-off-smartparens-mode)
+(add-hook 'inferior-j-mode-hook 'turn-off-smartparens-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; paredit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -259,7 +262,7 @@
     ("~/Documents/Jugyou/2016/ComputerArchitecture/ca.org")))
  '(package-selected-packages
    (quote
-    (toml-mode ac-racer racer quickrun flycheck-rust rust-mode ac-cider cider clojure-mode php-mode inf-ruby slime helm auto-complete zenburn-theme yasnippet yaml-mode web-mode sql-indent smartparens scss-mode scheme-complete ruby-end ruby-block robe rinari quack projectile-rails pretty-lambdada popwin php-eldoc paredit org o-blog nyan-mode nginx-mode magit js2-mode inf-php helm-projectile haml-mode graphviz-dot-mode google-translate flymake-ruby flymake flycheck epc emms emmet-mode direx color-theme-zenburn chicken-scheme bind-key auto-complete-clang anzu ac-slime ac-inf-ruby ac-html ac-helm)))
+    (j-mode elpy nand2tetris py-autopep8 jedi ess toml-mode ac-racer racer quickrun flycheck-rust rust-mode ac-cider cider clojure-mode php-mode inf-ruby slime helm auto-complete zenburn-theme yasnippet yaml-mode web-mode sql-indent smartparens scss-mode scheme-complete ruby-end ruby-block robe rinari quack projectile-rails pretty-lambdada popwin php-eldoc paredit org o-blog nyan-mode nginx-mode magit js2-mode inf-php helm-projectile haml-mode graphviz-dot-mode google-translate flymake-ruby flymake flycheck epc emms emmet-mode direx color-theme-zenburn chicken-scheme bind-key auto-complete-clang anzu ac-slime ac-inf-ruby ac-html ac-helm)))
  '(quack-default-program "csi"))
 ;; 追加設定
 (defcustom eshell-prompt-regexp-lastline "^[#$] "
@@ -559,6 +562,17 @@
      (add-to-list 'ac-modes 'cider-mode)
      (add-to-list 'ac-modes 'cider-repl-mode)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; R (ESS)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'ess)
+(defun myindent-ess-hook ()
+  (setq ess-indent-level 2))
+(add-hook 'ess-mode-hook 'myindent-ess-hook)
+(add-hook 'inferior-ess-mode-hook
+	  (lambda ()
+	    (smartparens-mode t)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; RUBY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'inf-ruby)
@@ -814,6 +828,87 @@
 (package-install 'graphviz-dot-mode)
 (require 'graphviz-dot-mode)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; J APL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'j-mode)
+(require 'j-mode)
+(setq auto-mode-alist
+      (cons '("\\.ij[rstp]" . j-mode) auto-mode-alist))
+(setq j-console-cmd "jc")
+(setq j-help-local-dictionary-url "file:///Users/yagi/j64-804/addons/docs/help/dictionary/")
+
+(defun j-console-send-region ( start end )
+  "Sends current region to the j-console-cmd session and exectues it"
+  (interactive "r")
+  (when (= start end)
+    (error "Region is empty"))
+  (let ((region (buffer-substring-no-properties start end))
+	(session (j-console-ensure-session)))
+    (comint-send-string session (format "\n%s" region))))
+
+(defun j-console-send-line ()
+  "Sends current line to the j-console-cmd session and exectues it"
+  (interactive)
+  (j-console-send-region (point-at-bol) (point-at-eol)))
+
+(defun j-console-send-buffer ()
+  "Sends current buffer to the j-console-cmd session and exectues it"
+  (interactive)
+  (j-console-send-region (point-min) (point-max)))
+
+(add-hook 'j-mode-hook
+	  (lambda ()
+	    (define-key j-mode-map (kbd "C-c C-b") 'j-console-send-region)
+	    (define-key j-mode-map (kbd "C-c C-l") 'j-console-send-line)
+	    (define-key j-mode-map (kbd "C-c C-c") 'j-console-send-buffer)
+	    (custom-set-faces
+	     '(j-verb-face ((t (:foreground "Red"))))
+	     '(j-adverb-face ((t (:foreground "Green"))))
+	     '(j-conjunction-face ((t (:foreground "#ffc125"))))
+	     '(j-other-face ((t (:foreground "#3b99fc")))))))
+
+(add-hook 'inferior-j-mode-hook
+	  (lambda ()
+	    (define-key inferior-j-mode-map (kbd "C-c C-h") 'j-help-lookup-symbol-at-point)
+	    (define-key inferior-j-mode-map (kbd "C-c h") 'j-help-lookup-symbol)
+	    (set-syntax-table j-font-lock-syntax-table)
+	    (set (make-local-variable 'comment-start)
+		 "NB. ")
+	    (set (make-local-variable 'comment-start-skip)
+		 "\\(\\(^\\|[^\\\\\n]\\)\\(\\\\\\\\\\)*\\)NB. *")
+	    (set (make-local-variable 'font-lock-comment-start-skip)
+		 "NB. *")
+	    (set (make-local-variable 'font-lock-defaults)
+		 '(j-font-lock-keywords
+		   nil nil nil nil
+		   ;;(font-lock-mark-block-function . mark-defun)
+		   (font-lock-syntactic-face-function
+		    . j-font-lock-syntactic-face-function)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;PYTHON
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'jedi)
+(package-install 'py-autopep8)
+(require 'python)
+(require 'flycheck)
+(require 'jedi)
+(require 'py-autopep8)
+(add-hook 'python-mode-hook
+	  (lambda ()
+	    (jedi:setup)
+	    (jedi:ac-setup)
+	    (add-hook 'before-save-hook 'py-autopep8-before-save)))
+(setq python-shell-interpreter "ipython"
+     python-shell-interpreter-args "-i --colors=linux --matplotlib")
+(add-hook 'inferior-python-mode
+	  (lambda ()
+	    (jedi:setup)
+	    (jedi:ac-setup)))
+(setq jedi:complete-on-dot t)
+(setq jedi:tooltip-method nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Perl
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -838,6 +933,12 @@
 	  (lambda ()
 	    (sql-set-product "postgres")
 	    (auto-complete-mode +1)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; EWW BROWSER
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq browse-url-browser-function 'browse-url-default-browser)
+;; (setq browse-url-browser-function 'eww-browse-url)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GOOGLE
@@ -890,6 +991,11 @@
 (setq emms-repeat-playlist t)
 (setq emms-player-list '(emms-player-mplayer))
 (setq emms-source-file-default-directory "~/Music/")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; nand2tetris
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'nand2tetris)
+(require 'nand2tetris)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; COLOR THEME
