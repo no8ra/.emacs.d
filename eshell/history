@@ -1,128 +1,128 @@
+mkdir CPS
+cd CPS/
 ls
-mv README.org projects/
+cd
+cd go/src/github.com/h8gi/
 ls
+cd rgors/
+ls
+cat cps.go 
+rm cps.go\~
+rm cps.go 
+ls
+go test
+go test
+go test
+go test
+go test
+go test
+go test
+go test
+go test
+go test
+go test
+go test -v
+go test -v
+go test 
+go test
+go test
+go test
+cd
+cd Documents/SECD/
+ls
+cd ../Rust/
+ls
+curl https://sh.rustup.rs -sSf | sh
+ls
+ls
+cd syntax_and_semantics/
+ls
+cd ..
+ls
+mkdir projects
 cd projects/
 ls
-cd hello_world/
-ls
-ls
-rustc main.rs 
-ls
-./main 
-./main 
-ls
-cd ../
-ls
-cat README.org 
-ls
-ls
-rm ../README.org 
-ls
-ls
-scp hello_world/main h8gi:~/
-cargo --version
-ls
-cd hello_world/
-ls
-mkdir src
-mv main.rs src/
-rm main\~
-ls
-rm main.rs\~
-rm main 
-cargo build
-ls
-cat Cargo.toml
-cat Cargo.lock 
-cd target/
-ls
-cd debug/
-ls
-./hello_world.dSYM/
-cd ../
-ls
-tree
-./hello_world
-cd ../../
-ls
-ls
-cargo run
-cargo run
-cargo run
-cat Cargo.lock
-cd ../
-ls
-cd hello_world/
-cd ../
-ls
-cargo new hoge
-cd hoge/
-ls
-tree
-cd ../
-ls
-rm -rf hoge/
-cargo new hello_world2 --bin
-ls
-cd hello_world2/
-ls
-cargo run
-cargo run
-cd ../
-ls
+which cargo
+cargo new guessing_game
+rm -rf guessing_game/
 cargo new guessing_game --bin
 cd guessing_game/
 ls
-cargo build
 ls
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo build
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-1
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cargo run
-cd ../
-cargo new syntax01 --bin
-cd syntax01/
+cd
+cd go/src/github.com/h8gi/rgors/
 ls
-cargo run
-cargo run
-cargo run
-cargo build
-cargo build
-cargo build
+ls
+rm secd.go\~
+rm secd.go 
+ls
+ls
+ls
+ls
+ls
+ls
+rm compile.go 
+ls
+ls
+git pull
+ls
+rm *~
+ls
+cd
+cd src/6sv/
+cd ..
+ls
+cd
+ls
+cd Projects/
+cd LA/
+ls
+cd go/src/github.com/h8gi/
+ls
+cd rgors/
+ls
+git tag 
+git tag v0.1 v0.1.0
+git tag v0.1.0 v0.1
+git tag
+host
+unko
+cd
+cd LA
+cd Projects/LA/
+ls
+cd db/data/
+ls
+cat stdnt2017.csv 
+cat staffs2017.csv 
+od -bc staffs2017.csv 
+cd ../..
+ls
+bundle exec racksh
+cd
+cd go/src/github.com/h8gi/rgors/
+ls
+cd
+cd Documents/
+ls
+cd Scheme/
+ls
+cd ..
+ls
+cd byol/
+ls
+mkdir scheme
+cd scheme/
+ls
+cdcd
+cd  
+cd
+cd Documents/
+ls
+cd ProjectEuler/
+ls
+cd ..
+ls
+mkdir SML
+cd SML/
+ls

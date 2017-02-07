@@ -22,7 +22,9 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; (setq default-tab-width 2)
-
+(setq default-tab-width 4)
+; (setq visible-bell t)
+(setq ring-bell-function 'ignore)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; serverstart for emacs-client
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -109,8 +111,6 @@
 (add-hook 'cider-repl-mode-hook 'turn-off-smartparens-mode)
 (add-hook 'slime-mode-hook 'turn-off-smartparens-mode)
 (add-hook 'slime-repl-mode-hook 'turn-off-smartparens-mode)
-(add-hook 'j-mode-hook 'turn-off-smartparens-mode)
-(add-hook 'inferior-j-mode-hook 'turn-off-smartparens-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; paredit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -234,35 +234,35 @@
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-    ("cdbd0a803de328a4986659d799659939d13ec01da1f482d838b68038c1bb35e8" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" "158ca85e9f3eacdcbfc43163200b62c900ae5f64ba64819dbe4b27655351c051" "f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
+	("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "cdbd0a803de328a4986659d799659939d13ec01da1f482d838b68038c1bb35e8" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" "158ca85e9f3eacdcbfc43163200b62c900ae5f64ba64819dbe4b27655351c051" "f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
  '(eshell-prompt-function
    (lambda nil
-     (concat "[ "
-	     (format-time-string "%Y/%m/%d %H:%M")
-	     " | "
-	     (user-login-name)
-	     "@"
-	     (system-name)
-	     " ]
+	 (concat "[ "
+			 (format-time-string "%Y/%m/%d %H:%M")
+			 " | "
+			 (user-login-name)
+			 "@"
+			 (system-name)
+			 " ]
 " "["
-	     (abbreviate-file-name
-	      (eshell/pwd))
-	     "]
+			 (abbreviate-file-name
+			  (eshell/pwd))
+			 "]
 "
-	     (if
-		 (=
-		  (user-uid)
-		  0)
-		 "#" "$")
-	     " ")))
+			 (if
+				 (=
+				  (user-uid)
+				  0)
+				 "#" "$")
+			 " ")))
  '(eshell-prompt-regexp "^\\(\\[[^]
 ]+\\]\\|[$#] \\)")
  '(org-agenda-files
    (quote
-    ("~/Documents/Jugyou/2016/ComputerArchitecture/ca.org")))
+	("~/Documents/Jugyou/2016/ComputerArchitecture/ca.org")))
  '(package-selected-packages
    (quote
-    (j-mode elpy nand2tetris py-autopep8 jedi ess toml-mode ac-racer racer quickrun flycheck-rust rust-mode ac-cider cider clojure-mode php-mode inf-ruby slime helm auto-complete zenburn-theme yasnippet yaml-mode web-mode sql-indent smartparens scss-mode scheme-complete ruby-end ruby-block robe rinari quack projectile-rails pretty-lambdada popwin php-eldoc paredit org o-blog nyan-mode nginx-mode magit js2-mode inf-php helm-projectile haml-mode graphviz-dot-mode google-translate flymake-ruby flymake flycheck epc emms emmet-mode direx color-theme-zenburn chicken-scheme bind-key auto-complete-clang anzu ac-slime ac-inf-ruby ac-html ac-helm)))
+	(sml-mode haskell-mode go-eldoc go-mode scala-mode scala-mode2 julia-mode llvm-mode j-mode elpy nand2tetris py-autopep8 jedi ess toml-mode ac-racer racer quickrun flycheck-rust rust-mode ac-cider cider clojure-mode php-mode inf-ruby slime helm auto-complete zenburn-theme yasnippet yaml-mode web-mode sql-indent smartparens scss-mode scheme-complete ruby-end ruby-block robe rinari quack projectile-rails pretty-lambdada popwin php-eldoc paredit org o-blog nyan-mode nginx-mode magit js2-mode inf-php helm-projectile haml-mode graphviz-dot-mode google-translate flymake-ruby flymake flycheck epc emms emmet-mode direx color-theme-zenburn chicken-scheme bind-key auto-complete-clang anzu ac-slime ac-inf-ruby ac-html ac-helm)))
  '(quack-default-program "csi"))
 ;; 追加設定
 (defcustom eshell-prompt-regexp-lastline "^[#$] "
@@ -565,12 +565,32 @@
 ;;; R (ESS)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'ess)
+(require 'ess-site)
 (defun myindent-ess-hook ()
   (setq ess-indent-level 2))
 (add-hook 'ess-mode-hook 'myindent-ess-hook)
 (add-hook 'inferior-ess-mode-hook
 	  (lambda ()
-	    (smartparens-mode t)))
+	    (smartparens-mode t)
+	    (auto-complete-mode t)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Julia
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'julia-mode)
+(add-hook 'julia-mode
+	  (lambda ()
+	    (setq julia-indent-offset 4)
+	    (ess-julia-mode)
+	    (auto-complete-mode t)))
+
+
+(add-hook 'ess-julia-mode-hook
+	  (lambda ()
+	    (auto-complete-mode t)))
+
+(add-to-list 'ess-tracebug-search-path
+	     "/Applications/Julia-0.5.app/Contents/Resources/julia/share/julia/base")
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; RUBY
@@ -770,6 +790,21 @@
 (add-hook 'js2-mode-hook
 	  (lambda ()
 	    (setq js2-basic-offset 2)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Go
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'go-mode)
+(require 'go-mode)
+(require 'go-autocomplete)
+(package-install 'go-eldoc)
+(require 'go-eldoc)
+(add-hook 'go-mode-hook
+		  (lambda ()
+			(go-eldoc-setup)
+			(bind-key "C-?" 'godoc-at-point go-mode-map)
+			(define-key go-mode-map "\C-c\C-c" 'quickrun)))
+(add-hook 'before-save-hook 'gofmt-before-save)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rust
@@ -845,7 +880,7 @@
     (error "Region is empty"))
   (let ((region (buffer-substring-no-properties start end))
 	(session (j-console-ensure-session)))
-    (comint-send-string session (format "\n%s" region))))
+    (comint-send-string session (format "\n%s\n" region))))
 
 (defun j-console-send-line ()
   "Sends current line to the j-console-cmd session and exectues it"
@@ -857,6 +892,7 @@
   (interactive)
   (j-console-send-region (point-min) (point-max)))
 
+
 (add-hook 'j-mode-hook
 	  (lambda ()
 	    (define-key j-mode-map (kbd "C-c C-b") 'j-console-send-region)
@@ -866,7 +902,11 @@
 	     '(j-verb-face ((t (:foreground "Red"))))
 	     '(j-adverb-face ((t (:foreground "Green"))))
 	     '(j-conjunction-face ((t (:foreground "#ffc125"))))
-	     '(j-other-face ((t (:foreground "#3b99fc")))))))
+	     '(j-other-face ((t (:foreground "#3b99fc")))))
+	    (mapc (lambda (p)
+		    (sp-local-pair 'j-mode p nil :actions nil))
+		  '("{" "[" "\"" "`"))
+	    (auto-complete-mode t)))
 
 (add-hook 'inferior-j-mode-hook
 	  (lambda ()
@@ -884,7 +924,11 @@
 		   nil nil nil nil
 		   ;;(font-lock-mark-block-function . mark-defun)
 		   (font-lock-syntactic-face-function
-		    . j-font-lock-syntactic-face-function)))))
+		    . j-font-lock-syntactic-face-function)))
+	    (mapc (lambda (p)
+		    (sp-local-pair 'inferior-j-mode p nil :actions nil))
+		  '("{" "[" "\"" "`"))
+	    (auto-complete-mode t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;PYTHON
@@ -899,7 +943,8 @@
 	  (lambda ()
 	    (jedi:setup)
 	    (jedi:ac-setup)
-	    (add-hook 'before-save-hook 'py-autopep8-before-save)))
+										;; (add-hook 'before-save-hook 'py-autopep8-before-save)
+		))
 (setq python-shell-interpreter "ipython"
      python-shell-interpreter-args "-i --colors=linux --matplotlib")
 (add-hook 'inferior-python-mode
@@ -908,6 +953,42 @@
 	    (jedi:ac-setup)))
 (setq jedi:complete-on-dot t)
 (setq jedi:tooltip-method nil)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Haskell
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'haskell-mode)
+(add-hook 'haskell-mode-hook
+		  (lambda ()
+			(bind-key "C-c C-l" 'inferior-haskell-load-file haskell-mode-map)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Scala
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'scala-mode)
+(require 'scala-mode)
+
+(defun scala-eval-line ()
+  "Sends current line to the scala session"
+  (interactive)
+  (scala-eval-region (point-at-bol) (point-at-eol)))
+(defun scala-newline-indent ()
+  (interactive)
+  (scala-newline)
+  (scala-indent-line))
+(add-hook 'scala-mode-hook
+		  (lambda ()
+			(define-key scala-mode-map "\C-c\C-j" 'scala-eval-line)
+			(define-key scala-mode-map "\C-\M-x" 'scala-eval-definition)
+			(define-key scala-mode-map [return] 'scala-newline-indent)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; SML
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'sml-mode)
+(require 'sml-mode)
+(add-hook 'sml-mode-hook
+		  (lambda ()
+			(define-key sml-mode-map "\C-c\C-f" 'sml-send-function)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Perl
@@ -996,6 +1077,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-install 'nand2tetris)
 (require 'nand2tetris)
+(setq nand2tetris-tools-dir "/Users/yagi/Documents/nand2tetris/tools" )
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; COLOR THEME
@@ -1007,4 +1090,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(j-adverb-face ((t (:foreground "Green"))))
+ '(j-conjunction-face ((t (:foreground "#ffc125"))))
+ '(j-other-face ((t (:foreground "#3b99fc"))))
+ '(j-verb-face ((t (:foreground "Red")))))
