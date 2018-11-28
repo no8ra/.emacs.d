@@ -5,5 +5,5 @@
 ;; playlists: ((BUFFER_NAME SELECT_POSITION TRACKS) ...)
 nil
 ;; play method
-((emms-repeat-track) (emms-repeat-playlist . t))
+((emms-repeat-track) (emms-repeat-playlist))
 )

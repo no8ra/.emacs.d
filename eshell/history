@@ -1,128 +1,128 @@
-mkdir CPS
-cd CPS/
+cp single.php category.php
 ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+cp category.php index.php 
+ls
+cat index.php 
+ls
+ls
+cp category.php category-news.php
 cd
-cd go/src/github.com/h8gi/
+cd Projects/ca/v-ca/
 ls
-cd rgors/
-ls
-cat cps.go 
-rm cps.go\~
-rm cps.go 
-ls
-go test
-go test
-go test
-go test
-go test
-go test
-go test
-go test
-go test
-go test
-go test
-go test -v
-go test -v
-go test 
-go test
-go test
-go test
-cd
-cd Documents/SECD/
-ls
-cd ../Rust/
-ls
-curl https://sh.rustup.rs -sSf | sh
-ls
-ls
-cd syntax_and_semantics/
 ls
 cd ..
 ls
-mkdir projects
-cd projects/
-ls
-which cargo
-cargo new guessing_game
-rm -rf guessing_game/
-cargo new guessing_game --bin
-cd guessing_game/
-ls
-ls
-cd
-cd go/src/github.com/h8gi/rgors/
-ls
-ls
-rm secd.go\~
-rm secd.go 
 ls
 ls
 ls
+cd ca-explorer/
 ls
+cd Projects/ca/go-forth/
 ls
+go build main.go 
 ls
-rm compile.go 
+mv vm/ lib
 ls
+mv stack/stack.go lib/
 ls
-git pull
+rmdir stack
 ls
-rm *~
-ls
-cd
-cd src/6sv/
-cd ..
-ls
-cd
-ls
-cd Projects/
-cd LA/
-ls
-cd go/src/github.com/h8gi/
-ls
-cd rgors/
-ls
-git tag 
-git tag v0.1 v0.1.0
-git tag v0.1.0 v0.1
-git tag
-host
-unko
-cd
-cd LA
-cd Projects/LA/
-ls
-cd db/data/
-ls
-cat stdnt2017.csv 
-cat staffs2017.csv 
-od -bc staffs2017.csv 
-cd ../..
-ls
-bundle exec racksh
-cd
-cd go/src/github.com/h8gi/rgors/
-ls
-cd
-cd Documents/
-ls
-cd Scheme/
+mv lib/ vm
+cd vm/
 ls
 cd ..
 ls
-cd byol/
+go build 
+./go-forth 
+rm -rf stack/
 ls
-mkdir scheme
-cd scheme/
+cd vm/
 ls
-cdcd
-cd  
+ls
+ls
 cd
-cd Documents/
+cd Downloads/gforth-0.7.3/
 ls
-cd ProjectEuler/
+cd engine/
+cd
+cd Projects/ca/go-forth/
+ls
+cd ../../
+mkdir sentan
+cd sentan/
+ls
+ls
+cd ../swamp/
+ls
+ls
+ls
+cd swamp-vomitter/
+ls
+cd src/
+ls
+ls
+cd assets/
+ls
+rm logo.png 
 ls
 cd ..
 ls
-mkdir SML
-cd SML/
+ls
+cd components/
+ls
+cp HelloWorld.vue Home.vue
+ls
+ls
+rm HelloWorld.vue 
+ls
+cd ..
+ls
+ls
+ls
+cd plugins/
+ls
+ls
+cd ../../
+ls
+git init
+ls
+ls
+ls
+ls
+ls
+ls
+git remote add origin http://tivoli.ska.life.tsukuba.ac.jp:8888/yagi/swamp-vomitter.git
+git push origin master
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+cd middleware/
+ls
+cd ..
+cd plugins/
+ls
+ls
+cd ..
+ls
+cd pages/
+ls
+ls
+cd rules/
 ls

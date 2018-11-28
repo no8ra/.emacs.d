@@ -1,4 +1,4 @@
-;; -*- emacs-lisp -*- <16/09/28 17:27:14 /Users/yagi/.emacs.d/tramp>
+;; -*- emacs-lisp -*- <17/10/24 21:38:06 /Users/yagi/.emacs.d/tramp>
 ;; Tramp connection history.  Don't change this file.
 ;; You can delete it, forcing Tramp to reapply the checks.
 
@@ -27,4 +27,6 @@
   ("touch-t" t)
   ("touch" "\\touch")
   ("ls" "/bin/ls --color=never")
-  ("ls-dired" t)))
+  ("ls-dired" t))
+ (["scp" nil "package" nil nil]
+  nil))

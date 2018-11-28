@@ -25,6 +25,10 @@
 (setq default-tab-width 4)
 ; (setq visible-bell t)
 (setq ring-bell-function 'ignore)
+;; linum format
+(setq linum-format " %d ")
+(require 'let-alist)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; serverstart for emacs-client
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -35,10 +39,18 @@
 ;; PACKAGE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'package)
-;;; Add melpa
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;;; Add marmalade
-(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+;; MELPAを追加
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
+;; MELPA-stableを追加
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+;; Marmaladeを追加
+(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/") t)
+
+;; Orgを追加
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
 (package-initialize)
 ;; (package-refresh-contents)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -54,11 +66,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; bind key
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'bind-key)
+;; (package-install 'bind-key)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto complete
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'auto-complete)
+;; (package-install 'auto-complete)
 (require 'auto-complete-config)
 (ac-config-default)
 (when (require 'auto-complete nil t)
@@ -68,23 +80,43 @@
   (bind-key "C-n" 'ac-next ac-complete-mode-map)
   (bind-key "C-p" 'ac-previous ac-complete-mode-map))
 (global-set-key "\C-x\C-@" 'auto-complete-mode)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; auto insert 
+;;; company mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'company)
+(define-key company-active-map (kbd "M-n") nil)
+(define-key company-active-map (kbd "M-p") nil)
+(define-key company-active-map (kbd "C-h") nil)
+;; C-n, C-pで補完候補を次/前の候補を選択
+(define-key company-active-map (kbd "C-n") 'company-select-next)
+(define-key company-active-map (kbd "C-p") 'company-select-previous)
+(define-key company-search-map (kbd "C-n") 'company-select-next)
+(define-key company-search-map (kbd "C-p") 'company-select-previous)
+
+;; C-sで絞り込む
+(define-key company-active-map (kbd "C-s") 'company-filter-candidates)
+(define-key company-active-map (kbd "C-i") 'company-complete-selection)
+(define-key company-active-map [tab] 'company-complete)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; auto insert
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'autoinsert)
 (add-hook 'find-file-hooks 'auto-insert)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; anzu
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'anzu)
+;; (package-install 'anzu)
 (require 'anzu)
 (global-anzu-mode +1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; smartparens
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'smartparens)
-(bind-keys 
- :map smartparens-mode-map   
+;; (package-install 'smartparens)
+(bind-keys
+ :map smartparens-mode-map
  ("M-l" . sp-forward-barf-sexp)
  ("M-h" . sp-backward-barf-sexp)
  ("M-j" . sp-backward-slurp-sexp)
@@ -92,14 +124,14 @@
 
  ("M-u" . sp-splice-sexp-killing-backward)
 ; ("M-i" . sp-splice-sexp-killing-forward)
- 
+
  ("C-M-<backspace>"   . sp-backward-kill-sexp)
  ("C-M-a" . sp-beginning-of-sexp)
  ("C-M-e" . sp-end-of-sexp)
  ("C-M-f" . sp-forward-sexp)
  ("C-M-b" . sp-backward-sexp)
  ("C-M-n" . sp-next-sexp)
- ("C-M-p" . sp-previous-sexp)   
+ ("C-M-p" . sp-previous-sexp)
  )
 
 (smartparens-global-mode)
@@ -114,10 +146,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; paredit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'paredit)
+;; (package-install 'paredit)
 (when (require 'paredit)
-  (bind-keys 
-   :map paredit-mode-map   
+  (bind-keys
+   :map paredit-mode-map
    ("M-l" . paredit-forward-barf-sexp)
    ("M-h" . paredit-backward-barf-sexp)
    ("M-j" . paredit-backward-slurp-sexp)
@@ -125,7 +157,7 @@
 
    ("M-u" . paredit-splice-sexp-killing-backward)
 ;   ("M-i" . paredit-splice-sexp-killing-forward)
-   
+
    ("C-h" . paredit-backward-delete)
    ("C-M-f" . paredit-forward)
    ("C-M-b" . paredit-backward)
@@ -142,8 +174,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; helm
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'helm)
-(package-install 'ac-helm)
+;; (package-install 'helm)
+;; (package-install 'ac-helm)
 (require 'helm-config)
 (require 'ac-helm)
 (helm-mode 1)
@@ -216,7 +248,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; YASNIPPET
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'yasnippet)
+;; (package-install 'yasnippet)
 (yas-global-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ESHELL
@@ -230,11 +262,12 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+ '(company-minimum-prefix-length 2)
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-	("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "cdbd0a803de328a4986659d799659939d13ec01da1f482d838b68038c1bb35e8" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" "158ca85e9f3eacdcbfc43163200b62c900ae5f64ba64819dbe4b27655351c051" "f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
+	("ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "cdfc5c44f19211cfff5994221078d7d5549eeb9feda4f595a2fd8ca40467776c" "14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "cdbd0a803de328a4986659d799659939d13ec01da1f482d838b68038c1bb35e8" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" "158ca85e9f3eacdcbfc43163200b62c900ae5f64ba64819dbe4b27655351c051" "f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "07dda9a3249f9ac909e7e0dc3c8876fd45898aa21646e093148dbd6ebb294f66" default)))
  '(eshell-prompt-function
    (lambda nil
 	 (concat "[ "
@@ -262,7 +295,7 @@
 	("~/Documents/Jugyou/2016/ComputerArchitecture/ca.org")))
  '(package-selected-packages
    (quote
-	(sml-mode haskell-mode go-eldoc go-mode scala-mode scala-mode2 julia-mode llvm-mode j-mode elpy nand2tetris py-autopep8 jedi ess toml-mode ac-racer racer quickrun flycheck-rust rust-mode ac-cider cider clojure-mode php-mode inf-ruby slime helm auto-complete zenburn-theme yasnippet yaml-mode web-mode sql-indent smartparens scss-mode scheme-complete ruby-end ruby-block robe rinari quack projectile-rails pretty-lambdada popwin php-eldoc paredit org o-blog nyan-mode nginx-mode magit js2-mode inf-php helm-projectile haml-mode graphviz-dot-mode google-translate flymake-ruby flymake flycheck epc emms emmet-mode direx color-theme-zenburn chicken-scheme bind-key auto-complete-clang anzu ac-slime ac-inf-ruby ac-html ac-helm)))
+	(ctags-update ctags go-eldoc go-autocomplete css-eldoc htmlize graphql-mode nodejs-repl cargo markdown-mode inf-mongo cider js2-mode ac-js2 haskell-mode scala-mode2 llvm-mode j-mode elpy jedi ac-racer flycheck-rust ac-cider inf-ruby helm auto-complete sql-indent ruby-block quack pretty-lambdada o-blog nyan-mode nginx-mode magit inf-php helm-projectile haml-mode graphviz-dot-mode flymake-ruby flymake flycheck epc emms emmet-mode direx color-theme-zenburn chicken-scheme bind-key auto-complete-clang anzu ac-slime ac-inf-ruby ac-html ac-helm)))
  '(quack-default-program "csi"))
 ;; 追加設定
 (defcustom eshell-prompt-regexp-lastline "^[#$] "
@@ -276,7 +309,7 @@
       (re-search-forward eshell-prompt-regexp-lastline nil t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; OTHER WINDOW 
+;;; OTHER WINDOW
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun other-window-or-split ()
@@ -326,23 +359,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; QuickRun
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'quickrun)
+;; (package-install 'quickrun)
 (require 'quickrun)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; FLYCHECK
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'flycheck)
+;; (package-install 'flycheck)
 (require 'flycheck)
 ;; (add-hook 'after-init-hook #'global-flycheck-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; CLANG
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'auto-complete-clang)
+;; (package-install 'auto-complete-clang)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; LISP (SLIME)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'slime)
-(package-install 'ac-slime)
+;; (package-install 'slime)
+;; (package-install 'ac-slime)
 (require 'slime)
 (require 'ac-slime)
 (slime-setup '(slime-repl slime-fancy slime-banner))
@@ -352,7 +385,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; popwin
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'popwin)
+;; (package-install 'popwin)
 (require 'popwin)
 (require 'popup)
 (setq display-buffer-function 'popwin:display-buffer)
@@ -385,8 +418,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; SCHEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'chicken-scheme)
-(package-install 'pretty-lambdada)
+;; (package-install 'chicken-scheme)
+;; (package-install 'pretty-lambdada)
 (require 'chicken-scheme)
 (setq scheme-program-name "csi -qw")
 (defvar my-paredit-paren-prefix-pat-chicken
@@ -457,24 +490,25 @@
 (define-key global-map "\C-cs" 'scheme-other-window)
 (defun my-scheme-hook ()
   (set (make-variable-buffer-local
-	'paredit-space-for-delimiter-predicates)
+		'paredit-space-for-delimiter-predicates)
        (list #'paredit-space-for-delimiter-p-chicken))
   (setup-chicken-scheme)
   (enable-paredit-mode)
   (auto-complete-mode t)
   (bind-key "C-?" 'chicken-show-help scheme-mode-map)
-  (pretty-lambda-mode t))
+  (pretty-lambda-mode t)
+  (set (make-local-variable 'indent-tabs-mode) nil))
 (add-hook 'scheme-mode-hook
 	  (lambda ()
 	    (my-scheme-hook)))
 (add-hook 'inferior-scheme-mode-hook
 	  (lambda ()
 	    (my-scheme-hook)))
-(setq auto-insert-alist 
-      '(("\\.scm" . 
+(setq auto-insert-alist
+      '(("\\.scm" .
          (insert "#!/bin/sh\n#| -*- scheme -*-\nexec csi -s $0 \"$@\"\n|#\n"))))
-;; from shiro  gauche info 
-;; 
+;; from shiro  gauche info
+;;
 (put 'and-let* 'scheme-indent-function 1)
 (put 'begin0 'scheme-indent-function 0)
 (put 'call-with-client-socket 'scheme-indent-function 1)
@@ -548,9 +582,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; CLOJURE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'clojure-mode)
-(package-install 'cider)
-(package-install 'ac-cider)
+;;; ;; (package-install 'clojure-mode)
+;; (package-install 'cider)
+;; (package-install 'ac-cider)
 (require 'clojure-mode)
 (require 'cider)
 (require 'ac-cider)
@@ -564,7 +598,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; R (ESS)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'ess)
+;; (package-install 'ess)
 (require 'ess-site)
 (defun myindent-ess-hook ()
   (setq ess-indent-level 2))
@@ -576,38 +610,35 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Julia
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'julia-mode)
+;; (package-install 'julia-mode)
 (add-hook 'julia-mode
 	  (lambda ()
 	    (setq julia-indent-offset 4)
 	    (ess-julia-mode)
 	    (auto-complete-mode t)))
 
-
 (add-hook 'ess-julia-mode-hook
 	  (lambda ()
 	    (auto-complete-mode t)))
 
 (add-to-list 'ess-tracebug-search-path
-	     "/Applications/Julia-0.5.app/Contents/Resources/julia/share/julia/base")
-
+	     "/Applications/Julia-0.6.app/Contents/Resources/julia/share/julia/base")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; RUBY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'inf-ruby)
-(package-install 'flymake-ruby)
-(package-install 'robe )
-(package-install 'ruby-end)
-(package-install 'ruby-block)
-; (package-install 'rhtml-mode)
+;; (package-install 'inf-ruby)
+;; (package-install 'flymake-ruby)
+;; (package-install 'robe )
+;; (package-install 'ruby-end)
+;; (package-install 'ruby-block)
+; ;; (package-install 'rhtml-mode)
 (require 'ruby-end)
 (require 'ruby-block)
 (require 'ac-robe)
 (require 'flymake-ruby)
 (require 'robe)
 ; (require 'rhtml-mode)
-
 (add-hook 'ruby-mode-hook
 	  (lambda ()
 	    (inf-ruby-minor-mode)
@@ -632,9 +663,9 @@
 	    ))
 
 ;;; rails
-(package-install 'rinari)
+;; (package-install 'rinari)
 (require 'rinari)
-(global-rinari-mode)
+;;; (global-rinari-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GFORTH
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -664,18 +695,20 @@
 	    (bind-key "C-c C-z" 'forth-switch-to-interactive inferior-forth-mode-map)
 	    (auto-complete-mode t)))
 
+;; (require '8th-mode)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GIT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'magit)
+;; (package-install 'magit)
 (require 'magit)
 (bind-key "C-x g" 'magit-status global-map)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; direx
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'direx)
+;; (package-install 'direx)
 (require 'direx-project)
 (push '(direx:direx-mode :position left :width 25 :dedicated t)
       popwin:special-display-config)
@@ -690,20 +723,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; nginx
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'nginx-mode)
+;; (package-install 'nginx-mode)
 (require 'nginx-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; web-mode emmet-mode 
+;;; web-mode emmet-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'web-mode)
-(package-install 'emmet-mode)
-(package-install 'ac-html)
+;; (package-install 'web-mode)
+;; (package-install 'emmet-mode)
+;; (package-install 'ac-html)
 (require 'web-mode)
 (require 'emmet-mode)
 (require 'ac-html)
 (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook (lambda ()
+						   (setq css-indent-offset 2)))
+(setq css-indent-offset 2)
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
 
 (add-hook 'web-mode-hook
@@ -714,16 +750,15 @@
 	    (setq web-mode-css-indent-offset 2)
 	    (setq web-mode-code-indent-offset 2)
 	    ))
-
 (sp-with-modes '(web-mode)
   (sp-local-pair "<" ">")
   (sp-local-pair "<%" "%>"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; HTML, CSS, SCSS, HAML, yaml
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'scss-mode)
-(package-install 'haml-mode)
-(package-install 'yaml-mode)
+;; (package-install 'scss-mode)
+;; (package-install 'haml-mode)
+;; (package-install 'yaml-mode)
 (require 'yaml-mode)
 (require 'haml-mode)
 (require 'scss-mode)
@@ -757,10 +792,12 @@
 	    (define-key css-mode-map "\C-c\C-c" 'my-css-comment)
 	    (set (make-local-variable 'css-indent-offset) 2)
 	    ))
+
 (add-hook 'scss-mode-hook
-	  '(lambda ()
-	     (set (make-local-variable 'css-indent-offset) 2)
-	     (set (make-local-variable 'scss-compile-at-save) nil)))
+		  '(lambda ()
+			 (setq css-indent-offset 2)
+			 (set (make-local-variable 'css-indent-offset) 2)
+			 (set (make-local-variable 'scss-compile-at-save) nil)))
 ;; (add-hook 'yaml-mode-hook
 ;; 	  (lambda ()
 ;; 	    (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
@@ -768,72 +805,93 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; PHP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'php-mode)
-(package-install 'php-eldoc)
-(package-install 'inf-php)
+;; (package-install 'php-mode)
+;; (package-install 'php-eldoc)
+;; (package-install 'inf-php)
 (require 'inf-php)
 (require 'php-mode)
 (add-hook 'php-mode-hook
 	  (lambda ()
 	    (php-eldoc-enable)
-	    ;; (c-set-offset 'case-label' 4)
-	    ;; (c-set-offset 'arglist-intro' 4)
-	    ;; (c-set-offset 'arglist-cont-nonempty' 4)
+	    (c-set-offset 'case-label' 2)
+	    (c-set-offset 'arglist-intro' 2)
+	    (c-set-offset 'arglist-cont-nonempty' 2)
 	    ;; (c-set-offset 'arglist-close' 0)
+		(setq c-basic-offset 2)
 	    ))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; JavaScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'js2-mode)
+;; (package-install 'js2-mode)
 (require 'js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-hook 'js2-mode-hook
 	  (lambda ()
-	    (setq js2-basic-offset 2)))
+	    (setq js2-basic-offset 2)
+		(setq js2-strict-missing-semi-warning nil)))
+(add-hook 'js-mode-hook
+		  (lambda ()
+			(setq js-indent-level 2)
+			(set (make-local-variable 'indent-tabs-mode) nil)))
+
+(add-hook 'vue-mode-hook
+		  (lambda ()
+			(set (make-local-variable 'indent-tabs-mode) nil)
+			(set (make-local-variable 'vue-html-extra-indent) 2)
+			(add-to-list 'write-file-functions 'delete-trailing-whitespace)
+			))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Go
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'go-mode)
+;; (package-install 'go-mode)
 (require 'go-mode)
 (require 'go-autocomplete)
-(package-install 'go-eldoc)
+;; (package-install 'go-eldoc)
 (require 'go-eldoc)
 (add-hook 'go-mode-hook
 		  (lambda ()
 			(go-eldoc-setup)
 			(bind-key "C-?" 'godoc-at-point go-mode-map)
 			(define-key go-mode-map "\C-c\C-c" 'quickrun)))
+(setq gofmt-command "goimports")
 (add-hook 'before-save-hook 'gofmt-before-save)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rust
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'rust-mode)
-(package-install 'racer)
-(package-install 'ac-racer)
+;; (package-install 'rust-mode)
+;; (package-install 'racer)
+;; (package-install 'ac-racer)
+;; (package-install 'flycheck-rust)
 (require 'rust-mode)
 (require 'racer)
-(require 'ac-racer)
-(setq racer-rust-src-path "/Users/yagi/src/rustc-1.12.0/src")
+;; (require 'ac-racer)
+(require 'flycheck-rust)
+(with-eval-after-load 'rust-mode
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 (add-hook 'racer-mode-hook
-	  (lambda ()
-	    (ac-racer-setup)))
+		  (lambda ()
+			(eldoc-mode t)))
 (add-hook 'rust-mode-hook
-	  (lambda ()
-	    (define-key rust-mode-map "\C-c\C-c" 'quickrun)
-	    (racer-mode t)
-	    (eldoc-mode t)))
+		  (lambda ()
+			(cargo-minor-mode t)
+			(define-key rust-mode-map "\C-c\C-c" 'quickrun)
+			(racer-mode t)
+			(eldoc-mode t)
+			(company-mode t)
+			(flycheck-mode t)))
+(setq rust-format-on-save t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TOML
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'toml-mode)
+;; (package-install 'toml-mode)
 (require 'toml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ORG-MODE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'org)
+;; (package-install 'org)
 (require 'org)
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
@@ -850,23 +908,23 @@
  '((dot . t)))
 (require 'ox-latex)
 (setq org-latex-pdf-process
-			'("platex %f"
-				"platex %f"
-				"bibtex %b"
-				"platex %f"
-				"platex %f"
-				"dvipdfmx %b.dvi"))
+	  '("platex %f"
+		"platex %f"
+		"bibtex %b"
+		"platex %f"
+		"platex %f"
+		"dvipdfmx %b.dvi"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Graphviz
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'graphviz-dot-mode)
+;; (package-install 'graphviz-dot-mode)
 (require 'graphviz-dot-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; J APL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'j-mode)
+;; (package-install 'j-mode)
 (require 'j-mode)
 (setq auto-mode-alist
       (cons '("\\.ij[rstp]" . j-mode) auto-mode-alist))
@@ -933,8 +991,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;PYTHON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'jedi)
-(package-install 'py-autopep8)
+;; (package-install 'jedi)
+;; (package-install 'py-autopep8)
 (require 'python)
 (require 'flycheck)
 (require 'jedi)
@@ -964,7 +1022,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Scala
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'scala-mode)
+;; (package-install 'scala-mode)
 (require 'scala-mode)
 
 (defun scala-eval-line ()
@@ -983,11 +1041,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SML
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'sml-mode)
+;; (package-install 'sml-mode)
 (require 'sml-mode)
 (add-hook 'sml-mode-hook
 		  (lambda ()
-			(define-key sml-mode-map "\C-c\C-f" 'sml-send-function)))
+			(define-key sml-mode-map "\C-c\C-f" 'sml-send-function)
+			(sp-local-pair 'sml-mode "'" nil :actions nil)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1007,7 +1066,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; DATABASE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'sql-indent)
+;; (package-install 'sql-indent)
 (require 'sql-indent)
 (sql-set-product "postgres")
 (add-hook 'sql-mode
@@ -1036,7 +1095,7 @@
     (browse-url word)))
 (bind-key "C-M-g" 'google global-map)
 ;;; translate
-(package-install 'google-translate)
+;; (package-install 'google-translate)
 (require 'google-translate)
 (defvar google-translate-english-chars "[:ascii:]"
   "これらの文字が含まれているときは英語とみなす")
@@ -1064,26 +1123,26 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; EMMS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'emms)
-(require 'emms-setup)
-(require 'emms-i18n)
-(emms-standard)
-(emms-default-players)
-(setq emms-repeat-playlist t)
-(setq emms-player-list '(emms-player-mplayer))
-(setq emms-source-file-default-directory "~/Music/")
+;; (package-install 'emms)
+;; (require 'emms-setup)
+;; (require 'emms-i18n)
+;; (emms-standard)
+;; (emms-default-players)
+;; (setq emms-repeat-playlist t)
+;; (setq emms-player-list '(emms-player-mplayer))
+;; (setq emms-source-file-default-directory "~/Music/")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; nand2tetris
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'nand2tetris)
-(require 'nand2tetris)
-(setq nand2tetris-tools-dir "/Users/yagi/Documents/nand2tetris/tools" )
+;; ;; (package-install 'nand2tetris)
+;; (require 'nand2tetris)
+;; (setq nand2tetris-tools-dir "/Users/yagi/Documents/nand2tetris/tools" )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; COLOR THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(package-install 'zenburn-theme)
+;; (package-install 'zenburn-theme)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
