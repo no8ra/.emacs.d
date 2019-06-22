@@ -30,7 +30,7 @@
 (add-to-list 'gnutls-trustfiles "/usr/local/etc/openssl/cert.pem")
 
 ;;; customization
-(setq custom-file (locate-user-emacs-file "custom.el")) 
+(setq custom-file (locate-user-emacs-file "custom.el"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; serverstart for emacs-client
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -44,7 +44,7 @@
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
 	("melpa" . "http://melpa.org/packages/")
-	("melpa-stable" . "https://stable.melpa.org/packages/")
+	;; ("melpa-stable" . "https://stable.melpa.org/packages/")
 	("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 (unless package-archive-contents
@@ -97,6 +97,8 @@
 (use-package company
   :ensure t
   :config
+  ;; aligns annotation to the right hand side
+  (setq company-tooltip-align-annotations t)
   (define-key company-active-map (kbd "M-n") nil)
   (define-key company-active-map (kbd "M-p") nil)
   (define-key company-active-map (kbd "C-h") nil)
@@ -178,20 +180,30 @@
 	 (inferior-scheme-mode . enable-paredit-mode)
 	 (clojure-mode . enable-paredit-mode)
 	 (cider-repl-mode . enable-paredit-mode)))
-
-;; (add-hook 'scheme-mode-hook 'enable-paredit-mode)
-;; (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-;; (add-hook 'lisp-interacton-mode-hook 'enable-paredit-mode)
-;; (add-hook 'slime-mode-hook 'enable-paredit-mode)
-;; (add-hook 'slime-repl-mode-hook 'enable-paredit-mode)
-;; (add-hook 'inferior-scheme-mode-hook 'enable-paredit-mode)
-;; (add-hook 'clojure-mode-hook 'enable-paredit-mode)
-;; (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Language Server
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package eglot
+  :ensure t)
+(use-package lsp-mode
+  :ensure t)
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+(use-package helm-lsp
+  :ensure t
+  :commands helm-lsp-workspace-symbol)
+(use-package lsp-treemacs
+  :ensure t
+  :commands lsp-treemacs-errors-list)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; helm
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package helm
-  :ensure t 
+  :ensure t
   :init
   (require 'helm-config)
   (setq helm-ff-file-name-history-use-recentf t)
@@ -314,7 +326,7 @@
 (use-package slime
   :ensure t
   :config
-  (slime-setup '(slime-repl slime-fancy slime-banner))  
+  (slime-setup '(slime-repl slime-fancy slime-banner))
   (setq inferior-lisp-program "sbcl"))
 
 (use-package ac-slime
@@ -459,46 +471,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; RUBY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; (package-install 'inf-ruby)
-;; ;; (package-install 'flymake-ruby)
-;; ;; (package-install 'robe )
-;; ;; (package-install 'ruby-end)
-;; ;; (package-install 'ruby-block)
-;; 					; ;; (package-install 'rhtml-mode)
-;; (require 'ruby-end)
-;; (require 'ruby-block)
-;; (require 'ac-robe)
-;; (require 'flymake-ruby)
-;; (require 'robe)
-;; 					; (require 'rhtml-mode)
-;; (add-hook 'ruby-mode-hook
-;; 	  (lambda ()
-;; 	    (inf-ruby-minor-mode)
-;; 	    (robe-mode)
-;; 	    (flymake-ruby-load)
-;; 	    (ruby-block-mode t)
-;; 	    (define-key ruby-mode-map "\C-c\C-c" 'ruby-send-buffer)
-;; 	    (define-key ruby-mode-map "\C-c\C-j" 'ruby-send-line)
-;; 	    (when (require 'rcodetools)
-;; 	      (define-key ruby-mode-map (kbd "<C-tab>") 'rct-complete-symbol)
-;; 	      (define-key ruby-mode-map (kbd "<C-return>") 'xmp))
-;; 					;(eldoc-mode t)
-;; 	    ))
-;; (add-hook 'inf-ruby-mode-hook
-;; 	  (lambda ()
-;; 	    (robe-mode)
-;; 	    (auto-complete-mode t)
-;; 					;(eldoc-mode t)
-;; 	    ))
-;; (add-hook 'robe-mode-hook
-;; 	  (lambda ()
-;; 	    (ac-robe-setup)
-;; 	    ))
-
-;;; rails
-;; (package-install 'rinari)
-;; (require 'rinari)
-;;; (global-rinari-mode)
+(add-hook 'ruby-mode-hook 'eglot-ensure)
+(use-package inf-ruby
+  :ensure t)
+(use-package ruby-end
+  :ensure t)
+(use-package ruby-block
+  :ensure t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GFORTH
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -625,21 +604,29 @@
   (add-to-list 'write-file-functions 'delete-trailing-whitespace)
   (add-hook 'after-save-hook 'eslint-fix nil t)
   (setq vue-html-extra-indent js2-basic-offset))
-;; (package-install 'js2-mode)
 (use-package js2-mode
-  :ensure t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
-(add-hook 'js2-mode-hook
-	  (lambda ()
-	    (my-js-hook)))
+  (add-hook 'js2-mode-hook
+	    (lambda ()
+	      (my-js-hook))))
 (add-hook 'js-mode-hook
 	  (lambda ()
 	    (my-js-hook)))
-
-(add-hook 'vue-mode-hook
-	  (lambda ()
-	    (my-js-hook)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Vue
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package vue-mode
+  :ensure t
+  :config
+  (add-hook 'vue-mode-hook
+	    (lambda ()
+	      (my-js-hook)
+	      (auto-complete-mode -1)
+	      (company-mode +1)
+	      (lsp))))
 
 ;;; TypeScript
 (defun setup-tide-mode ()
@@ -654,8 +641,6 @@
   ;; `M-x package-install [ret] company`
   (company-mode +1))
 
-;; aligns annotation to the right hand side
-(setq company-tooltip-align-annotations t)
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
@@ -689,29 +674,25 @@
 
 ;; formats the buffer after saving
 (add-hook 'after-save-hook 'tslint-fix-file-and-revert)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Go
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package go-mode
   :commands go-mode
   :init
+  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
   (add-hook 'go-mode-hook
 	    (lambda ()
 	      (set (make-local-variable 'indent-tabs-mode) t)
-	      (auto-complete-mode -1)			  
-	      (company-mode +1)			  
+	      (auto-complete-mode -1)
+	      (company-mode +1)
 	      (setq tab-width 4)))
   :config
+  (add-hook 'go-mode-hook 'eglot-ensure)
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'eglot-format-buffer)
   :bind (:map go-mode-map
 	      ("C-?" . godoc-at-point)))
-(use-package eglot
-  :ensure t
-  :config
-  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
-  (add-hook 'go-mode-hook 'eglot-ensure))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TOML
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -903,7 +884,21 @@
      string)))
 (global-set-key (kbd "s-g") 'google-translate-enja-or-jaen)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Tree View
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package neotree
+  :ensure t
+  :bind
+  (("s-t" . neotree-toggle))
+  :config
+  (setq neo-smart-open t)
+  (setq neo-who-hidden-files t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; COLOR THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package zenburn-theme
-  :ensure t)
+  :ensure t
+  :config
+  (load-theme 'zenburn t))
+
