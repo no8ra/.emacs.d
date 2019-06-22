@@ -1,128 +1,128 @@
-cp single.php category.php
 ls
 ls
+cd Projects/
 ls
 ls
+cd go/
 ls
+cd pipe/
 ls
+cd Projects/go/
 ls
+cd pipe/
 ls
+cd Projects/
+cd go/
 ls
-cp category.php index.php 
+cd pipe/
 ls
-cat index.php 
+cd Projects/go/canvas/
 ls
+cd Projects/
 ls
-cp category.php category-news.php
-cd
-cd Projects/ca/v-ca/
+cd go/
 ls
+cd canvas/
 ls
-cd ..
+cd Projects/go/pipe/
 ls
+cd Projects/go/canvas/
 ls
+cd ../
+cd pipe/
 ls
+cd ../canvas/
 ls
-cd ca-explorer/
+cd Projects/go/canvas/
 ls
-cd Projects/ca/go-forth/
+cd Projects/go/pipe/
 ls
-go build main.go 
+cd Projects/go/pipe/
 ls
-mv vm/ lib
+cd Projects/
+cd go/pipe/
 ls
-mv stack/stack.go lib/
+cd Projects/go/
 ls
-rmdir stack
-ls
-mv lib/ vm
-cd vm/
-ls
-cd ..
-ls
-go build 
-./go-forth 
-rm -rf stack/
-ls
-cd vm/
-ls
-ls
+cd mult/
 ls
 cd
-cd Downloads/gforth-0.7.3/
+cd Projects/
 ls
-cd engine/
+cd go/canvas/
+ls
 cd
-cd Projects/ca/go-forth/
+cd .emacs.d/
+cd Projects/go/mult/
 ls
-cd ../../
-mkdir sentan
-cd sentan/
+gopls
 ls
+cd Projects/go/pipe/
 ls
-cd ../swamp/
+cd Projects/
 ls
+cd go/pipe/
 ls
+cd Projects/go/pipe/
 ls
-cd swamp-vomitter/
+cd Projects/go/
 ls
-cd src/
+cd mult/
 ls
+cd ../canvas/
 ls
-cd assets/
-ls
-rm logo.png 
-ls
-cd ..
-ls
-ls
-cd components/
-ls
-cp HelloWorld.vue Home.vue
+cd Projects/go/pipe/
 ls
 ls
-rm HelloWorld.vue 
+cd Projects/
 ls
-cd ..
+cd Rpackages/
+ls
+cd nchr/
 ls
 ls
 ls
-cd plugins/
+cd
+cd Projects/
 ls
 ls
-cd ../../
+cd go/
 ls
-git init
+cd pipe/
 ls
+cd
+cd Projects/
 ls
+gopls
 ls
+cd go/canvas/
 ls
+cd  factor/
 ls
+cd work/
 ls
-git remote add origin http://tivoli.ska.life.tsukuba.ac.jp:8888/yagi/swamp-vomitter.git
-git push origin master
+cd algorithms-in-c/
 ls
+cd
+cd factor/work/algorithms-in-c/
 ls
+cd
+cd Projects/
 ls
+cd go/
 ls
+cd ../Rpackages/
 ls
+cd nchr/
 ls
-ls
-ls
-ls
-ls
-ls
-ls
-cd middleware/
-ls
-cd ..
-cd plugins/
-ls
-ls
-cd ..
-ls
-cd pages/
+cd R/
 ls
 ls
-cd rules/
+cd
+cd Projects/
+ls
+cd Rpackages/
+ls
+cd nchr/
+ls
 ls
