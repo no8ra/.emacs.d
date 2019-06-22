@@ -25,10 +25,8 @@
 (setq ring-bell-function 'ignore)
 ;; linum format
 (setq linum-format " %d ")
-(require 'let-alist)
 (require 'gnutls)
 (add-to-list 'gnutls-trustfiles "/usr/local/etc/openssl/cert.pem")
-
 ;;; customization
 (setq custom-file (locate-user-emacs-file "custom.el"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -45,7 +43,7 @@
       '(("gnu" . "http://elpa.gnu.org/packages/")
 	("melpa" . "http://melpa.org/packages/")
 	;; ("melpa-stable" . "https://stable.melpa.org/packages/")
-	("org" . "http://orgmode.org/elpa/")))
+  	("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -53,6 +51,13 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; smooth scrolling
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package smooth-scrolling
+  :ensure t
+  :config
+  (smooth-scrolling-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; copy and paste
