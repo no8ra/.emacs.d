@@ -188,8 +188,7 @@
 (use-package lsp-mode
   :ensure t)
 (use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
+  :ensure t)
 (use-package company-lsp
   :ensure t
   :commands company-lsp)
@@ -318,8 +317,22 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; FLYCHECK
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package flycheck
+(with-eval-after-load 'flymake
+  (custom-set-variables
+   '(flymake-error-bitmap nil)
+   '(flymake-note-bitmap nil)
+   '(flymake-warning-bitmap nil)
+   )
+  (set-face-underline 'flymake-error nil)
+  (set-face-underline 'flymake-note nil)
+  (set-face-underline 'flymake-warning nil)
+  )
+(use-package flycheck-pos-tip
   :ensure t)
+(use-package flycheck
+  :ensure t
+  :config
+  (flycheck-pos-tip-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; LISP (SLIME)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -427,12 +440,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; R (ESS)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (package-install 'ess)
 (defun my-ess-hook ()
   (setq ess-indent-level 2)
   (setq ess-indent-offset 2)
   (smartparens-mode t)
-  (ess-set-style 'RStudio- 'quiet))
+  (ess-set-style 'RStudio- 'quiet)
+  (auto-complete-mode -1)
+  (company-mode +1))
 (use-package ess
   :ensure t
   :init
@@ -441,16 +455,11 @@
   (add-hook 'R-mode-hook
 	    (lambda ()
 	      (my-ess-hook)))
-  (add-hook 'ess-mode-hook
-	    (lambda ()
-	      (my-ess-hook)))
-  (add-hook 'ess-r-mode-hook
-	    (lambda ()
-	      (my-ess-hook)))
   (add-hook 'inferior-ess-mode-hook
 	    (lambda ()
-	      (my-ess-hook))))
-;; (define-key inferior-ess-mode-map "_" #'ess-insert-assign)
+	      (my-ess-hook)))
+  (define-key ess-r-mode-map "_" #'ess-insert-assign))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Julia
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -886,14 +895,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Tree View
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package all-the-icons
+  :ensure t)
 (use-package neotree
   :ensure t
   :bind
   (("s-t" . neotree-toggle))
   :config
   (setq neo-smart-open t)
-  (setq neo-who-hidden-files t))
-
+  (setq neo-who-hidden-files t)
+  :config
+  (setq neo-theme 'classic))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; COLOR THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -901,4 +913,3 @@
   :ensure t
   :config
   (load-theme 'zenburn t))
-

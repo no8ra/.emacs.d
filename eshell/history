@@ -1,63 +1,3 @@
-cd Projects/go/pipe/
-ls
-cd Projects/go/canvas/
-ls
-cd ../
-cd pipe/
-ls
-cd ../canvas/
-ls
-cd Projects/go/canvas/
-ls
-cd Projects/go/pipe/
-ls
-cd Projects/go/pipe/
-ls
-cd Projects/
-cd go/pipe/
-ls
-cd Projects/go/
-ls
-cd mult/
-ls
-cd
-cd Projects/
-ls
-cd go/canvas/
-ls
-cd
-cd .emacs.d/
-cd Projects/go/mult/
-ls
-gopls
-ls
-cd Projects/go/pipe/
-ls
-cd Projects/
-ls
-cd go/pipe/
-ls
-cd Projects/go/pipe/
-ls
-cd Projects/go/
-ls
-cd mult/
-ls
-cd ../canvas/
-ls
-cd Projects/go/pipe/
-ls
-ls
-cd Projects/
-ls
-cd Rpackages/
-ls
-cd nchr/
-ls
-ls
-ls
-cd
-cd Projects/
 ls
 ls
 cd go/
@@ -125,4 +65,64 @@ cd ../../go/
 ls
 cd cav
 cd canvas/
+ls
+ls
+ls
+ls
+cd Projects/Rpackages/
+ls
+cd nchr/
+ls
+cd Projects/
+cd go/
+ls
+cd pipe/
+ls
+ls
+go run main.go 
+cd ..
+cd pipe/
+ls
+cd Projects/Rpackages/
+ls
+cd nchr/
+ls
+cd Projects/
+ls
+cd Rpackages/nchr/
+ls
+cd Projects/
+ls
+cd go/
+ls
+cd
+cd Projects/Rpackages/
+ls
+cd nchr/
+ls
+cd Projects/Rpackages/nchr/.git/
+cd ..
+ls
+cd
+cd Projects/ca/ca-explorer/
+ls
+cd ../../go/
+ls
+cd canvas/
+ls
+ls
+cd Projects/
+ls
+cd go/
+ls
+cd canvas/
+cd ../mult/
+ls
+ls
+cd Projects/
+ls
+ls
+cd .emscripten_cache/
+cd 
+cd .emacs.d/
 ls
