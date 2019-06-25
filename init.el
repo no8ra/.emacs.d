@@ -505,8 +505,7 @@
 	      (sgml-electric-tag-pair-mode t)
 	      (setq web-mode-markup-indent-offset 2)
 	      (setq web-mode-css-indent-offset 2)
-	      (setq web-mode-code-indent-offset 2)
-	      ))
+	      (setq web-mode-code-indent-offset 2)))
   (sp-with-modes '(web-mode)
     (sp-local-pair "<" ">")
     (sp-local-pair "<%" "%>")))
@@ -527,13 +526,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package yaml-mode
   :ensure t)
+(setq css-indent-offset 2)
 (use-package scss-mode
   :ensure t)
 (add-hook 'html-mode-hook
 	  (lambda ()
 	    (sgml-electric-tag-pair-mode t)
-	    (set (make-local-variable 'sgml-basic-offset) 2)
-	    ))
+	    (set (make-local-variable 'sgml-basic-offset) 2)))
 (defun my-css-comment ()
   (interactive)
   (let* ((str (read-string "comment-tag> "))
@@ -544,24 +543,12 @@
 (add-hook 'css-mode-hook
 	  (lambda ()
 	    (define-key css-mode-map "\C-c\C-c" 'my-css-comment)
-	    (set (make-local-variable 'css-indent-offset) 2)
-	    ))
+	    (set (make-local-variable 'css-indent-offset) 2)))
 
 (add-hook 'scss-mode-hook
 	  '(lambda ()
 	     (set (make-local-variable 'css-indent-offset) 2)
 	     (set (make-local-variable 'scss-compile-at-save) nil)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; PHP
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package php-mode
-  :ensure t)
-(add-hook 'php-mode-hook
-	  (lambda ()
-	    (c-set-offset 'case-label' 2)
-	    (c-set-offset 'arglist-intro' 2)
-	    (c-set-offset 'arglist-cont-nonempty' 2)
-	    (setq c-basic-offset 2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; JavaScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -591,14 +578,14 @@
   :config
   (add-hook 'vue-mode-hook
 	    (lambda ()
-	      (setq vue-html-extra-indent js2-basic-offset)
+	      (setq vue-html-extra-indent 2)
 	      (set (make-local-variable 'css-indent-offset) 2)
 	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)
 	      (add-hook 'before-save-hook 'lsp-format-buffer)
 	      (lsp))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; VueTypeScript
+;;; TypeScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package tide
   :ensure t)
@@ -643,6 +630,17 @@
 
 ;; formats the buffer after saving
 (add-hook 'after-save-hook 'tslint-fix-file-and-revert)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; PHP
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package php-mode
+  :ensure t)
+(add-hook 'php-mode-hook
+	  (lambda ()
+	    (c-set-offset 'case-label' 2)
+	    (c-set-offset 'arglist-intro' 2)
+	    (c-set-offset 'arglist-cont-nonempty' 2)
+	    (setq c-basic-offset 2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; C/C++
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
