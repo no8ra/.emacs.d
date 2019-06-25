@@ -656,6 +656,7 @@
 ;;; Go
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package go-mode
+  :ensure t
   :commands go-mode
   :init
   (add-hook 'go-mode-hook
@@ -670,6 +671,9 @@
   :bind (:map go-mode-map
 	      ("C-?" . godoc-at-point)
 	      ("C-c C-c" . quickrun)))
+
+(use-package go-snippets
+  :ensure t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TOML
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

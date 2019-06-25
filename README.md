@@ -4,5 +4,6 @@
 - `gem install solargraph`
 - `brew install llvm`
 - `yarn global add typescript-language-server`
+- `yarn global add vue-language-server`
 
 Emacs > 26
