@@ -1,1 +1,0 @@
-("~/go/src/github.com/h8gi/ocr/" "~/go/src/github.com/labstack/echo/" "~/Documents/Ruby/Rails/hello_app/" "~/.emacs.d/" "~/Documents/Ruby/Rails/toy_app/")

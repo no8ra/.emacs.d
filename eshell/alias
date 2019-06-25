@@ -1,2 +1,0 @@
-alias 2  $*
-alias lli /usr/local/opt/llvm/bin/lli $*
