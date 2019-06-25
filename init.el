@@ -549,7 +549,6 @@
 
 (add-hook 'scss-mode-hook
 	  '(lambda ()
-	     (setq css-indent-offset 2)
 	     (set (make-local-variable 'css-indent-offset) 2)
 	     (set (make-local-variable 'scss-compile-at-save) nil)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -593,6 +592,7 @@
   (add-hook 'vue-mode-hook
 	    (lambda ()
 	      (setq vue-html-extra-indent js2-basic-offset)
+	      (set (make-local-variable 'css-indent-offset) 2)
 	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)
 	      (add-hook 'before-save-hook 'lsp-format-buffer)
 	      (lsp))))
