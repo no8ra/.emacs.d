@@ -52,14 +52,6 @@
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; smooth scrolling
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package smooth-scrolling
-  :ensure t
-  :config
-  (smooth-scrolling-mode 1))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; copy and paste
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun copy-from-osx ()
@@ -81,29 +73,21 @@
   :ensure t
   :hook (after-init . sml/setup))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; auto complete
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package auto-complete
-  :ensure t
-  :bind
-  (("C-x C-@" . auto-complete-mode)
-   :map ac-complete-mode-map
-   ("C-n" . ac-next)
-   ("C-p" . ac-previous))
-  :config
-  (require 'auto-complete-config)
-  (ac-config-default)
-  (global-auto-complete-mode t)
-  (setq ac-auto-show-menu 0.5)
-  (setq ac-auto-start 2))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; company mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package company
   :ensure t
+  :bind
+  (("C-x C-@" . company-mode))
   :config
+  (global-company-mode +1)
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 3)
+  (setq company-selection-wrap-around t)
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
+  (setq company-require-match nil)
+
   (define-key company-active-map (kbd "M-n") nil)
   (define-key company-active-map (kbd "M-p") nil)
   (define-key company-active-map (kbd "C-h") nil)
@@ -116,6 +100,11 @@
   (define-key company-active-map (kbd "C-s") 'company-filter-candidates)
   (define-key company-active-map (kbd "C-i") 'company-complete-selection)
   (define-key company-active-map [tab] 'company-complete))
+
+(use-package company-quickhelp
+  :ensure t
+  :config
+  (company-quickhelp-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto insert
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -154,8 +143,6 @@
    ("C-M-p" . sp-previous-sexp))
   (smartparens-global-mode)
   (add-hook 'lisp-mode-hook  'turn-off-smartparens-mode)
-  (add-hook 'scheme-mode-hook 'turn-off-smartparens-mode)
-  (add-hook 'inferior-scheme-mode-hook 'turn-off-smartparens-mode)
   (add-hook 'emacs-lisp-mode-hook 'turn-off-smartparens-mode)
   (add-hook 'clojure-mode-hook 'turn-off-smartparens-mode)
   (add-hook 'cider-repl-mode-hook 'turn-off-smartparens-mode)
@@ -177,32 +164,12 @@
 	("C-h" . paredit-backward-delete)
 	("C-M-f" . paredit-forward)
 	("C-M-b" . paredit-backward))
-  :hook ((scheme-mode . enable-paredit-mode)
-	 (emacs-lisp-mode . enable-paredit-mode)
+  :hook ((emacs-lisp-mode . enable-paredit-mode)
 	 (lisp-interacton-mode . enable-paredit-mode)
 	 (slime-mode . enable-paredit-mode)
 	 (slime-repl-mode . enable-paredit-mode)
-	 (inferior-scheme-mode . enable-paredit-mode)
 	 (clojure-mode . enable-paredit-mode)
 	 (cider-repl-mode . enable-paredit-mode)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Language Server
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package eglot
-  :ensure t)
-(use-package lsp-mode
-  :ensure t)
-(use-package lsp-ui
-  :ensure t)
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-(use-package helm-lsp
-  :ensure t
-  :commands helm-lsp-workspace-symbol)
-(use-package lsp-treemacs
-  :ensure t
-  :commands lsp-treemacs-errors-list)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; helm
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -339,6 +306,42 @@
   :config
   (flycheck-pos-tip-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Language Server
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package lsp-mode
+  :ensure t)
+(use-package lsp-ui
+  :ensure t
+  :config
+  (setq lsp-ui-sideline-enable nil)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-use-childframe t)
+  (setq lsp-ui-doc-position 'at-point)
+  (setq lsp-ui-doc-use-webkit t)
+  (setq lsp-ui-doc-header nil)
+  :preface
+  (defun toggle-lsp-ui-doc ()
+    (interactive)
+    (if lsp-ui-doc-mode
+        (progn
+          (lsp-ui-doc-mode -1)
+          (lsp-ui-doc--hide-frame)
+	  (message "Lsp-Ui-Doc mode disabled in current buffer"))
+      (progn (lsp-ui-doc-mode 1)
+	     (message "Lsp-Ui-Doc mode enabled in current buffer"))))
+  :bind
+  (:map lsp-mode-map
+	("C-c d" . toggle-lsp-ui-doc)))
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+(use-package helm-lsp
+  :ensure t
+  :commands helm-lsp-workspace-symbol)
+(use-package lsp-treemacs
+  :ensure t
+  :commands lsp-treemacs-errors-list)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; LISP (SLIME)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package slime
@@ -346,18 +349,11 @@
   :config
   (slime-setup '(slime-repl slime-fancy slime-banner))
   (setq inferior-lisp-program "sbcl"))
-
-(use-package ac-slime
-  :ensure t
-  :config
-  (add-hook 'slime-mode-hook 'set-up-slime-ac)
-  (add-hook 'slime-repl-mode-hook 'set-up-slime-ac))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; SCHEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package chicken-scheme
+(use-package pretty-lambdada
   :ensure t)
-(setq scheme-program-name "csi -qw")
 (defvar my-paredit-paren-prefix-pat-chicken
   (mapconcat
    #'identity
@@ -381,67 +377,37 @@
 	     (not (looking-back my-paredit-paren-prefix-pat-chicken)))
 	    ((= (char-syntax delimiter) ?\")
 	     (not (looking-back my-paredit-dquote-prefix-pat-chicken))))))
-
 (autoload 'scheme-mode "cmuscheme" "Marjor mode for Scheme." t)
-(autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
 (require 'cmuscheme)
-(define-key scheme-mode-map "\C-c\C-l" 'scheme-load-current-file)
-(define-key scheme-mode-map "\C-c\C-k" 'scheme-compile-current-file)
-(defun scheme-load-current-file (&optional switch)
-  (interactive "P")
-  (let ((file-name (buffer-file-name)))
-    (comint-check-source file-name)
-    (setq scheme-prev-l/c-dir/file (cons (file-name-directory    file-name)
-					 (file-name-nondirectory file-name)))
-    (comint-send-string (scheme-proc) (concat "(load \""
-					      file-name
-					      "\"\)\n"))
-    (if switch
-	(switch-to-scheme t)
-      (message "\"%s\" loaded." file-name) ) ) )
-(defun scheme-compile-current-file (&optional switch)
-  (interactive "P")
-  (let ((file-name (buffer-file-name)))
-    (comint-check-source file-name)
-    (setq scheme-prev-l/c-dir/file (cons (file-name-directory    file-name)
-					 (file-name-nondirectory file-name)))
-    (message "compiling \"%s\" ..." file-name)
-    (comint-send-string (scheme-proc) (concat "(compile-file \""
-					      file-name
-					      "\"\)\n"))
-    (if switch
-	(switch-to-scheme t)
-      (message "\"%s\" compiled and loaded." file-name) ) ) )
-(setq default-scheme-implementation 'csi)
-(defun scheme-other-window ()
-  "Run scheme on other window"
-  (interactive)
-  (split-window-vertically (/ (frame-height) 2))
-  (let ((buf-name (buffer-name (current-buffer))))
-    (switch-to-buffer-other-window
-     (get-buffer-create "*scheme*"))
-    (run-scheme scheme-program-name)
-    (switch-to-buffer-other-window     (get-buffer-create buf-name))))
-(define-key global-map "\C-cs" 'scheme-other-window)
 (defun my-scheme-hook ()
   (set (make-variable-buffer-local
 	'paredit-space-for-delimiter-predicates)
        (list #'paredit-space-for-delimiter-p-chicken))
-  (setup-chicken-scheme)
   (enable-paredit-mode)
-  (auto-complete-mode t)
-  (bind-key "C-?" 'chicken-show-help scheme-mode-map)
-  (pretty-lambda-mode t)
+  (turn-off-smartparens-mode)
+  ;; (pretty-lambda-mode t)
   (set (make-local-variable 'indent-tabs-mode) nil))
 (add-hook 'scheme-mode-hook
-	  (lambda ()
-	    (my-scheme-hook)))
-(add-hook 'inferior-scheme-mode-hook
 	  (lambda ()
 	    (my-scheme-hook)))
 (setq auto-insert-alist
       '(("\\.scm" .
          (insert "#!/bin/sh\n#| -*- scheme -*-\nexec csi -s $0 \"$@\"\n|#\n"))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; GEISER
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; $ chicken-install -s apropos chicken-doc srfi-18 srfi-1
+;; $ cd `csi -R chicken.platform -p '(chicken-home)'`
+;; $ curl https://3e8.org/pub/chicken-doc/chicken-doc-repo-5.tgz | sudo tar zx
+(use-package geiser
+  :ensure t
+  :bind
+  (("C-c s" . run-geiser))
+  :init
+  (setq geiser-active-implementations '(chicken))
+  (add-hook 'geiser-repl-mode-hook
+	    (lambda ()
+	      (my-scheme-hook))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; R (ESS)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -449,9 +415,7 @@
   (setq ess-indent-level 2)
   (setq ess-indent-offset 2)
   (smartparens-mode t)
-  (ess-set-style 'RStudio- 'quiet)
-  (auto-complete-mode -1)
-  (company-mode +1))
+  (ess-set-style 'RStudio- 'quiet))
 (use-package ess
   :ensure t
   :init
@@ -474,12 +438,7 @@
   (add-hook 'julia-mode
 	    (lambda ()
 	      (setq julia-indent-offset 4)
-	      (ess-julia-mode)
-	      (auto-complete-mode t)))
-
-  (add-hook 'ess-julia-mode-hook
-	    (lambda ()
-	      (auto-complete-mode t)))
+	      (ess-julia-mode)))
   (add-to-list 'ess-tracebug-search-path
 	       "/Applications/Julia-0.6.app/Contents/Resources/julia/share/julia/base"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -509,7 +468,6 @@
 	    (setq forth-hilight-level 3)
 	    (bind-key "C-<return>" 'forth-send-paragraph forth-mode-map)
 	    (bind-key "C-c C-b" 'forth-send-buffer forth-mode-map)
-	    (auto-complete-mode t)
 	    (unbind-key "C-h" forth-mode-map)
 					;(run-forth)
 	    (cua-mode -1)
@@ -518,8 +476,7 @@
 (add-hook 'inferior-forth-mode-hook
 	  (lambda ()
 	    (unbind-key "C-c C-z" inferior-forth-mode-map)
-	    (bind-key "C-c C-z" 'forth-switch-to-interactive inferior-forth-mode-map)
-	    (auto-complete-mode t)))
+	    (bind-key "C-c C-z" 'forth-switch-to-interactive inferior-forth-mode-map)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GIT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -573,7 +530,6 @@
 	  (lambda ()
 	    (sgml-electric-tag-pair-mode t)
 	    (set (make-local-variable 'sgml-basic-offset) 2)
-	    (auto-complete-mode t)
 	    ))
 (defun my-css-comment ()
   (interactive)
@@ -616,8 +572,7 @@
   (setq js2-strict-missing-semi-warning nil)
   (set (make-local-variable 'indent-tabs-mode) nil)
   (add-to-list 'write-file-functions 'delete-trailing-whitespace)
-  (add-hook 'after-save-hook 'eslint-fix nil t)
-  (setq vue-html-extra-indent js2-basic-offset))
+  (add-hook 'after-save-hook 'eslint-fix nil t))
 (use-package js2-mode
   :ensure t
   :config
@@ -625,7 +580,8 @@
 
   (add-hook 'js2-mode-hook
 	    (lambda ()
-	      (my-js-hook))))
+	      (my-js-hook)
+	      (lsp))))
 (add-hook 'js-mode-hook
 	  (lambda ()
 	    (my-js-hook)))
@@ -637,23 +593,21 @@
   :config
   (add-hook 'vue-mode-hook
 	    (lambda ()
-	      (my-js-hook)
-	      (auto-complete-mode -1)
-	      (company-mode +1)
+	      (setq vue-html-extra-indent js2-basic-offset)
+	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)
+	      (add-hook 'before-save-hook 'lsp-format-buffer)
 	      (lsp))))
 
-;;; TypeScript
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; VueTypeScript
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (company-mode +1))
+  (tide-hl-identifier-mode +1))
 
 
 ;; formats the buffer before saving
@@ -689,24 +643,32 @@
 ;; formats the buffer after saving
 (add-hook 'after-save-hook 'tslint-fix-file-and-revert)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; C/C++
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun my-c-hook ()
+  (flycheck-mode +1)
+  (lsp)
+  (add-hook 'before-save-hook 'lsp-format-buffer))
+(add-hook 'c-mode-common-hook 'my-c-hook)
+(bind-key "C-c C-c" 'quickrun c-mode-map)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Go
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package go-mode
   :commands go-mode
   :init
-  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
   (add-hook 'go-mode-hook
 	    (lambda ()
 	      (set (make-local-variable 'indent-tabs-mode) t)
-	      (auto-complete-mode -1)
-	      (company-mode +1)
-	      (setq tab-width 4)))
+	      (setq tab-width 4)
+	      (flymake-mode -1)
+	      (lsp)))
   :config
-  (add-hook 'go-mode-hook 'eglot-ensure)
   (setq gofmt-command "goimports")
-  (add-hook 'before-save-hook 'eglot-format-buffer)
+  (add-hook 'before-save-hook 'gofmt-before-save)
   :bind (:map go-mode-map
-	      ("C-?" . godoc-at-point)))
+	      ("C-?" . godoc-at-point)
+	      ("C-c C-c" . quickrun)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TOML
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -785,8 +747,7 @@
 	     '(j-other-face ((t (:foreground "#3b99fc")))))
 	    (mapc (lambda (p)
 		    (sp-local-pair 'j-mode p nil :actions nil))
-		  '("{" "[" "\"" "`"))
-	    (auto-complete-mode t)))
+		  '("{" "[" "\"" "`"))))
 
 (add-hook 'inferior-j-mode-hook
 	  (lambda ()
@@ -807,8 +768,7 @@
 		    . j-font-lock-syntactic-face-function)))
 	    (mapc (lambda (p)
 		    (sp-local-pair 'inferior-j-mode p nil :actions nil))
-		  '("{" "[" "\"" "`"))
-	    (auto-complete-mode t)))
+		  '("{" "[" "\"" "`"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;PYTHON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -852,12 +812,12 @@
   (sql-set-product "postgres")
   (add-hook 'sql-mode
 	    (lambda ()
-	      (sql-set-product "postgres")
-	      (auto-complete-mode +1))))
+	      (sql-set-product "postgres"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; EWW BROWSER
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq browse-url-browser-function 'browse-url-default-browser)
+;; (setq browse-url-browser-function 'browse-url-default-browser)
+(setq browse-url-browser-function 'eww-browse-url)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GOOGLE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -900,17 +860,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Tree View
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package all-the-icons
-  :ensure t)
 (use-package neotree
   :ensure t
   :bind
   (("s-t" . neotree-toggle))
   :config
   (setq neo-smart-open t)
-  (setq neo-who-hidden-files t)
+  (setq neo-show-hidden-files t)
   :config
-  (setq neo-theme 'classic))
+  (setq neo-theme 'ascii))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; COLOR THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

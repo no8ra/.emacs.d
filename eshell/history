@@ -1,128 +1,128 @@
+cd Documents/Scheme/
 ls
+cd othello/
 ls
-cd go/
-ls
-cd pipe/
-ls
-cd
-cd Projects/
-ls
-gopls
-ls
-cd go/canvas/
-ls
-cd  factor/
-ls
-cd work/
-ls
-cd algorithms-in-c/
-ls
-cd
-cd factor/work/algorithms-in-c/
-ls
-cd
-cd Projects/
-ls
-cd go/
-ls
-cd ../Rpackages/
-ls
-cd nchr/
-ls
-cd R/
-ls
-ls
-cd
-cd Projects/
-ls
-cd Rpackages/
-ls
-cd nchr/
-ls
-ls
-ls
-cd
-cd Projects/
-ls
-cd
-cd Documents/Ruby/
-ls
-cd 
-cd Projects/
-ls
-cd catharina-web/
-cd ../ca
-ls
-cd ca-explorer/
-ls
-cd pages/
-ls
-ls
-ls
-ls
-ls
-cd ../../go/
-ls
-cd cav
-cd canvas/
-ls
-ls
-ls
-ls
-cd Projects/Rpackages/
-ls
-cd nchr/
-ls
-cd Projects/
-cd go/
-ls
-cd pipe/
-ls
-ls
-go run main.go 
-cd ..
-cd pipe/
-ls
-cd Projects/Rpackages/
-ls
-cd nchr/
-ls
-cd Projects/
-ls
-cd Rpackages/nchr/
-ls
-cd Projects/
-ls
-cd go/
-ls
-cd
-cd Projects/Rpackages/
-ls
-cd nchr/
-ls
-cd Projects/Rpackages/nchr/.git/
 cd ..
 ls
 cd
-cd Projects/ca/ca-explorer/
+cd Projects/
 ls
-cd ../../go/
+cd l-system/
 ls
-cd canvas/
+cd Projects/
+cd l-system/
 ls
+cd Projects/l-system/
+ls
+ls
+cd Projects/l-system/
+ls
+cd Projects/l-system/
+ls
+cd
+cd Projects/
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+(define-key company-active-map (kbd "<return>") nil)
+ls
+cd  
+ls
+lsappinfo 
+ls
+cd
+cd
+(define-key company-active-map (kbd "<return>") nil)
+ls
+(define-key company-active-map (kbd "RET") nil)
+ls
+ls
+s
+ls
+ls
+ls
+cd Projects/
+cd Pro
+ls
+ls
+ls
+cd Pro
+cd
+cd Projects/
+ls
+cd go/
+ls
+cd pipe/
+ls
+ls
+cd Projects/
+ls
+get_objgraph.py 
+ls
+ls
+cd l-system/
+ls
+cd Projects/l-system/
+ls
+cd Projects/l-system/
+s
+ls
+cd Projects/
+ls
+cd l-system/
+ls
+cd Projects/
+ls
+cd l-system/
+ls
+cd Projects/go/pipe/
+ls
+cd
+cd Projects/go/pipe/
+ls
+cd Projects/l-system/
+ls
+cd 
+cd Projects/l-system/
 ls
 cd Projects/
 ls
 cd go/
 ls
-cd canvas/
-cd ../mult/
+cd pipe/
+ls
+cd Projects/
+ls
+cd Projects/
+ls
+cd nn
+ls
+cd toyokumono/
 ls
 ls
 cd Projects/
 ls
+cd nn/
 ls
-cd .emscripten_cache/
-cd 
-cd .emacs.d/
+cd toyokumono-api/
+cd ../toyokumono/
+s
+ls
+cd ../toyokumono-api/
+cd Projects/
+ls
+cd
+cd Documents/
+ls
+mdkir p5js
+mkdir p5js
+cd p5js/
+ls
+cd Documents/JavaScript/
+ls
+cd ising/
 ls
