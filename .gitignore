@@ -82,4 +82,8 @@ Temporary Items
 *.el
 !init.el
 .cache/
+
 url/
+recentf
+.lsp*
+

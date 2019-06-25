@@ -9,8 +9,6 @@
 (setq inhibit-startup-screen t)
 (set-locale-environment nil)
 (prefer-coding-system 'utf-8)
-(global-set-key "\C-h" 'delete-backward-char)
-(global-set-key [(super f)] 'toggle-frame-fullscreen)
 (show-paren-mode t)
 (setq scroll-conservatively 1)
 (global-auto-revert-mode 1)
@@ -19,14 +17,11 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (set-scroll-bar-mode nil)
-(add-to-list 'load-path "~/.emacs.d/site-lisp")
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq default-tab-width 4)
 (setq ring-bell-function 'ignore)
 ;; linum format
 (setq linum-format " %d ")
-(require 'gnutls)
-(add-to-list 'gnutls-trustfiles "/usr/local/etc/openssl/cert.pem")
 ;;; customization
 (setq custom-file (locate-user-emacs-file "custom.el"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -42,7 +37,6 @@
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
 	("melpa" . "http://melpa.org/packages/")
-	;; ("melpa-stable" . "https://stable.melpa.org/packages/")
   	("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 (unless package-archive-contents
@@ -66,6 +60,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package bind-key
   :ensure t)
+(bind-keys
+ ("C-h" . delete-backward-char)
+ ("s-f" . toggle-frame-fullscreen))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; mode line
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -375,8 +372,7 @@
 	     (not (looking-back my-paredit-paren-prefix-pat-chicken)))
 	    ((= (char-syntax delimiter) ?\")
 	     (not (looking-back my-paredit-dquote-prefix-pat-chicken))))))
-(autoload 'scheme-mode "cmuscheme" "Marjor mode for Scheme." t)
-(require 'cmuscheme)
+
 (defun my-scheme-hook ()
   (set (make-variable-buffer-local
 	'paredit-space-for-delimiter-predicates)
@@ -384,6 +380,9 @@
   (enable-paredit-mode)
   (turn-off-smartparens-mode)
   (set (make-local-variable 'indent-tabs-mode) nil))
+
+(autoload 'scheme-mode "cmuscheme" "Marjor mode for Scheme." t)
+(require 'cmuscheme)
 (add-hook 'scheme-mode-hook
 	  (lambda ()
 	    (my-scheme-hook)))
@@ -425,7 +424,16 @@
 	    (lambda ()
 	      (my-ess-hook)))
   (define-key ess-r-mode-map "_" #'ess-insert-assign))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Markdown
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package markdown-mode
+  :ensure t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Rmarkdown
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package poly-R
+  :ensure t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Julia
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -517,8 +525,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; HTML, CSS, SCSS, HAML, yaml
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (package-install 'scss-mode)
-;; (package-install 'yaml-mode)
 (use-package yaml-mode
   :ensure t)
 (use-package scss-mode
@@ -553,7 +559,6 @@
   :ensure t)
 (add-hook 'php-mode-hook
 	  (lambda ()
-	    (php-eldoc-enable)
 	    (c-set-offset 'case-label' 2)
 	    (c-set-offset 'arglist-intro' 2)
 	    (c-set-offset 'arglist-cont-nonempty' 2)
