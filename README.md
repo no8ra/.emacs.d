@@ -4,3 +4,5 @@
 - `gem install solargraph`
 - `brew install llvm`
 - `yarn global add typescript-language-server`
+
+Emacs > 26
