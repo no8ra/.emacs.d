@@ -352,8 +352,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; SCHEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package pretty-lambdada
-  :ensure t)
 (defvar my-paredit-paren-prefix-pat-chicken
   (mapconcat
    #'identity
@@ -385,7 +383,6 @@
        (list #'paredit-space-for-delimiter-p-chicken))
   (enable-paredit-mode)
   (turn-off-smartparens-mode)
-  ;; (pretty-lambda-mode t)
   (set (make-local-variable 'indent-tabs-mode) nil))
 (add-hook 'scheme-mode-hook
 	  (lambda ()
@@ -448,8 +445,6 @@
 (use-package inf-ruby
   :ensure t)
 (use-package ruby-end
-  :ensure t)
-(use-package ruby-block
   :ensure t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GFORTH
@@ -552,8 +547,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; PHP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package inf-php
-  :ensure t)
 (use-package php-mode
   :ensure t)
 (add-hook 'php-mode-hook
@@ -562,8 +555,7 @@
 	    (c-set-offset 'case-label' 2)
 	    (c-set-offset 'arglist-intro' 2)
 	    (c-set-offset 'arglist-cont-nonempty' 2)
-	    (setq c-basic-offset 2)
-	    ))
+	    (setq c-basic-offset 2)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; JavaScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -601,6 +593,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; VueTypeScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package tide
+  :ensure t)
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
