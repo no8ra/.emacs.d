@@ -408,13 +408,20 @@
 (defun my-ess-hook ()
   (setq ess-indent-level 2)
   (setq ess-indent-offset 2)
+  ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (smartparens-mode t)
-  (ess-set-style 'RStudio- 'quiet))
+  (flycheck-mode +1)
+  (ess-set-style 'RStudio- 'quiet)
+  (add-hook 'local-write-file-hooks
+	    (lambda ()
+	      (ess-nuke-trailing-whitespace)))
+  (setq ess-nuke-trailing-whitespace-p 't))
 (use-package ess
   :ensure t
   :init
   (require 'ess-site)
   :config
+  (setq ess-eldoc-show-on-symbol t)
   (add-hook 'R-mode-hook
 	    (lambda ()
 	      (my-ess-hook)))
@@ -422,6 +429,7 @@
 	    (lambda ()
 	      (my-ess-hook)))
   (define-key ess-r-mode-map "_" #'ess-insert-assign))
+ess-nuke-trailing-whitespace-p
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Markdown
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
