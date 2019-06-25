@@ -9,8 +9,6 @@
 (setq inhibit-startup-screen t)
 (set-locale-environment nil)
 (prefer-coding-system 'utf-8)
-(global-set-key "\C-h" 'delete-backward-char)
-(global-set-key [(super f)] 'toggle-frame-fullscreen)
 (show-paren-mode t)
 (setq scroll-conservatively 1)
 (global-auto-revert-mode 1)
@@ -62,6 +60,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package bind-key
   :ensure t)
+(bind-keys
+ ("C-h" . delete-backward-char)
+ ("s-f" . toggle-frame-fullscreen))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; mode line
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
