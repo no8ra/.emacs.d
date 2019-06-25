@@ -449,29 +449,31 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GFORTH
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'forth-mode "gforth.el")
-(setq auto-mode-alist (cons '("\\.fs\\'" . forth-mode)
-			    auto-mode-alist))
-(autoload 'forth-block-mode "gforth.el")
-(setq auto-mode-alist (cons '("\\.fb\\'" . forth-block-mode)
-			    auto-mode-alist))
+;; (autoload 'forth-mode "gforth.el")
+;; (setq auto-mode-alist (cons '("\\.fs\\'" . forth-mode)
+;; 			    auto-mode-alist))
+;; (autoload 'forth-block-mode "gforth.el")
+;; (setq auto-mode-alist (cons '("\\.fb\\'" . forth-block-mode)
+;; 			    auto-mode-alist))
 
-(add-hook 'forth-mode-hook
-	  (lambda ()
-	    (setq forth-indent-level 4)
-	    (setq forth-minor-indent-level 2)
-	    (setq forth-hilight-level 3)
-	    (bind-key "C-<return>" 'forth-send-paragraph forth-mode-map)
-	    (bind-key "C-c C-b" 'forth-send-buffer forth-mode-map)
-	    (unbind-key "C-h" forth-mode-map)
-					;(run-forth)
-	    (cua-mode -1)
-	    ))
+;; (add-hook 'forth-mode-hook
+;; 	  (lambda ()
+;; 	    (setq forth-indent-level 4)
+;; 	    (setq forth-minor-indent-level 2)
+;; 	    (setq forth-hilight-level 3)
+;; 	    (bind-key "C-<return>" 'forth-send-paragraph forth-mode-map)
+;; 	    (bind-key "C-c C-b" 'forth-send-buffer forth-mode-map)
+;; 	    (unbind-key "C-h" forth-mode-map)
+;; 					;(run-forth)
+;; 	    (cua-mode -1)
+;; 	    ))
 
-(add-hook 'inferior-forth-mode-hook
-	  (lambda ()
-	    (unbind-key "C-c C-z" inferior-forth-mode-map)
-	    (bind-key "C-c C-z" 'forth-switch-to-interactive inferior-forth-mode-map)))
+;; (add-hook 'inferior-forth-mode-hook
+;; 	  (lambda ()
+;; 	    (unbind-key "C-c C-z" inferior-forth-mode-map)
+;; 	    (bind-key "C-c C-z" 'forth-switch-to-interactive inferior-forth-mode-map)))
+(use-package forth-mode
+  :ensure t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GIT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -810,8 +812,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; EWW BROWSER
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq browse-url-browser-function 'browse-url-default-browser)
-(setq browse-url-browser-function 'eww-browse-url)
+(setq browse-url-browser-function 'browse-url-default-browser)
+;; (setq browse-url-browser-function 'eww-browse-url)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GOOGLE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
