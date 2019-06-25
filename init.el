@@ -372,8 +372,7 @@
 	     (not (looking-back my-paredit-paren-prefix-pat-chicken)))
 	    ((= (char-syntax delimiter) ?\")
 	     (not (looking-back my-paredit-dquote-prefix-pat-chicken))))))
-(autoload 'scheme-mode "cmuscheme" "Marjor mode for Scheme." t)
-(require 'cmuscheme)
+
 (defun my-scheme-hook ()
   (set (make-variable-buffer-local
 	'paredit-space-for-delimiter-predicates)
@@ -381,6 +380,9 @@
   (enable-paredit-mode)
   (turn-off-smartparens-mode)
   (set (make-local-variable 'indent-tabs-mode) nil))
+
+(autoload 'scheme-mode "cmuscheme" "Marjor mode for Scheme." t)
+(require 'cmuscheme)
 (add-hook 'scheme-mode-hook
 	  (lambda ()
 	    (my-scheme-hook)))
