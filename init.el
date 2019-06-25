@@ -19,14 +19,11 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (set-scroll-bar-mode nil)
-(add-to-list 'load-path "~/.emacs.d/site-lisp")
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq default-tab-width 4)
 (setq ring-bell-function 'ignore)
 ;; linum format
 (setq linum-format " %d ")
-(require 'gnutls)
-(add-to-list 'gnutls-trustfiles "/usr/local/etc/openssl/cert.pem")
 ;;; customization
 (setq custom-file (locate-user-emacs-file "custom.el"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
