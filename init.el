@@ -513,8 +513,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; HTML, CSS, SCSS, HAML, yaml
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (package-install 'scss-mode)
-;; (package-install 'yaml-mode)
 (use-package yaml-mode
   :ensure t)
 (use-package scss-mode
@@ -549,7 +547,6 @@
   :ensure t)
 (add-hook 'php-mode-hook
 	  (lambda ()
-	    (php-eldoc-enable)
 	    (c-set-offset 'case-label' 2)
 	    (c-set-offset 'arglist-intro' 2)
 	    (c-set-offset 'arglist-cont-nonempty' 2)
