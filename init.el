@@ -127,7 +127,8 @@
   :ensure t
   :config
   (add-hook 'find-file-hooks 'auto-insert)
-  (setq auto-insert-directory "~/.emacs.d/autoinsert/"))
+  (setq auto-insert-directory "~/.emacs.d/autoinsert/")
+  (setq auto-insert-query nil))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; anzu
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
