@@ -397,9 +397,6 @@
 (add-hook 'scheme-mode-hook
 	  (lambda ()
 	    (my-scheme-hook)))
-(add-to-list 'auto-insert-alist
-	     '("\\.scm" .
-	       (insert "#!/bin/sh\n#| -*- scheme -*-\nexec csi -s $0 \"$@\"\n|#\n")))
 ;; Indenting module body code at column 0
 (defun scheme-module-indent (state indent-point normal-indent) 0)
 (put 'module 'scheme-indent-function 'scheme-module-indent)
