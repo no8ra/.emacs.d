@@ -390,22 +390,23 @@
        (list #'paredit-space-for-delimiter-p-chicken))
   (enable-paredit-mode)
   (turn-off-smartparens-mode)
-  (set (make-local-variable 'indent-tabs-mode) nil))
+  (set (make-local-variable 'indent-tabs-mode) nil)
+  ;; Indenting module body code at column 0
+  (defun scheme-module-indent (state indent-point normal-indent) 0)
+  (put 'module 'scheme-indent-function 'scheme-module-indent)
+  (put 'and-let* 'scheme-indent-function 1)
+  (put 'parameterize 'scheme-indent-function 1)
+  (put 'handle-exceptions 'scheme-indent-function 1)
+  (put 'when 'scheme-indent-function 1)
+  (put 'unless 'scheme-indent-function 1)
+  (put 'match 'scheme-indent-function 1)
+  )
 
 (autoload 'scheme-mode "cmuscheme" "Marjor mode for Scheme." t)
 (require 'cmuscheme)
 (add-hook 'scheme-mode-hook
 	  (lambda ()
 	    (my-scheme-hook)))
-;; Indenting module body code at column 0
-(defun scheme-module-indent (state indent-point normal-indent) 0)
-(put 'module 'scheme-indent-function 'scheme-module-indent)
-(put 'and-let* 'scheme-indent-function 1)
-(put 'parameterize 'scheme-indent-function 1)
-(put 'handle-exceptions 'scheme-indent-function 1)
-(put 'when 'scheme-indent-function 1)
-(put 'unless 'scheme-indent-function 1)
-(put 'match 'scheme-indent-function 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GEISER
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -671,6 +672,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun my-c-hook ()
   (flycheck-mode +1)
+  (setq c-basic-offset 4)
   (lsp)
   (add-hook 'before-save-hook 'lsp-format-buffer))
 (add-hook 'c-mode-common-hook 'my-c-hook)
