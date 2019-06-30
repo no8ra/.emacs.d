@@ -44,6 +44,7 @@
 ;;;;; ensure to use use-package
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
+(setq use-package-enable-imenu-support t)
 (eval-when-compile (require 'use-package))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; AUTO UPDATE
@@ -464,14 +465,12 @@
 ;;; Julia
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package julia-mode
-  :ensure t
-  :config
+  :ensure t  
+  :init
   (add-hook 'julia-mode
 	    (lambda ()
 	      (setq julia-indent-offset 4)
-	      (ess-julia-mode)))
-  (add-to-list 'ess-tracebug-search-path
-	       "/Applications/Julia-0.6.app/Contents/Resources/julia/share/julia/base"))
+	      (ess-julia-mode))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; RUBY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
