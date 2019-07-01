@@ -359,6 +359,16 @@
   :ensure t
   :commands lsp-treemacs-errors-list)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; polymode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package poly-markdown
+  :ensure t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Markdown
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package markdown-mode
+  :ensure t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; LISP (SLIME)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package slime
@@ -416,6 +426,33 @@
 (add-hook 'scheme-mode-hook
 	  (lambda ()
 	    (my-scheme-hook)))
+
+(define-hostmode poly-scheme-hostmode
+  :mode 'scheme-mode)
+(define-innermode poly-scheme-c++-innermode
+  :mode 'c++-mode
+  :head-matcher "^#>[[:blank:]]*$"
+  :tail-matcher "^<#[[:blank:]]*$"
+  :head-mode 'host
+  :tail-mode 'host)
+(define-innermode poly-scheme-heredoc-c++-innermode
+  :mode 'c++-mode
+  :head-matcher "^#<<CPP$"
+  :tail-matcher "^CPP$"
+  :head-mode 'host
+  :tail-mode 'host)
+(define-innermode poly-scheme-heredoc-text-innermode
+  :mode 'text-mode
+  :head-matcher "^#<<TEXT$"
+  :tail-matcher "^TEXT$"
+  :head-mode 'host
+  :tail-mode 'host)
+(define-polymode poly-scheme-mode
+  :hostmode 'poly-scheme-hostmode
+  :innermodes '(poly-scheme-c++-innermode
+		poly-scheme-heredoc-c++-innermode
+		poly-scheme-heredoc-text-innermode))
+(add-to-list 'auto-mode-alist '("\\.scm" . poly-scheme-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GEISER
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -459,11 +496,6 @@
 	      (my-ess-hook)))
   (define-key ess-r-mode-map "_" #'ess-insert-assign)
   (define-key inferior-ess-r-mode-map "_" #'ess-insert-assign))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Markdown
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package markdown-mode
-  :ensure t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rmarkdown
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -678,9 +710,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun my-c-hook ()
   (flycheck-mode +1)
-  (setq c-basic-offset 4)
-  (lsp)
-  (add-hook 'before-save-hook 'lsp-format-buffer))
+  (setq c-basic-offset 4))
 (add-hook 'c-mode-common-hook 'my-c-hook)
 (bind-key "C-c C-c" 'quickrun c-mode-map)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
