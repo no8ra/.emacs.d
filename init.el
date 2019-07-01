@@ -709,7 +709,7 @@
 ;;; C/C++
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun my-c-hook ()
-  (flycheck-mode +1)
+  (flycheck-mode -1)
   (setq c-basic-offset 4))
 (add-hook 'c-mode-common-hook 'my-c-hook)
 (bind-key "C-c C-c" 'quickrun c-mode-map)
