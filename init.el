@@ -424,6 +424,7 @@
   (put 'when 'scheme-indent-function 1)
   (put 'unless 'scheme-indent-function 1)
   (put 'match 'scheme-indent-function 1)
+  (put 'set-read-syntax! 'scheme-indent-function 1)
   )
 
 (autoload 'scheme-mode "cmuscheme" "Marjor mode for Scheme." t)
@@ -505,7 +506,7 @@
 ;;; Julia
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package julia-mode
-  :ensure t  
+  :ensure t
   :init
   (add-hook 'julia-mode
 	    (lambda ()
@@ -942,7 +943,7 @@
   :ensure t
   :commands (mew mew-send mew-user-agent-compose)
   :init
-  (setq read-mail-command 'mew)  
+  (setq read-mail-command 'mew)
   :config
   (setq mew-use-cached-passwd t)
   (if (boundp 'mail-user-agent)
@@ -964,3 +965,4 @@
   :ensure t
   :config
   (load-theme 'zenburn t))
+(put 'downcase-region 'disabled nil)
