@@ -332,7 +332,7 @@
   :config
   (setq lsp-ui-sideline-enable nil)
   (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-use-childframe t)
+  (setq lsp-ui-doc-use-childframe nil)
   (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-use-webkit t)
   (setq lsp-ui-doc-header nil)
@@ -361,12 +361,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; polymode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package poly-markdown
-  :ensure t)
+;; (use-package poly-markdown
+;;   :ensure t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Markdown
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package markdown-mode
+;; (use-package markdown-mode
+;;   :ensure t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Rmarkdown
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package poly-R
   :ensure t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; LISP (SLIME)
@@ -498,11 +503,6 @@
   (define-key ess-r-mode-map "_" #'ess-insert-assign)
   (define-key inferior-ess-r-mode-map "_" #'ess-insert-assign))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Rmarkdown
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package poly-R
-  :ensure t)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Julia
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package julia-mode
@@ -617,17 +617,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; JavaScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package js-auto-format-mode
+  :ensure t)
+
+(use-package eslint-fix
+  :ensure t)
+
 (defun my-js-hook ()
   (setq js2-basic-offset 2)
   (setq js2-strict-missing-semi-warning nil)
   (set (make-local-variable 'indent-tabs-mode) nil)
   (add-to-list 'write-file-functions 'delete-trailing-whitespace)
-  (add-hook 'after-save-hook 'eslint-fix nil t))
+  ;; (add-hook 'before-save-hook 'eslint-fix nil t)
+  )
 (use-package js2-mode
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
   (add-hook 'js2-mode-hook
 	    (lambda ()
 	      (my-js-hook)
@@ -646,9 +652,9 @@
 	      (setq vue-html-extra-indent 2)
 	      (set (make-local-variable 'css-indent-offset) 2)
 	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)
-	      (add-hook 'before-save-hook 'lsp-format-buffer)
+	      (add-hook 'after-save-hook #'eslint-fix)
+	      ;; (js-auto-format-mode +1)
 	      (lsp))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TypeScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -959,8 +965,6 @@
 	'mew-draft-kill
 	'mew-send-hook)))
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; COLOR THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -969,3 +973,11 @@
   :config
   (load-theme 'zenburn t))
 (put 'downcase-region 'disabled nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; UNDO
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode))
