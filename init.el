@@ -251,6 +251,11 @@
   (if (looking-at eshell-prompt-regexp)
       (re-search-forward eshell-prompt-regexp-lastline nil t)))
 
+(use-package eshell-toggle
+  :ensure t
+  :bind
+  ("s-s" . eshell-toggle))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; OTHER WINDOW
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
