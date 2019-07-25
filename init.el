@@ -48,6 +48,11 @@
   (package-install 'use-package))
 (setq use-package-enable-imenu-support t)
 (eval-when-compile (require 'use-package))
+
+(use-package paradox
+  :ensure t
+  :custom
+  (paradox-github-token t))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; AUTO UPDATE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -250,7 +255,6 @@
 (defadvice eshell-skip-prompt (around eshell-skip-prompt-ext activate)
   (if (looking-at eshell-prompt-regexp)
       (re-search-forward eshell-prompt-regexp-lastline nil t)))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; OTHER WINDOW
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -981,3 +985,12 @@
   :ensure t
   :config
   (global-undo-tree-mode))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; SMART JUMP
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package smart-jump
+  :ensure t
+  :config
+  (smart-jump-setup-default-registers))
