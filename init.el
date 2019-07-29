@@ -48,6 +48,8 @@
   (package-install 'use-package))
 (setq use-package-enable-imenu-support t)
 (eval-when-compile (require 'use-package))
+(use-package use-package-ensure-system-package
+  :ensure t)
 
 (use-package paradox
   :ensure t
@@ -390,7 +392,8 @@
   :ensure t
   :config
   (slime-setup '(slime-repl slime-fancy slime-banner))
-  (setq inferior-lisp-program "sbcl"))
+  (setq inferior-lisp-program "sbcl")
+  :ensure-system-package sbcl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; SCHEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
