@@ -995,7 +995,6 @@
   :config
   (global-undo-tree-mode))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; SMART JUMP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1003,3 +1002,13 @@
   :ensure t
   :config
   (smart-jump-setup-default-registers))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; DASH
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package dash-at-point
+  :ensure t
+  :if (eq system-type 'darwin)
+  :ensure-system-package
+  ("/Applications/Dash.app" . "brew cask install dash")
+  :bind ("s-d" . dash-at-point))
