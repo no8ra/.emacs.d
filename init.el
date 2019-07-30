@@ -343,7 +343,7 @@
   :ensure t
   :config
   (setq lsp-ui-sideline-enable nil)
-  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-doc-use-childframe nil)
   (setq lsp-ui-doc-position 'bottom)
   (setq lsp-ui-doc-use-webkit t)
