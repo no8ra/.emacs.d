@@ -48,6 +48,8 @@
   (package-install 'use-package))
 (setq use-package-enable-imenu-support t)
 (eval-when-compile (require 'use-package))
+(use-package use-package-ensure-system-package
+  :ensure t)
 
 (use-package paradox
   :ensure t
@@ -343,7 +345,7 @@
   (setq lsp-ui-sideline-enable nil)
   (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-doc-use-childframe nil)
-  (setq lsp-ui-doc-position 'at-point)
+  (setq lsp-ui-doc-position 'bottom)
   (setq lsp-ui-doc-use-webkit t)
   (setq lsp-ui-doc-header nil)
   :preface
@@ -390,7 +392,8 @@
   :ensure t
   :config
   (slime-setup '(slime-repl slime-fancy slime-banner))
-  (setq inferior-lisp-program "sbcl"))
+  (setq inferior-lisp-program "sbcl")
+  :ensure-system-package sbcl)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; SCHEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -992,7 +995,6 @@
   :config
   (global-undo-tree-mode))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; SMART JUMP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1000,3 +1002,13 @@
   :ensure t
   :config
   (smart-jump-setup-default-registers))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; DASH
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package dash-at-point
+  :ensure t
+  :if (eq system-type 'darwin)
+  :ensure-system-package
+  ("/Applications/Dash.app" . "brew cask install dash")
+  :bind ("s-d" . dash-at-point))
