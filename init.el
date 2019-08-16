@@ -339,7 +339,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package lsp-mode
   :ensure t
-  :commands (lsp lsp-deferred))
+  :commands (lsp lsp-deferred)
+  :config
+  (setq lsp-auto-guess-root t))
 (use-package lsp-ui
   :ensure t
   :config
@@ -1013,3 +1015,26 @@
   :ensure-system-package
   ("/Applications/Dash.app" . "brew cask install dash")
   :bind ("s-d" . dash-at-point))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Dart, Flutter
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; https://github.com/bradyt/dart-mode/wiki/LSP
+(defun project-try-dart (dir)
+  (let ((project (or (locate-dominating-file dir "pubspec.yaml")
+                     (locate-dominating-file dir "BUILD"))))
+    (if project
+        (cons 'dart project)
+      (cons 'transient dir))))
+(add-hook 'project-find-functions #'project-try-dart)
+(cl-defmethod project-roots ((project (head dart)))
+  (list (cdr project)))
+
+(use-package dart-mode
+  :ensure t
+  :init
+  (setq dart-format-on-save t)
+  :config
+  (add-hook 'dart-mode-hook
+	    (lsp-deferred)))
+
