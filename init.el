@@ -338,7 +338,10 @@
 ;;; Language Server
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package lsp-mode
-  :ensure t)
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :config
+  (setq lsp-auto-guess-root t))
 (use-package lsp-ui
   :ensure t
   :config
@@ -745,7 +748,7 @@
 	      (set (make-local-variable 'indent-tabs-mode) t)
 	      (setq tab-width 4)
 	      (flymake-mode -1)
-	      (lsp)))
+	      (lsp-deferred)))
   :config
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
@@ -1012,3 +1015,26 @@
   :ensure-system-package
   ("/Applications/Dash.app" . "brew cask install dash")
   :bind ("s-d" . dash-at-point))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Dart, Flutter
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; https://github.com/bradyt/dart-mode/wiki/LSP
+(defun project-try-dart (dir)
+  (let ((project (or (locate-dominating-file dir "pubspec.yaml")
+                     (locate-dominating-file dir "BUILD"))))
+    (if project
+        (cons 'dart project)
+      (cons 'transient dir))))
+(add-hook 'project-find-functions #'project-try-dart)
+(cl-defmethod project-roots ((project (head dart)))
+  (list (cdr project)))
+
+(use-package dart-mode
+  :ensure t
+  :init
+  (setq dart-format-on-save t)
+  :config
+  (add-hook 'dart-mode-hook
+	    (lsp-deferred)))
+
