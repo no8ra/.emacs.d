@@ -338,7 +338,8 @@
 ;;; Language Server
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package lsp-mode
-  :ensure t)
+  :ensure t
+  :commands (lsp lsp-deferred))
 (use-package lsp-ui
   :ensure t
   :config
@@ -745,7 +746,7 @@
 	      (set (make-local-variable 'indent-tabs-mode) t)
 	      (setq tab-width 4)
 	      (flymake-mode -1)
-	      (lsp)))
+	      (lsp-deferred)))
   :config
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
