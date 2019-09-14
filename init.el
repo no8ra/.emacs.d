@@ -803,7 +803,7 @@
 (setq auto-mode-alist
       (cons '("\\.ij[rstp]" . j-mode) auto-mode-alist))
 (setq j-console-cmd "jc")
-(setq j-help-local-dictionary-url "file:///Users/yagi/j64-804/addons/docs/help/dictionary/")
+(setq j-help-local-dictionary-url "file:///~/j64-804/addons/docs/help/dictionary/")
 
 (defun j-console-send-region ( start end )
   "Sends current region to the j-console-cmd session and exectues it"
@@ -887,8 +887,8 @@
   :commands factor-mode
   :init
   (require 'factor-mode)
-  (setq fuel-listener-factor-binary "/Users/yagi/factor/factor")
-  (setq fuel-listener-factor-image "/Users/yagi/factor/factor.image")
+  (setq fuel-listener-factor-binary "~/factor/factor")
+  (setq fuel-listener-factor-image "~/factor/factor.image")
   (add-hook 'fuel-mode-hook
 	    (lambda ()
 	      (define-key factor-mode-map "\C-c\C-w" 'fuel-help))))
