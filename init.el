@@ -670,7 +670,9 @@
 	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)
 	      (add-hook 'after-save-hook #'eslint-fix)
 	      ;; (js-auto-format-mode +1)
-	      (lsp))))
+	      (setq syntax-ppss-table nil)
+	      (lsp)
+	      )))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TypeScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
