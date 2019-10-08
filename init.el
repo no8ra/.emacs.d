@@ -670,6 +670,7 @@
 	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)
 	      (add-hook 'after-save-hook #'eslint-fix)
 	      ;; (js-auto-format-mode +1)
+	      (setq syntax-ppss-table nil)
 	      (lsp))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TypeScript
@@ -870,8 +871,7 @@
 (use-package python
   :ensure t
   :config
-  (setq python-shell-interpreter "ipython"
-	python-shell-interpreter-args "-i --colors=linux --matplotlib"))
+  (add-hook 'python-mode-hook #'lsp))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Perl
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
