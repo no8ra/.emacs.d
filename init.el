@@ -535,6 +535,14 @@
   :ensure t)
 (use-package ruby-end
   :ensure t)
+(use-package ruby-mode
+  :ensure t
+  :ensure-system-package
+  ("solargraph" . "gem install solargraph")
+  :config
+  (add-hook 'ruby-mode-hook
+	    (lambda ()
+	      (lsp))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GFORTH
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
