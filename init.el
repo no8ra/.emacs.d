@@ -680,6 +680,10 @@
 	      ;; (js-auto-format-mode +1)
 	      (setq syntax-ppss-table nil)
 	      (lsp))))
+(use-package pug-mode
+  :ensure t
+  :config
+  (setq pug-tab-width 2))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TypeScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
