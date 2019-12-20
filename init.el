@@ -378,7 +378,12 @@
 (use-package dap-mode
   :ensure t
   :config
-  (require 'dap-go))
+  (require 'dap-go)
+  (dap-go-setup)
+  (dap-ui-mode 1)
+  (dap-tooltip-mode 1)
+  (add-hook 'dap-stopped-hook
+          (lambda (arg) (call-interactively #'dap-hydra))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; polymode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
