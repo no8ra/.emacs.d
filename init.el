@@ -351,6 +351,8 @@
   (setq lsp-ui-doc-position 'bottom)
   (setq lsp-ui-doc-use-webkit t)
   (setq lsp-ui-doc-header nil)
+  (setq lsp-eldoc-render-all t)
+  (setq lsp-eldoc-enable-hover t)
   :preface
   (defun toggle-lsp-ui-doc ()
     (interactive)
@@ -374,8 +376,9 @@
   :ensure t
   :commands lsp-treemacs-errors-list)
 (use-package dap-mode
-  :ensure t)
-(require 'dap-go)
+  :ensure t
+  :config
+  (require 'dap-go))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; polymode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
