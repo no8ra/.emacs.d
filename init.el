@@ -375,6 +375,7 @@
   :commands lsp-treemacs-errors-list)
 (use-package dap-mode
   :ensure t)
+(require 'dap-go)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; polymode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -766,7 +767,7 @@
 	      (lsp-deferred)))
   :config
   (setq gofmt-command "goimports")
-  (add-hook 'before-save-hook 'gofmt-before-save)
+  (add-hook 'before-save-hook 'gofmt-before-save)  
   :bind (:map go-mode-map
 	      ("C-?" . godoc-at-point)
 	      ("C-c C-c" . quickrun)))
