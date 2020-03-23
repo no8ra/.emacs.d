@@ -690,6 +690,7 @@
 	      (add-hook 'after-save-hook #'eslint-fix)
 	      ;; (js-auto-format-mode +1)
 	      (setq syntax-ppss-table nil)
+	      (set (make-local-variable 'indent-tabs-mode) nil)
 	      (lsp))))
 (use-package pug-mode
   :ensure t
@@ -775,7 +776,7 @@
 	      (lsp-deferred)))
   :config
   (setq gofmt-command "goimports")
-  (add-hook 'before-save-hook 'gofmt-before-save)  
+  (add-hook 'before-save-hook 'gofmt-before-save)
   :bind (:map go-mode-map
 	      ("C-?" . godoc-at-point)
 	      ("C-c C-c" . quickrun)))
@@ -960,6 +961,15 @@
   (setq google-translate-backend-method 'curl)
   (defvar google-translate-english-chars "[:ascii:]"
     "これらの文字が含まれているときは英語とみなす")
+  (defun google-translate-json-suggestion (json)
+    "Retrieve from JSON (which returns by the
+`google-translate-request' function) suggestion. This function
+does matter when translating misspelled word. So instead of
+translation it is possible to get suggestion."
+    (let ((info (aref json 7)))
+      (if (and info (> (length info) 0))
+          (aref info 1)
+	nil)))
   (defun google-translate-enja-or-jaen (&optional string)
     "regionか、現在の単語を言語自動判別でGoogle翻訳する。"
     (interactive)
