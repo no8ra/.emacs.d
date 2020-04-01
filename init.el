@@ -529,6 +529,9 @@
 	      (my-ess-hook)))
   (define-key ess-r-mode-map "_" #'ess-insert-assign)
   (define-key inferior-ess-r-mode-map "_" #'ess-insert-assign))
+
+(use-package inlineR
+  :ensure t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Julia
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1078,3 +1081,9 @@ translation it is possible to get suggestion."
   :config
   (add-hook 'dart-mode-hook
 	    (lsp-deferred)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; CSV
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package csv-mode
+  :ensure t)
