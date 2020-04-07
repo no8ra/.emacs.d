@@ -39,7 +39,7 @@
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
 	("melpa" . "http://melpa.org/packages/")
-  	("org" . "http://orgmode.org/elpa/")))
+	("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -341,7 +341,9 @@
   :ensure t
   :commands (lsp lsp-deferred)
   :config
-  (setq lsp-auto-guess-root t))
+  (setq lsp-auto-guess-root t)
+  :hook
+  ((typescript-mode . lsp)))
 (use-package lsp-ui
   :ensure t
   :config
@@ -353,6 +355,10 @@
   (setq lsp-ui-doc-header nil)
   (setq lsp-eldoc-render-all t)
   (setq lsp-eldoc-enable-hover t)
+  (setq lsp-eslint-server-command
+	'("node"
+	  "~/src/vscode-eslint/server/out"
+	  "--stdio"))
   :preface
   (defun toggle-lsp-ui-doc ()
     (interactive)
@@ -551,12 +557,12 @@
   :ensure t)
 (use-package ruby-mode
   :ensure t
-  :ensure-system-package
-  ("solargraph" . "gem install solargraph")
+  ;; :ensure-system-package
+  ;; ("solargraph" . "gem install solargraph")
   :config
   (add-hook 'ruby-mode-hook
 	    (lambda ()
-	      (lsp))))
+	      (lsp-deferred))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; GFORTH
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -717,7 +723,11 @@
 (add-hook 'before-save-hook 'tide-format-before-save)
 
 (use-package typescript-mode
-  :ensure t)
+  :ensure t
+  ;; :ensure-system-package
+  ;; (("tslint" . "npm i -g tslint")
+  ;;  ("typescript-language-server" . "npm i -g typescript-language-server"))
+  )
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
@@ -744,7 +754,8 @@
       (message "TSLint not found."))))
 
 ;; formats the buffer after saving
-(add-hook 'after-save-hook 'tslint-fix-file-and-revert)
+;; (add-hook 'after-save-hook 'tslint-fix-file-and-revert)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; PHP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
