@@ -220,7 +220,7 @@
    ("C-x C-r" . counsel-recentf)
    ("M-r" . ivy-resume)
    ("C-c i" . counsel-imenu)
-   ("C-x b" . counsel-ibuffer)
+   ("C-x b" . counsel-switch-buffer)
    ("M-y" . counsel-yank-pop)
    ("C-s" . swiper)   
    ("C-c k" . counsel-rg)
@@ -601,6 +601,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package magit
   :ensure t
+  :config
+  (setq magit-completing-read-function 'ivy-completing-read)
   :bind (("C-x g" . magit-status)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; nginx
@@ -1114,4 +1116,47 @@ translation it is possible to get suggestion."
   (setq easy-hugo-url "https://blog.h8gi.com")
   (setq easy-hugo-server-flags "-D")
   :bind
-  ("C-c C-e" . easy-hugo))
+  (("C-c C-e" . easy-hugo)
+   :map easy-hugo-mode-map
+   ("n" . my-easy-hugo-newpost)))
+
+(defun my-easy-hugo-newpost (post-file)
+  "Create a new post with hugo.
+POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mmark' or '.html'."
+  (interactive (list (read-from-minibuffer
+		      "Filename: "
+		      `(,easy-hugo-default-ext . 1) nil nil nil)))
+  (easy-hugo-with-env
+   (let* ((timestamp (number-to-string (float-time (current-time))))	  
+	  (filename (expand-file-name (concat timestamp "." post-file) easy-hugo-postdir))
+	  (file-ext (file-name-extension post-file)))
+     (when (not (member file-ext easy-hugo--formats))
+       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name"
+	      easy-hugo-markdown-extension
+	      easy-hugo-asciidoc-extension
+	      easy-hugo-html-extension))
+     (when (file-exists-p (file-truename filename))
+       (error "%s already exists!" filename))
+     (if (and (null easy-hugo-org-header)
+	      (<= 0.25 (easy-hugo--version)))
+	 (call-process easy-hugo-bin nil "*hugo*" t "new"
+		       (file-relative-name filename
+					   (expand-file-name "content" easy-hugo-basedir)))
+       (progn
+	 (if (or (string-equal file-ext easy-hugo-markdown-extension)
+		 (string-equal file-ext easy-hugo-asciidoc-extension)
+		 (string-equal file-ext "rst")
+		 (string-equal file-ext "mmark")
+		 (string-equal file-ext easy-hugo-html-extension))
+	     (call-process easy-hugo-bin nil "*hugo*" t "new"
+			   (file-relative-name filename
+					       (expand-file-name "content" easy-hugo-basedir))))))
+     (when (get-buffer "*hugo*")
+       (kill-buffer "*hugo*"))
+     (find-file filename)
+     (when (or easy-hugo-org-header
+	       (and (> 0.25 (easy-hugo--version))
+		    (string-equal file-ext "org")))
+       (insert (easy-hugo--org-headers post-file)))
+     (goto-char (point-max))
+     (save-buffer))))
