@@ -1087,3 +1087,15 @@ translation it is possible to get suggestion."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package csv-mode
   :ensure t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Hugo
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package easy-hugo
+  :ensure t
+  :init
+  (setq easy-hugo-basedir "~/Projects/my-blog/")
+  (setq easy-hugo-url "https://blog.h8gi.com")
+  (setq easy-hugo-server-flags "-D")
+  :bind
+  ("C-c C-e" . easy-hugo))
