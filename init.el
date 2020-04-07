@@ -355,10 +355,6 @@
   (setq lsp-ui-doc-header nil)
   (setq lsp-eldoc-render-all t)
   (setq lsp-eldoc-enable-hover t)
-  (setq lsp-eslint-server-command
-	'("node"
-	  "~/src/vscode-eslint/server/out"
-	  "--stdio"))
   :preface
   (defun toggle-lsp-ui-doc ()
     (interactive)
