@@ -26,6 +26,9 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 ;;; rectangle
 (cua-mode t)
+(when (eq system-type 'darwin)
+  (setq mac-command-modifier 'super)
+  (setq mac-option-modifier 'meta))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; serverstart for emacs-client
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -229,6 +232,13 @@
    ("C-h" . delete-backward-char)
    ("TAB" . helm-execute-persistent-action)))
 
+(use-package migemo
+  :ensure t
+  :ensure-system-package cmigemo)
+
+(use-package rg
+  :ensure t
+  :ensure-system-package rg)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ESHELL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -356,11 +366,11 @@
   :config
   (setq lsp-ui-sideline-enable nil)
   (setq lsp-ui-doc-enable nil)
-  (setq lsp-ui-doc-use-childframe nil)
-  (setq lsp-ui-doc-position 'bottom)
+  (setq lsp-ui-doc-use-childframe t)
+  (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-use-webkit t)
-  (setq lsp-ui-doc-header nil)
-  (setq lsp-eldoc-render-all t)
+  (setq lsp-ui-doc-header t)
+  (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover t)
   :preface
   (defun toggle-lsp-ui-doc ()
@@ -1158,3 +1168,9 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
        (insert (easy-hugo--org-headers post-file)))
      (goto-char (point-max))
      (save-buffer))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Rust
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package rustic
+  :ensure t)
