@@ -201,6 +201,7 @@
 	 (slime-repl-mode . enable-paredit-mode)
 	 (clojure-mode . enable-paredit-mode)
 	 (cider-repl-mode . enable-paredit-mode)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; helm
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
