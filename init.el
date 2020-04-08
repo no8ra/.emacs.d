@@ -82,6 +82,11 @@
 (bind-keys
  ("C-h" . delete-backward-char)
  ("s-f" . toggle-frame-fullscreen))
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Junk files
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -203,26 +208,27 @@
 	 (cider-repl-mode . enable-paredit-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; helm
+;;; ivy, counsil, swiper
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package helm
+(use-package counsel
   :ensure t
   :init
-  (require 'helm-config)
-  (setq helm-ff-file-name-history-use-recentf t)
-  (setq helm-display-function #'display-buffer)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
   :bind
-  (("M-x" . helm-M-x)
-   ("C-x C-f" . helm-find-files)
-   ("C-x C-r" . helm-recentf)
-   ("M-y"     . helm-show-kill-ring)
-   ("C-c i"   . helm-imenu)
-   ("C-x b"   . helm-buffers-list)
-   ("M-r"     . helm-resume)
-   ("C-M-h"   . helm-apropos)
-   :map helm-map
-   ("C-h" . delete-backward-char)
-   ("TAB" . helm-execute-persistent-action)))
+  (("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file)
+   ("C-x C-r" . counsel-recentf)
+   ("M-r" . ivy-resume)
+   ("C-c i" . counsel-imenu)
+   ("C-x b" . counsel-switch-buffer)
+   ("M-y" . counsel-yank-pop)
+   ("C-s" . swiper)
+   ("C-c k" . counsel-rg)
+   ("C-M-h" . counsel-apropos)
+   :map minibuffer-local-map
+   ("C-r" . counsel-minibuffer-history)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ESHELL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -372,9 +378,12 @@
 (use-package company-lsp
   :ensure t
   :commands company-lsp)
-(use-package helm-lsp
+;; (use-package helm-lsp
+;;   :ensure t
+;;   :commands helm-lsp-workspace-symbol)
+(use-package lsp-ivy
   :ensure t
-  :commands helm-lsp-workspace-symbol)
+  :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs
   :ensure t
   :commands lsp-treemacs-errors-list)
@@ -593,6 +602,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package magit
   :ensure t
+  :config
+  (setq magit-completing-read-function 'ivy-completing-read)
   :bind (("C-x g" . magit-status)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; nginx
