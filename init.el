@@ -206,6 +206,7 @@
 	 (slime-repl-mode . enable-paredit-mode)
 	 (clojure-mode . enable-paredit-mode)
 	 (cider-repl-mode . enable-paredit-mode)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ivy, counsil, swiper
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -222,7 +223,7 @@
    ("C-c i" . counsel-imenu)
    ("C-x b" . counsel-switch-buffer)
    ("M-y" . counsel-yank-pop)
-   ("C-s" . swiper)   
+   ("C-s" . swiper)
    ("C-c k" . counsel-rg)
    ("C-M-h" . counsel-apropos)
    :map minibuffer-local-map
@@ -1127,7 +1128,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 		      "Filename: "
 		      `(,easy-hugo-default-ext . 1) nil nil nil)))
   (easy-hugo-with-env
-   (let* ((timestamp (number-to-string (float-time (current-time))))	  
+   (let* ((timestamp (number-to-string (float-time (current-time))))
 	  (filename (expand-file-name (concat timestamp "." post-file) easy-hugo-postdir))
 	  (file-ext (file-name-extension post-file)))
      (when (not (member file-ext easy-hugo--formats))
