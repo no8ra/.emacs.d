@@ -28,13 +28,8 @@
 (cua-mode t)
 (when (eq system-type 'darwin)
   (setq mac-command-modifier 'super)
-  (setq mac-option-modifier 'meta))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; serverstart for emacs-client
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+  (setq mac-option-modifier 'meta)
+  (setq ns-use-native-fullscreen t))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PACKAGE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -58,6 +53,13 @@
   :ensure t
   :custom
   (paradox-github-token t))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; serverstart for emacs-client
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; AUTO UPDATE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -84,7 +86,9 @@
   :ensure t)
 (bind-keys
  ("C-h" . delete-backward-char)
- ("s-f" . toggle-frame-fullscreen))
+ ("s-f" . toggle-frame-fullscreen)
+ ("s-n" . new-frame)
+ ("s-w" . delete-frame))
 
 (use-package which-key
   :ensure t
@@ -360,13 +364,14 @@
   :config
   (setq lsp-auto-guess-root t)
   :hook
-  ((typescript-mode . lsp)))
+  ((typescript-mode . lsp)
+   (go-mode . lsp)))
 (use-package lsp-ui
   :ensure t
   :config
-  (setq lsp-ui-sideline-enable nil)
+  (setq lsp-ui-sideline-enable t)
   (setq lsp-ui-doc-enable nil)
-  (setq lsp-ui-doc-use-childframe t)
+  (setq lsp-ui-doc-use-childframe nil)
   (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-use-webkit t)
   (setq lsp-ui-doc-header t)
@@ -801,8 +806,7 @@
 	    (lambda ()
 	      (set (make-local-variable 'indent-tabs-mode) t)
 	      (setq tab-width 4)
-	      (flymake-mode -1)
-	      (lsp-deferred)))
+	      (flymake-mode -1)))
   :config
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
