@@ -375,6 +375,7 @@
   (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-use-webkit t)
   (setq lsp-ui-doc-header t)
+  (setq lsp-ui-peek-enable t)
   (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover t)
   :preface
