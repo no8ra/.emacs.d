@@ -378,6 +378,8 @@
   (setq lsp-ui-peek-enable t)
   (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover t)
+  (custom-set-faces
+   '(markdown-code-face ((t (:inherit default)))))
   :preface
   (defun toggle-lsp-ui-doc ()
     (interactive)
@@ -390,7 +392,9 @@
 	     (message "Lsp-Ui-Doc mode enabled in current buffer"))))
   :bind
   (:map lsp-mode-map
-	("C-c d" . toggle-lsp-ui-doc)))
+	("C-c d" . toggle-lsp-ui-doc)
+	("C-c C-d" . lsp-ui-peek-find-definitions)
+	("C-c C-r" . lsp-ui-peek-find-references)))
 (use-package company-lsp
   :ensure t
   :commands company-lsp)
