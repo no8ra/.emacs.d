@@ -389,7 +389,7 @@
 (use-package lsp-ui
   :ensure t
   :config
-  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-sideline-enable nil)
   (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-doc-use-childframe nil)
   (setq lsp-ui-doc-position 'at-point)
@@ -1199,8 +1199,27 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rust
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun my-cargo-run ()
+  "Run 'cargo run' for the current project with stdin."
+  (interactive)
+  (rustic-cargo-run)
+  (lexical-let* ((orig-win (selected-window))
+		 (run-buf (get-buffer "*rustic-compilation*"))
+		 (run-proc (get-buffer-process run-buf))
+		 (run-win (display-buffer run-buf nil 'visible)))
+    (set-process-sentinel run-proc
+			  (lambda (p e)
+			    (select-window orig-win)))
+    (select-window run-win)
+    (comint-mode)
+    (read-only-mode 0)))
+
+(setq auto-mode-alist (rassq-delete-all 'rust-mode auto-mode-alist))
+
 (use-package rustic
   :ensure t
   :config
   (setq rustic-format-trigger 'on-save)
-  (setq auto-mode-alist (rassq-delete-all 'rust-mode auto-mode-alist)))
+  :bind
+  (:map rustic-mode-map
+	("C-c C-c C-r" . my-cargo-run)))
