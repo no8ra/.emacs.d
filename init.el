@@ -217,24 +217,41 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; HELM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package helm
+;; (use-package helm
+;;   :ensure t
+;;   :init
+;;   (require 'helm-config)
+;;   (setq helm-ff-file-name-history-use-recentf t)
+;;   (setq helm-display-function #'display-buffer)
+;;   :bind
+;;   (("M-x" . helm-M-x)
+;;    ("C-x C-f" . helm-find-files)
+;;    ("C-x C-r" . helm-recentf)
+;;    ("M-y"     . helm-show-kill-ring)
+;;    ("C-c i"   . helm-imenu)
+;;    ("C-x b"   . helm-buffers-list)
+;;    ("M-r"     . helm-resume)
+;;    ("C-M-h"   . helm-apropos)
+;;    :map helm-map
+;;    ("C-h" . delete-backward-char)
+;;    ("TAB" . helm-execute-persistent-action)))
+
+(use-package counsel
   :ensure t
   :init
-  (require 'helm-config)
-  (setq helm-ff-file-name-history-use-recentf t)
-  (setq helm-display-function #'display-buffer)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
   :bind
-  (("M-x" . helm-M-x)
-   ("C-x C-f" . helm-find-files)
-   ("C-x C-r" . helm-recentf)
-   ("M-y"     . helm-show-kill-ring)
-   ("C-c i"   . helm-imenu)
-   ("C-x b"   . helm-buffers-list)
-   ("M-r"     . helm-resume)
-   ("C-M-h"   . helm-apropos)
-   :map helm-map
-   ("C-h" . delete-backward-char)
-   ("TAB" . helm-execute-persistent-action)))
+  (("M-x" . counsel-M-x)
+   ("M-y" . counsel-yank-pop)
+   ("C-x C-f" . counsel-find-file)
+   ("C-x C-r" . counsel-recentf)
+   ("C-c i" . counsel-imenu)
+   ("C-x b" . counsel-ibuffer)
+   ("C-c k" . counsel-rg)
+   ("C-M-h" . counsel-apropos)
+   :map minibuffer-local-map
+   ("C-r" . counsel-minibuffer-history)))
 
 (use-package migemo
   :ensure t
@@ -401,9 +418,12 @@
 (use-package company-lsp
   :ensure t
   :commands company-lsp)
-(use-package helm-lsp
+;; (use-package helm-lsp
+;;   :ensure t
+;;   :commands helm-lsp-workspace-symbol)
+(use-package lsp-ivy
   :ensure t
-  :commands helm-lsp-workspace-symbol)
+  :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs
   :ensure t
   :commands lsp-treemacs-errors-list)
