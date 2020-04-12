@@ -1214,12 +1214,10 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
     (comint-mode)
     (read-only-mode 0)))
 
-(setq auto-mode-alist (rassq-delete-all 'rust-mode auto-mode-alist))
+
 
 (use-package rustic
   :ensure t
   :config
-  (setq rustic-format-trigger 'on-save)
-  :bind
-  (:map rustic-mode-map
-	("C-c C-c C-r" . my-cargo-run)))
+  (setq auto-mode-alist (rassq-delete-all 'rust-mode auto-mode-alist))
+  (bind-key "C-c C-c C-r" 'my-cargo-run rustic-mode-map))
