@@ -1214,8 +1214,6 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
     (comint-mode)
     (read-only-mode 0)))
 
-
-
 (use-package rustic
   :ensure t
   :config
