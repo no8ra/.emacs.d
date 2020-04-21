@@ -1216,12 +1216,12 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 
 (use-package rustic
   :ensure t
-  :init
+  :config
   (setq auto-mode-alist (rassq-delete-all 'rust-mode auto-mode-alist))
+  (bind-key "C-c C-c C-r" 'my-cargo-run rustic-mode-map)
   :custom
   (rustic-ansi-faces
-   ["black" "OrangeRed1" "green3" "yellow3" "lightblue" "magenta3" "cyan3" "white"])
-  (bind-key "C-c C-c C-r" 'my-cargo-run rustic-mode-map))
+   ["black" "OrangeRed1" "green3" "yellow3" "lightblue" "magenta3" "cyan3" "white"]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; typit
