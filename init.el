@@ -170,6 +170,7 @@
 (use-package smartparens
   :ensure t
   :config
+  (require 'smartparens-config)
   (bind-keys
    :map smartparens-mode-map
    ("M-l" . sp-forward-barf-sexp)
