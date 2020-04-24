@@ -154,7 +154,7 @@
 (use-package autoinsert
   :ensure t
   :config
-  (add-hook 'find-file-hooks 'auto-insert)
+  ;; (add-hook 'find-file-hooks 'auto-insert)
   (setq auto-insert-directory "~/.emacs.d/autoinsert/")
   (setq auto-insert-query nil))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -391,6 +391,7 @@
   :ensure t
   :config
   (setq lsp-ui-sideline-enable nil)
+  (setq lsp-ui-sideline-delay 0.8)
   (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-doc-use-childframe nil)
   (setq lsp-ui-doc-position 'at-point)
