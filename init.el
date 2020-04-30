@@ -242,6 +242,7 @@
   :init
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
+  (setq counsel-find-file-at-point t)
   :bind
   (("M-x" . counsel-M-x)
    ("M-y" . counsel-yank-pop)
@@ -385,6 +386,7 @@
   :config
   (setq lsp-rust-server 'rust-analyzer)
   (setq lsp-auto-guess-root t)
+  (setq lsp-rust-server 'rust-analyzer)
   :hook
   ((typescript-mode . lsp)
    (go-mode . lsp)))
