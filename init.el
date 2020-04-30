@@ -383,6 +383,7 @@
   :ensure t
   :commands (lsp lsp-deferred)
   :config
+  (setq lsp-rust-server 'rust-analyzer)
   (setq lsp-auto-guess-root t)
   :hook
   ((typescript-mode . lsp)
