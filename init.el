@@ -376,7 +376,8 @@
 (use-package flycheck
   :ensure t
   :config
-  (flycheck-pos-tip-mode))
+  ;; (flycheck-pos-tip-mode nil)
+  )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Language Server
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -393,8 +394,8 @@
 (use-package lsp-ui
   :ensure t
   :config
-  (setq lsp-ui-sideline-enable nil)
-  (setq lsp-ui-sideline-delay 0.8)
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-sideline-delay 0.9)
   (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-doc-use-childframe nil)
   (setq lsp-ui-doc-position 'at-point)
@@ -754,6 +755,10 @@
 	      (setq syntax-ppss-table nil)
 	      (set (make-local-variable 'indent-tabs-mode) nil)
 	      (lsp))))
+
+(use-package jade-mode
+  :ensure t)
+
 (use-package pug-mode
   :ensure t
   :config
@@ -1219,10 +1224,11 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
     (comint-mode)
     (read-only-mode 0)))
 
+(setq auto-mode-alist (rassq-delete-all 'rust-mode auto-mode-alist))
+
 (use-package rustic
   :ensure t
-  :config
-  (setq auto-mode-alist (rassq-delete-all 'rust-mode auto-mode-alist))
+  :config  
   (bind-key "C-c C-c C-r" 'my-cargo-run rustic-mode-map)
   :custom
   (rustic-ansi-faces
