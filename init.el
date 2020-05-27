@@ -394,7 +394,7 @@
 (use-package lsp-ui
   :ensure t
   :config
-  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-sideline-enable nil)
   (setq lsp-ui-sideline-delay 0.9)
   (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-doc-use-childframe nil)
