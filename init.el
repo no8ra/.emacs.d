@@ -748,7 +748,7 @@
 	      (setq vue-html-extra-indent 2)
 	      (set (make-local-variable 'css-indent-offset) 2)
 	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)
-	      (add-hook 'after-save-hook #'eslint-fix)
+	      ;; (add-hook 'after-save-hook #'eslint-fix)
 	      ;; (js-auto-format-mode +1)
 	      (setq syntax-ppss-table nil)
 	      (set (make-local-variable 'indent-tabs-mode) nil)
