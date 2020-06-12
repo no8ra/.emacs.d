@@ -1228,7 +1228,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 
 (use-package rustic
   :ensure t
-  :config  
+  :config
   (bind-key "C-c C-c C-r" 'my-cargo-run rustic-mode-map)
   :custom
   (rustic-ansi-faces
@@ -1238,3 +1238,10 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 ;;; typit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package typit :ensure t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; verilog
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package verilog-mode :ensure t
+  :init
+  (add-to-list 'company-keywords-alist (cons 'verilog-mode verilog-keywords)))
