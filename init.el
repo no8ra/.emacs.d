@@ -1245,3 +1245,10 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 (use-package verilog-mode :ensure t
   :init
   (add-to-list 'company-keywords-alist (cons 'verilog-mode verilog-keywords)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; pdf
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package pdf-tools :ensure t
+  :init
+  (pdf-tools-install))
