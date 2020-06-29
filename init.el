@@ -257,14 +257,12 @@
 
 (use-package migemo
   :ensure t
-  :ensure-system-package cmigemo
+  ;; :ensure-system-package cmigemo
   :config
   (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
   (migemo-init))
 
-(use-package rg
-  :ensure t
-  :ensure-system-package rg)
+(use-package rg)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ESHELL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -464,8 +462,7 @@
   :ensure t
   :config
   (slime-setup '(slime-repl slime-fancy slime-banner))
-  (setq inferior-lisp-program "sbcl")
-  :ensure-system-package sbcl)
+  (setq inferior-lisp-program "sbcl"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; SCHEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
